@@ -17,13 +17,47 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    productFlavors {
+        dev {
+            versionName defaultConfig.versionName + '-dev'
+        }
+
+        innerTest {
+            versionName = defaultConfig.versionName + '-test'
+        }
+
+        online {
+            versionName = defaultConfig.versionName + '-online'
+        }
+    }
+
+    applicationVariants.all {
+        variant ->
+            variant.outputs.each {
+                output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        if (variant.flavorName == 'innerTest' && variant.buildType.name == 'release') {
+                            def newFileName = 'app-innerTest-unsigned.apk'
+                            output.outputFile = new File(outputFile.parent, newFileName)
+                        }
+                        if (variant.flavorName == 'online' && variant.buildType.name == 'release') {
+                            def newFileName = 'app-online-unsigned.apk'
+                            output.outputFile = new File(outputFile.parent, newFileName)
+                        }
+                    }
+            }
+    }
+
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    testCompile 'junit:junit:4.12'
+//    compile fileTree(include: ['*.jar'], dir: 'libs')
+//    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+//        exclude group: 'com.android.support', module: 'support-annotations'
+//    })
+//    compile 'com.android.support:appcompat-v7:24.2.1'
+//    testCompile 'junit:junit:4.12'
+    compile project(':corelib')
 }

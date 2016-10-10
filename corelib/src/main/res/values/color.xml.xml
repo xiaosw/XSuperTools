@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="clr_white_100">@android:color/white</color>
+    <color name="clr_black_100">@android:color/black</color>
+    <color name="clr_gray_100">#CCCCCC</color>
+    <color name="clr_green_100">#00FF00</color>
+
+</resources>

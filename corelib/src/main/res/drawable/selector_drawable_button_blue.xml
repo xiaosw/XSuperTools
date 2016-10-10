@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape>
+            <!-- 实心 -->
+            <solid android:color="#00b0c7" />
+            <!-- 圆角 -->
+            <corners android:radius="@dimen/button_radius" />
+        </shape>
+    </item>
+    <item android:state_pressed="false">
+        <shape>
+            <!-- 实心 -->
+            <solid android:color="#00bcd4" />
+            <!-- 圆角 -->
+            <corners android:radius="@dimen/button_radius" />
+        </shape>
+    </item>
+</selector>
+

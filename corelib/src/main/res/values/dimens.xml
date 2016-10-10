@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dialog -->
+    <dimen name="dialog_radius">10dp</dimen>
+    <dimen name="dialog_min_width">504dp</dimen>
+    <dimen name="dialog_title_height">60dp</dimen>
+    <dimen name="dialog_button_height">60dp</dimen>
+
+    <!-- TextSize -->
+    <dimen name="text_size_dialog_title">18sp</dimen>
+
+
+    <!-- radius -->
+    <dimen name="button_radius">8dp</dimen>
+</resources>
