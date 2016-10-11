@@ -5,22 +5,16 @@ import android.os.Bundle;
 import com.xiaosw.library.activity.BaseActivity;
 import com.xiaosw.tool.R;
 
-/**
- * @ClassName {@link MainActivity}
- * @Description 主界面
- *
- * @Date 2016-10-10 19:17.
- * @Author xiaoshiwang.
- */
-public class MainActivity extends BaseActivity {
-    private static final String TAG = "MainActivity";
+public class ProgressBarActivity extends BaseActivity {
+
+    private static final String TAG = "ProgressBarActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_progress_bar);
         useCustomActionBar();
         setDisplayHomeAsUpEnabled(true);
         setCustomActionBarTitle(TAG);
-        getSupportActionBar().collapseActionView();
     }
 }

@@ -63,7 +63,7 @@ public abstract class BaseRecyclerAdapter<T, BVH extends RecyclerView.ViewHolder
         return mData;
     }
 
-    public T getDataByPosition(int position) {
+    public T getObjectByPosition(int position) {
         if (position < mData.size()) {
             return mData.get(position);
         }
