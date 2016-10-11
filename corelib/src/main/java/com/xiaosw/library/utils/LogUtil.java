@@ -104,6 +104,12 @@ public class LogUtil {
         }
     }
 
+    public static void d(String tag, String msg) {
+        if(printD) {
+            Log.d(tag, msg);
+        }
+    }
+
     public static void d(String msg, Throwable tr) {
         if(printD) {
             Log.d(getTag(), msg, tr);
