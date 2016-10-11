@@ -20,7 +20,7 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         useCustomActionBar();
         setDisplayHomeAsUpEnabled(true);
-        setCustomActionBarTitle(TAG);
+        setTitle(TAG);
         getSupportActionBar().collapseActionView();
     }
 }

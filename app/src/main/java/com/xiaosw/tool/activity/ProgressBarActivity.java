@@ -15,6 +15,6 @@ public class ProgressBarActivity extends BaseActivity {
         setContentView(R.layout.activity_progress_bar);
         useCustomActionBar();
         setDisplayHomeAsUpEnabled(true);
-        setCustomActionBarTitle(TAG);
+        setTitle(TAG);
     }
 }

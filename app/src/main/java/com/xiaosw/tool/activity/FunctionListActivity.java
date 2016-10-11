@@ -6,6 +6,8 @@ import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
@@ -48,7 +50,7 @@ public class FunctionListActivity extends BaseActivity implements AdapterView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         useCustomActionBar();
-        setCustomActionBarTitle(TAG);
+        setTitle(TAG);
         setContentView(R.layout.activity_function_list);
         String path = getIntent().getStringExtra(getPackageName());
         if (null == path) {
@@ -116,5 +118,24 @@ public class FunctionListActivity extends BaseActivity implements AdapterView.On
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
         SuperToast.show(this, "position = " + position, Toast.LENGTH_SHORT);
         return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                SuperToast.show(this, "click : " + item.getTitle(), Toast.LENGTH_SHORT);
+                return true;
+
+            default:
+                // TODO: 2016/10/11
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

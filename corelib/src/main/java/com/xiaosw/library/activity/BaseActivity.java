@@ -96,14 +96,20 @@ public abstract class BaseActivity extends AppCompatActivity {
         return actionBarView;
     }
 
-    public void setCustomActionBarTitle(CharSequence title) {
+    @Override
+    public void setTitle(int titleId) {
+        super.setTitle(titleId);
         if (null != tv_custom_action_bar_title) {
-            tv_custom_action_bar_title.setText(title);
+            tv_custom_action_bar_title.setText(titleId);
         }
     }
 
-    public void setCustomActionBarTitle(int resId) {
-        setCustomActionBarTitle(getString(resId));
+    @Override
+    public void setTitle(CharSequence title) {
+        super.setTitle(title);
+        if (null != tv_custom_action_bar_title) {
+            tv_custom_action_bar_title.setText(title);
+        }
     }
 
     public void setDisplayHomeAsUpEnabled(boolean showHomeAsUp) {
