@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:textSize="18sp"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textColor="@drawable/selector_color_page_tab"/>
 
 </RelativeLayout>

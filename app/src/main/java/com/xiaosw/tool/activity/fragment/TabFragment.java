@@ -3,14 +3,18 @@ package com.xiaosw.tool.activity.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
 
 import com.xiaosw.library.activity.fragment.BaseFragment;
+import com.xiaosw.library.widget.BaseViewPager;
+import com.xiaosw.library.widget.HorizontalScrollViewTabHost;
 import com.xiaosw.library.widget.adapter.BaseFragmentPagerAdapter;
 import com.xiaosw.tool.R;
+import com.xiaosw.tool.activity.TabHostViewPagerActivity;
 
 import java.util.ArrayList;
 
@@ -21,19 +25,22 @@ import java.util.ArrayList;
  * @Author xiaosw<xiaoshiwang@putao.com>
  * @Date 2016-10-13 11:11:54
  */
-public class TabFragment extends BaseFragment {
+public class TabFragment extends BaseFragment implements BaseViewPager.OnTabChangeListener {
 
     private static final String TAG = "TabFragment";
     public static final String KEY_BACKGROUND_COLOR = "background_color";
     public static final String KEY_TITLE = "title";
 
     private String mTitle;
-    private Bundle mArgs;
 
+    private HorizontalScrollViewTabHost mHorizontalScrollViewTabHost;
+    private BaseViewPager mBaseViewPager;
+
+    private FragmentTabHost mFragmentTabHost;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mArgs = getArguments();
+        mFragmentTabHost = ((TabHostViewPagerActivity) context).getFragmentTabHost();
     }
 
     @Override
@@ -44,6 +51,10 @@ public class TabFragment extends BaseFragment {
     @Override
     public void initByAttachView(View attachView) {
         super.initByAttachView(attachView);
+        mHorizontalScrollViewTabHost = findViewById(R.id.hsv_tab_host);
+        mBaseViewPager = findViewById(R.id.view_pager);
+        mHorizontalScrollViewTabHost.bindViewPager(mBaseViewPager);
+        Bundle mArgs = getArguments();
         if (mArgs == null) {
             return;
         }
@@ -55,8 +66,37 @@ public class TabFragment extends BaseFragment {
             mTitle = mArgs.getString(KEY_TITLE);
         }
 
-        ViewPager viewPager = (ViewPager) attachView.findViewById(R.id.view_pager);
-        viewPager.setAdapter(new BaseFragmentPagerAdapter<BaseFragment>(getActivity().getSupportFragmentManager(), initFragments(4)));
+        mBaseViewPager.setAdapter(new BaseFragmentPagerAdapter<BaseFragment>(getChildFragmentManager(), initFragments(4)));
+        mBaseViewPager.setOnTabChangeListener(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mBaseViewPager.setCurrentItem(0);
+    }
+
+    @Override
+    public void onUpTab() {
+        if (mFragmentTabHost.getCurrentTab() > 0) {
+            mFragmentTabHost.setCurrentTab(mFragmentTabHost.getCurrentTab() - 1);
+        }
+    }
+
+    @Override
+    public void onNextTab() {
+        if (mFragmentTabHost.getCurrentTab() < mFragmentTabHost.getTabWidget().getChildCount()) {
+            mFragmentTabHost.setCurrentTab(mFragmentTabHost.getCurrentTab() + 1);
+        }
+    }
+
+    private void addTab(int id, CharSequence title, boolean isChecked) {
+        RadioButton radioButton = mHorizontalScrollViewTabHost.getBasicRadioButton();
+        radioButton.setPadding(24, 0, 24, 0);
+        radioButton.setId(id);
+        radioButton.setText(title);
+        radioButton.setChecked(isChecked);
+        mHorizontalScrollViewTabHost.addRadioButton(radioButton);
     }
 
     private ArrayList<BaseFragment> initFragments(int count) {
@@ -67,6 +107,7 @@ public class TabFragment extends BaseFragment {
             args.putString(PagerFragment.KEY_DESCRIPTION, mTitle + "---" + i);
             pagerFragment.setArguments(args);
             fragments.add(pagerFragment);
+            addTab(i, mTitle + "---" + i, i == 0);
         }
         return fragments;
     }

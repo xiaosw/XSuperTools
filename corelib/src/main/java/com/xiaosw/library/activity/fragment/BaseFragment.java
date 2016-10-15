@@ -26,12 +26,6 @@ public abstract class BaseFragment extends Fragment {
         return mAttachView;
     }
 
-    @Override
-    public void onDestroyView() {
-        mAttachView = null;
-        super.onDestroyView();
-    }
-
     /**
      * {@link Fragment#onCreateView(LayoutInflater, ViewGroup, Bundle)}
      * @param inflater
@@ -43,6 +37,10 @@ public abstract class BaseFragment extends Fragment {
 
     public void initByAttachView(View attachView) {
 
+    }
+
+    public <T extends View> T findViewById(int viewId) {
+        return (T) mAttachView.findViewById(viewId);
     }
 
     public View getAttachView() {

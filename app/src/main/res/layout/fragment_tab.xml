@@ -5,10 +5,12 @@
     android:orientation="vertical">
 
     <com.xiaosw.library.widget.HorizontalScrollViewTabHost
+        android:id="@+id/hsv_tab_host"
         android:layout_width="match_parent"
-        android:layout_height="60dp" />
+        android:layout_height="60dp"
+        android:background="@color/clr_white_100"/>
 
-    <android.support.v4.view.ViewPager
+    <com.xiaosw.library.widget.BaseViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

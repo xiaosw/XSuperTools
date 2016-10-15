@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.TabHost;
 
 import com.xiaosw.library.R;
-import com.xiaosw.library.utils.LogUtil;
 
 /**
  * @ClassName {@link MPermissionBaseActivity}
@@ -33,11 +32,10 @@ public abstract class FragmentTabHostActivity extends BaseActivity {
 
     private void setupTabView() {
         mFragmentTabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
-//        mFragmentTabHost.getTabWidget().setDividerDrawable(null);
         mFragmentTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
-                LogUtil.e("onTabChanged-----------------------------> " + tabId);
+//                LogUtil.e("onTabChanged-----------------------------> " + tabId);
             }
         });
     }
