@@ -2,6 +2,7 @@ package com.xiaosw.tool.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.widget.TextView;
 
@@ -14,26 +15,47 @@ import com.xiaosw.tool.activity.fragment.TabFragment;
  */
 public class TabHostViewPagerActivity extends FragmentTabHostActivity {
 
+    private String[] mTitles;
+    private int[] mBackgrounds;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+//        setTheme(R.style.AppThemeBlack);
         super.onCreate(savedInstanceState);
+        ActionBar actionBar = getSupportActionBar();
+        if (null != actionBar) {
+            actionBar.hide();
+        }
+        addTabs();
+    }
 
-        View tab1 = getLayoutInflater().inflate(R.layout.item_fragment_tab_widget_item, null);
-        Bundle args = new Bundle();
-        args.putInt(TabFragment.KEY_BACKGROUND_COLOR, Color.RED);
-        addTab(tab1, TabFragment.class, "1", args);
+    private void addTabs() {
+        initData();
+        int len = mTitles.length;
+        for (int i = 0; i < len; i++) {
+            View tab1 = getLayoutInflater().inflate(R.layout.item_fragment_tab_widget_item, null);
+            ((TextView) tab1.findViewById(R.id.tv_tab_widget_title)).setText(mTitles[i]);
+            Bundle args = new Bundle();
+            args.putInt(TabFragment.KEY_BACKGROUND_COLOR, mBackgrounds[i]);
+            args.putString(TabFragment.KEY_TITLE, mTitles[i]);
+            addTab(tab1, TabFragment.class, String.valueOf(i), args);
+        }
+    }
 
-        View tab2 = getLayoutInflater().inflate(R.layout.item_fragment_tab_widget_item, null);
-        ((TextView) tab2.findViewById(R.id.tv_tab_widget_title)).setText("Tab-2");
-        args = new Bundle();
-        args.putInt(TabFragment.KEY_BACKGROUND_COLOR, Color.GREEN);
-        addTab(tab2, TabFragment.class, "2", args);
+    private void initData() {
+        mTitles = new String[] {
+            "资讯",
+            "商城",
+            "论坛",
+            "我"
+        };
 
-        View tab3 = getLayoutInflater().inflate(R.layout.item_fragment_tab_widget_item, null);
-        ((TextView) tab3.findViewById(R.id.tv_tab_widget_title)).setText("Tab-3");
-        args = new Bundle();
-        args.putInt(TabFragment.KEY_BACKGROUND_COLOR, Color.BLUE);
-        addTab(tab3, TabFragment.class, "3", args);
+        mBackgrounds = new int[] {
+            Color.RED,
+            Color.GREEN,
+            Color.BLUE,
+            Color.GRAY
+        };
     }
 
 }

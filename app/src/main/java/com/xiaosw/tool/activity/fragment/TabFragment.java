@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.xiaosw.library.activity.fragment.BaseFragment;
 import com.xiaosw.tool.R;
@@ -21,6 +22,7 @@ public class TabFragment extends BaseFragment {
 
     private static final String TAG = "TabFragment";
     public static final String KEY_BACKGROUND_COLOR = "background_color";
+    public static final String KEY_TITLE = "title";
     private Bundle mArgs;
 
     @Override
@@ -37,8 +39,15 @@ public class TabFragment extends BaseFragment {
     @Override
     public void initByAttachView(View attachView) {
         super.initByAttachView(attachView);
+        if (mArgs == null) {
+            return;
+        }
         if (mArgs.containsKey(KEY_BACKGROUND_COLOR)) {
             attachView.setBackgroundColor(mArgs.getInt(KEY_BACKGROUND_COLOR));
+        }
+
+        if (mArgs.containsKey(KEY_TITLE)) {
+            ((TextView) attachView.findViewById(R.id.tv_title)).setText(mArgs.getString(KEY_TITLE));
         }
     }
 }

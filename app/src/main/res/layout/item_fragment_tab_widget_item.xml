@@ -10,7 +10,7 @@
         android:id="@+id/tv_tab_widget_title"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:text="Tab"
+        android:textSize="18sp"
         android:gravity="center"/>
 
 </RelativeLayout>

@@ -28,8 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:background="#3FAE2A"/>
+            android:orientation="horizontal" />
     </LinearLayout>
 
 </android.support.v4.app.FragmentTabHost>

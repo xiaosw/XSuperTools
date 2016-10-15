@@ -46,16 +46,15 @@ public abstract class BaseActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
-    @Override
-    public void finish() {
-        super.finish();
+    public void finishByAnim() {
+        finish();
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            finish();
+            finishByAnim();
             return true;
         }
         return super.onKeyDown(keyCode, event);

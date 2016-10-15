@@ -13,7 +13,6 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.xiaosw.library.activity.BaseActivity;
-import com.xiaosw.library.utils.LogUtil;
 import com.xiaosw.library.widget.BaseRecyclerView;
 import com.xiaosw.library.widget.dialog.SuperToast;
 import com.xiaosw.library.widget.divider.DividerItemDecoration;
@@ -52,11 +51,6 @@ public class FunctionListActivity extends BaseActivity implements AdapterView.On
         useCustomActionBar();
         setTitle(TAG);
         setContentView(R.layout.activity_function_list);
-        String path = getIntent().getStringExtra(getPackageName());
-        if (null == path) {
-            path = "";
-        }
-        LogUtil.e(TAG, "prefix = " + path);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         mRecyclerView.setOnItemClickListener(this);
@@ -137,5 +131,10 @@ public class FunctionListActivity extends BaseActivity implements AdapterView.On
                 // TODO: 2016/10/11
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void finishByAnim() {
+        finish();
     }
 }
