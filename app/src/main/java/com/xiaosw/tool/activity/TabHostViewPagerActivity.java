@@ -42,6 +42,8 @@ public class TabHostViewPagerActivity extends FragmentTabHostActivity {
         }
     }
 
+
+
     private void initData() {
         mTitles = new String[] {
             "资讯",

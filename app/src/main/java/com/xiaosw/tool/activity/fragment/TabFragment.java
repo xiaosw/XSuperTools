@@ -3,13 +3,16 @@ package com.xiaosw.tool.activity.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.xiaosw.library.activity.fragment.BaseFragment;
+import com.xiaosw.library.widget.adapter.BaseFragmentPagerAdapter;
 import com.xiaosw.tool.R;
+
+import java.util.ArrayList;
 
 /**
  * @ClassName : {@link TabFragment}
@@ -23,6 +26,8 @@ public class TabFragment extends BaseFragment {
     private static final String TAG = "TabFragment";
     public static final String KEY_BACKGROUND_COLOR = "background_color";
     public static final String KEY_TITLE = "title";
+
+    private String mTitle;
     private Bundle mArgs;
 
     @Override
@@ -33,7 +38,7 @@ public class TabFragment extends BaseFragment {
 
     @Override
     public View createAttachView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_tab1, null);
+        return inflater.inflate(R.layout.fragment_tab, null);
     }
 
     @Override
@@ -47,7 +52,23 @@ public class TabFragment extends BaseFragment {
         }
 
         if (mArgs.containsKey(KEY_TITLE)) {
-            ((TextView) attachView.findViewById(R.id.tv_title)).setText(mArgs.getString(KEY_TITLE));
+            mTitle = mArgs.getString(KEY_TITLE);
         }
+
+        ViewPager viewPager = (ViewPager) attachView.findViewById(R.id.view_pager);
+        viewPager.setAdapter(new BaseFragmentPagerAdapter<BaseFragment>(getActivity().getSupportFragmentManager(), initFragments(4)));
     }
+
+    private ArrayList<BaseFragment> initFragments(int count) {
+        ArrayList<BaseFragment> fragments = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            PagerFragment pagerFragment = new PagerFragment();
+            Bundle args = new Bundle();
+            args.putString(PagerFragment.KEY_DESCRIPTION, mTitle + "---" + i);
+            pagerFragment.setArguments(args);
+            fragments.add(pagerFragment);
+        }
+        return fragments;
+    }
+
 }
