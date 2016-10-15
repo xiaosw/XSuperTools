@@ -72,6 +72,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     public View useCustomActionBar() {
         //得到actionBar，注意我的是V7包，使用getSupportActionBar()
         ActionBar actionBar = getSupportActionBar();
+        if (actionBar == null) {
+            return null;
+        }
         //在使用v7包的时候显示icon和标题需指定一下属性。
         actionBar.setDisplayShowHomeEnabled(true);
         //actionBar.setLogo(R.mipmap.back_black);
