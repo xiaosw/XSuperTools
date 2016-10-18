@@ -2,6 +2,8 @@ package com.xiaosw.library.controll;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.CardView;
@@ -52,15 +54,15 @@ public class AlertControll {
     private CharSequence mPositiveButtonText;
     private Button mPositiveButton;
     private Message mPositiveButtonMessage;
-    private DialogInterface.OnClickListener mPositiviButtonListener;
+    private Drawable mPositiviButtonBackgrounDrawable;
     private CharSequence mNegativeButtonText;
     private Button mNegativeButton;
     private Message mNegativeButtonMessage;
-    private DialogInterface.OnClickListener mNegativeButtonListener;
+    private Drawable mNegativeButtonBackgrounDrawable;
     private CharSequence mNeutralButtonText;
     private Button mNeutralButton;
     private Message mNeutralButtonMessage;
-    private DialogInterface.OnClickListener mNeutralButtonListener;
+    private Drawable mNeutralButtonBackgrounDrawable;
 
     private float mRadiusSize = DEFAULT_RADIUS_SIZE_DP;
 
@@ -140,7 +142,7 @@ public class AlertControll {
 
         setupContent();
 
-        setupButtons();
+        mWindow.findViewById(R.id.line_between_content_and_button).setVisibility(setupButtons() ? View.VISIBLE : View.GONE);
     }
 
     /**
@@ -199,6 +201,7 @@ public class AlertControll {
         } else {
             mPositiveButton.setText(mPositiveButtonText);
             mPositiveButton.setVisibility(View.VISIBLE);
+            setButtonBackgroud(mPositiveButton, mPositiviButtonBackgrounDrawable);
             whichButtons = whichButtons | BIT_BUTTON_POSITIVE;
             if (TextUtils.isEmpty(mNegativeButtonText)
                 && TextUtils.isEmpty(mNeutralButtonText)) {
@@ -212,6 +215,7 @@ public class AlertControll {
         } else {
             mNegativeButton.setText(mNegativeButtonText);
             mNegativeButton.setVisibility(View.VISIBLE);
+            setButtonBackgroud(mNegativeButton, mNegativeButtonBackgrounDrawable);
             whichButtons = whichButtons | BIT_BUTTON_NEGATIVE;
             if (TextUtils.isEmpty(mPositiveButtonText)
                 && TextUtils.isEmpty(mNeutralButtonText)) {
@@ -225,6 +229,7 @@ public class AlertControll {
         } else {
             mNeutralButton.setText(mNeutralButtonText);
             mNeutralButton.setVisibility(View.VISIBLE);
+            setButtonBackgroud(mNeutralButton, mNeutralButtonBackgrounDrawable);
             whichButtons = whichButtons | BIT_BUTTON_NEUTRAL;
             if (TextUtils.isEmpty(mPositiveButtonText)
                 && TextUtils.isEmpty(mNegativeButtonText)) {
@@ -243,7 +248,6 @@ public class AlertControll {
         } else if (whichButtons == BIT_BUTTON_NEUTRAL) {
             centerButton(mNeutralButton);
         }
-
         return whichButtons != 0;
     }
 
@@ -326,6 +330,50 @@ public class AlertControll {
         }
     }
 
+    public void setPositiveButtonBackgroudDrawable(Drawable drawable) {
+        this.mPositiviButtonBackgrounDrawable = drawable;
+        if (!TextUtils.isEmpty(mPositiveButtonText)
+            && mPositiveButton != null) {
+            setButtonBackgroud(mPositiveButton, mPositiviButtonBackgrounDrawable);
+        }
+    }
+
+    public void setPositiveButtonBackgroudDrawable(int drawableId) {
+        setPositiveButtonBackgroudDrawable(mContext.getResources().getDrawable(drawableId));
+    }
+
+    public void setNegativeButtonBackgroudDrawable(Drawable drawable) {
+        this.mNegativeButtonBackgrounDrawable = drawable;
+        if (!TextUtils.isEmpty(mNegativeButtonText)
+            && mNegativeButton != null) {
+            setButtonBackgroud(mNegativeButton, mNegativeButtonBackgrounDrawable);
+        }
+    }
+
+    public void setNegativeButtonBackgroudDrawable(int drawableId) {
+        setNegativeButtonBackgroudDrawable(mContext.getResources().getDrawable(drawableId));
+    }
+
+    public void setNeutralButtonBackgroudDrawable(Drawable drawable) {
+        this.mNeutralButtonBackgrounDrawable = drawable;
+        if (!TextUtils.isEmpty(mNeutralButtonText)
+            && mNeutralButton != null) {
+            setButtonBackgroud(mNeutralButton, mNeutralButtonBackgrounDrawable);
+        }
+    }
+    public void setNeutralButtonBackgroudDrawable(int drawableId) {
+        setNeutralButtonBackgroudDrawable(mContext.getResources().getDrawable(drawableId));
+    }
+
+
+    private void setButtonBackgroud(View targetview, Drawable drawable) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            targetview.setBackground(drawable);
+        } else {
+            targetview.setBackgroundDrawable(drawable);
+        }
+    }
+
     private float dp2px(float dp) {
         return mContext.getResources().getDisplayMetrics().density * dp;
     }
@@ -345,10 +393,13 @@ public class AlertControll {
 
         /** 控制按钮 */
         public CharSequence mPositiveButtonText;
+        public Drawable mPositiveButtonBackgrounDrawable;
         public DialogInterface.OnClickListener mPositiviButtonListener;
         public CharSequence mNegativeButtonText;
+        public Drawable mNegativeButtonBackgrounDrawable;
         public DialogInterface.OnClickListener mNegativeButtonListener;
         public CharSequence mNeutralButtonText;
+        public Drawable mNeutralButtonBackgrounDrawable;
         public DialogInterface.OnClickListener mNeutralButtonListener;
 
         public boolean mCancelable;
@@ -365,6 +416,10 @@ public class AlertControll {
             mContext = context;
             mCancelable = true;
             mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            Drawable defaultDrawable = mContext.getResources().getDrawable(R.drawable.selector_drawable_button_white);
+            mPositiveButtonBackgrounDrawable = defaultDrawable;
+            mNegativeButtonBackgrounDrawable = defaultDrawable;
+            mNeutralButtonBackgrounDrawable = defaultDrawable;
         }
 
         public void apply(AlertControll alertControll) {
@@ -387,7 +442,9 @@ public class AlertControll {
             if (!TextUtils.isEmpty(mNeutralButtonText)) {
                 alertControll.setButton(DialogInterface.BUTTON_NEUTRAL, mNeutralButtonText, mNeutralButtonListener, null);
             }
-
+            alertControll.setPositiveButtonBackgroudDrawable(mPositiveButtonBackgrounDrawable);
+            alertControll.setNegativeButtonBackgroudDrawable(mNegativeButtonBackgrounDrawable);
+            alertControll.setNeutralButtonBackgroudDrawable(mNeutralButtonBackgrounDrawable);
             alertControll.setRadius(mRadiusSize);
         }
     }

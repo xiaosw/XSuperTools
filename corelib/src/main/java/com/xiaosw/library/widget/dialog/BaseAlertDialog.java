@@ -3,6 +3,7 @@ package com.xiaosw.library.widget.dialog;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
@@ -148,6 +149,30 @@ public class BaseAlertDialog extends AlertDialog {
         mAlertControll.setRadius(dp);
     }
 
+    public void setPositiveButtonBackgroudDrawable(Drawable drawable) {
+        mAlertControll.setPositiveButtonBackgroudDrawable(drawable);
+    }
+
+    public void setPositiveButtonBackgroudDrawable(int drawableId) {
+        mAlertControll.setPositiveButtonBackgroudDrawable(drawableId);
+    }
+
+    public void setNegativeButtonBackgroudDrawable(Drawable drawable) {
+        mAlertControll.setNegativeButtonBackgroudDrawable(drawable);
+    }
+
+    public void setNegativeButtonBackgroudDrawable(int drawableId) {
+        mAlertControll.setPositiveButtonBackgroudDrawable(drawableId);
+    }
+
+    public void setNeutralButtonBackgroudDrawable(Drawable drawable) {
+        mAlertControll.setNeutralButtonBackgroudDrawable(drawable);
+    }
+
+    public void setNeutralButtonBackgroudDrawable(int drawableId) {
+        mAlertControll.setPositiveButtonBackgroudDrawable(drawableId);
+    }
+
     public static class Builder extends AlertDialog.Builder {
 
         private final AlertControll.AlertParams P;
@@ -254,6 +279,33 @@ public class BaseAlertDialog extends AlertDialog {
         public Builder setRadius(float dp) {
             P.mRadiusSize = Math.max(0, dp);
             return this;
+        }
+
+        public Builder setPositiveButtonBackgroudDrawable(Drawable drawable) {
+            P.mPositiveButtonBackgrounDrawable = drawable;
+            return this;
+        }
+
+        public Builder setPositiveButtonBackgroudDrawable(int drawableId) {
+            return setPositiveButtonBackgroudDrawable(P.mContext.getResources().getDrawable(drawableId));
+        }
+
+        public Builder setNegativeButtonBackgroudDrawable(Drawable drawable) {
+            P.mNegativeButtonBackgrounDrawable = drawable;
+            return this;
+        }
+
+        public Builder setNegativeButtonBackgroudDrawable(int drawableId) {
+            return setNegativeButtonBackgroudDrawable(P.mContext.getResources().getDrawable(drawableId));
+        }
+
+        public Builder setNeutralButtonBackgroudDrawable(Drawable drawable) {
+            P.mNeutralButtonBackgrounDrawable = drawable;
+            return this;
+        }
+
+        public Builder setNeutralButtonBackgroudDrawable(int drawableId) {
+            return setNegativeButtonBackgroudDrawable(P.mContext.getResources().getDrawable(drawableId));
         }
 
         @Override

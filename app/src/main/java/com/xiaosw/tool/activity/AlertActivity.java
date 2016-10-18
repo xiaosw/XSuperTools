@@ -60,6 +60,7 @@ public class AlertActivity extends BaseAppCompatActivity {
             case R.id.bt_custom_all:
                 BaseAlertDialog.Builder build = new BaseAlertDialog.Builder(this)
                     .setRadius(20)
+                    .setPositiveButtonBackgroudDrawable(getDrawable(R.drawable.selector_drawable_button_green))
                     .setTitle("TITLE")
                     .setMessage("MESSAGE")
                     .setCancelable(false);
