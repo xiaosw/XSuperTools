@@ -21,7 +21,7 @@ public class SuperToast {
      * @param context  The context to use.  Usually your {@link android.app.Application}
      *                 or {@link android.app.Activity} object.
      * @param resId    The resource id of the string resource to use.  Can be formatted text.
-     * @param duration How long to display the message.  Either {@link Toast#LENGTH_SHORT} or
+     * @param duration How long to display the mMessage.  Either {@link Toast#LENGTH_SHORT} or
      *                 {@link Toast#LENGTH_LONG}
      *
      * @throws Resources.NotFoundException if the resource can't be found.
@@ -38,7 +38,7 @@ public class SuperToast {
      * @param context  The context to use.  Usually your {@link android.app.Application}
      *                 or {@link android.app.Activity} object.
      * @param text     The text to show.  Can be formatted text.
-     * @param duration How long to display the message.  Either {@link Toast#LENGTH_SHORT} or
+     * @param duration How long to display the mMessage.  Either {@link Toast#LENGTH_SHORT} or
      *                 {@link Toast#LENGTH_LONG}
      *
      */

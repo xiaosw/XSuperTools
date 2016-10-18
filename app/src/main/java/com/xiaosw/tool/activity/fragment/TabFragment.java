@@ -29,7 +29,7 @@ public class TabFragment extends BaseFragment implements BaseViewPager.OnTabChan
 
     private static final String TAG = "TabFragment";
     public static final String KEY_BACKGROUND_COLOR = "background_color";
-    public static final String KEY_TITLE = "title";
+    public static final String KEY_TITLE = "mTitle";
 
     private String mTitle;
 

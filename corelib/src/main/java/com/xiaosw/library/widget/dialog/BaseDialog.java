@@ -1,6 +1,6 @@
 package com.xiaosw.library.widget.dialog;
 
-import android.app.Dialog;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
@@ -20,7 +20,7 @@ import com.xiaosw.library.utils.ScreenUtil;
  * @Author xiaosw<xiaoshiwang@putao.com>
  * @Date 2016-09-23 10:10:52
  */
-public class BaseDialog extends Dialog implements View.OnClickListener {
+public class BaseDialog extends AlertDialog implements View.OnClickListener {
 
     TextView tv_dialog_title; // 标题
 

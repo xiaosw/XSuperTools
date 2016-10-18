@@ -3,5 +3,6 @@
     <string name="activity_main">MainActivity</string>
     <string name="activity_progress_bar">ProgressBarActivity</string>
     <string name="activity_tab_host_viewpager">TabHostViewPagerActivity</string>
+    <string name="activity_alert">AlertActivity</string>
     <string name="setting">Setting</string>
 </resources>

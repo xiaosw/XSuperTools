@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.xiaosw.tool">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:name=".ToolApplication"
@@ -36,15 +36,23 @@
                 <category android:name="android.intent.category.SAMPLE_CODE"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.TabHostViewPagerActivity"
+        <activity
+            android:name=".activity.TabHostViewPagerActivity"
             android:label="@string/activity_tab_host_viewpager">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.SAMPLE_CODE"/>
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.AlertActivity"
+            android:label="@string/activity_alert">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
+                <category android:name="android.intent.category.SAMPLE_CODE"/>
+            </intent-filter>
         </activity>
     </application>
 

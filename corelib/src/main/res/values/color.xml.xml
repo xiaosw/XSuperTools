@@ -2,7 +2,11 @@
 <resources>
 
     <color name="clr_white_100">@android:color/white</color>
+    <color name="clr_white_70">#BEBEBE</color>
     <color name="clr_black_100">@android:color/black</color>
+    <color name="clr_black_87">#212121</color>
+    <color name="clr_black_75">#757575</color>
+    <color name="clr_black_54">#727272</color>
     <color name="clr_gray_100">#CCCCCC</color>
     <color name="clr_green_100">#00FF00</color>
 

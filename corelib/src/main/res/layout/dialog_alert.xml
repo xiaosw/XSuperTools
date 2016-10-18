@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- mTitle -->
+    <LinearLayout
+        android:id="@+id/view_dialog_title_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_dialog_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="12dp"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:drawableBottom="@drawable/drawable_gray_horizontal_line"/>
+    </LinearLayout>
+
+    <!-- mMessage -->
+    <LinearLayout
+        android:id="@+id/view_dialog_content_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:showDividers="beginning"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:id="@+id/view_dialog_scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="72dp">
+            <TextView
+                android:id="@+id/tv_dialog_message"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </ScrollView>
+
+    </LinearLayout>
+
+    <!-- custom view -->
+    <FrameLayout
+        android:id="@+id/view_dialog_custom_panel"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <FrameLayout
+            android:id="@+id/view_dialog_custom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
+    
+    <!-- button -->
+    <LinearLayout
+        android:id="@+id/view_dialog_button_pannel"
+        android:layout_width="match_parent"
+        android:layout_height="48.8dp"
+        android:orientation="vertical"
+        android:background="@android:color/darker_gray">
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="0.8dp"
+            android:background="@drawable/drawable_gray_horizontal_line"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btton1"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:typeface="sans"
+                android:textColor="@drawable/selector_color_dialog_btn"
+                android:drawableRight="@drawable/drawable_gray_vertical_line"
+                android:background="@null" />
+
+            <Button
+                android:id="@+id/btton2"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:typeface="sans"
+                android:textColor="@drawable/selector_color_dialog_btn"
+                android:background="@null"/>
+
+            <Button
+                android:id="@+id/btton3"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:typeface="sans"
+                android:textColor="@drawable/selector_color_dialog_btn"
+                android:background="@null"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
