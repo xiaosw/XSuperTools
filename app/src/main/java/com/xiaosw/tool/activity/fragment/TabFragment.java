@@ -7,10 +7,10 @@ import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioButton;
 
 import com.xiaosw.library.activity.fragment.BaseFragment;
 import com.xiaosw.library.widget.BaseViewPager;
+import com.xiaosw.library.widget.ColorTrackRadioButton;
 import com.xiaosw.library.widget.HorizontalScrollViewTabHost;
 import com.xiaosw.library.widget.adapter.BaseFragmentPagerAdapter;
 import com.xiaosw.tool.R;
@@ -91,7 +91,7 @@ public class TabFragment extends BaseFragment implements BaseViewPager.OnTabChan
     }
 
     private void addTab(int id, CharSequence title, boolean isChecked) {
-        RadioButton radioButton = mHorizontalScrollViewTabHost.getBasicRadioButton();
+        ColorTrackRadioButton radioButton = mHorizontalScrollViewTabHost.getBasicRadioButton();
         radioButton.setPadding(24, 0, 24, 0);
         radioButton.setId(id);
         radioButton.setText(title);

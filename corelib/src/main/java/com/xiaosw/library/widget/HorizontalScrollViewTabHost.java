@@ -64,7 +64,24 @@ public class HorizontalScrollViewTabHost extends HorizontalScrollView
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        ColorTrackRadioButton left = null;
+        ColorTrackRadioButton right = null;
+        if (positionOffset > 0 && position < mRadioGroup.getChildCount() - 1) {
+            left = (ColorTrackRadioButton) mRadioGroup.getChildAt(position);
+            right = (ColorTrackRadioButton) mRadioGroup.getChildAt(position + 1);
+        } else if (positionOffset < 0 && position > 0) {
+            left = (ColorTrackRadioButton) mRadioGroup.getChildAt(position-1);
+            right = (ColorTrackRadioButton) mRadioGroup.getChildAt(position);
+        }
+        if (null != left) {
+            left.setClipStart(ColorTrackRadioButton.CLIP_START_BY_RIGHT);
+            right.setClipStart(ColorTrackRadioButton.CLIP_START_BY_LEFT);
+            left.setProgress(1 - positionOffset);
+            right.setProgress(positionOffset);
+        }
+        if (null != right) {
 
+        }
     }
 
     @Override
@@ -78,11 +95,10 @@ public class HorizontalScrollViewTabHost extends HorizontalScrollView
         if (mRadioGroup.getCheckedRadioButtonId() != checkedId) {
             mRadioGroup.check(checkedId);
         }
-//        LogUtil.d("onPageSelected---------------- position = " + position + ", checkedId = " + checkedId);
     }
 
-    public RadioButton getBasicRadioButton() {
-        return (RadioButton) inflate(getContext(), R.layout.view_radio_button, null);
+    public ColorTrackRadioButton getBasicRadioButton() {
+        return (ColorTrackRadioButton) inflate(getContext(), R.layout.view_radio_button, null);
     }
 
     public void addRadioButton (RadioButton radioButton) throws IllegalArgumentException {
