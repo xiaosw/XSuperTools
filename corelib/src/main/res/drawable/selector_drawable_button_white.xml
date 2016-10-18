@@ -5,7 +5,7 @@
             <!-- 实心 -->
             <solid android:color="#FFFFFF" />
             <!-- 圆角 -->
-            <corners android:radius="@dimen/button_radius" />
+            <!--<corners android:radius="@dimen/button_radius" />-->
         </shape>
     </item>
     <item android:state_pressed="false">
@@ -19,7 +19,7 @@
                 android:color="#D2D2D2" />
 
             <!-- 圆角 -->
-            <corners android:radius="@dimen/button_radius" />
+            <!--<corners android:radius="@dimen/button_radius" />-->
         </shape>
     </item>
 </selector>

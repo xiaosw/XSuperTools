@@ -15,13 +15,13 @@ import com.xiaosw.library.R;
 import butterknife.ButterKnife;
 
 /**
- * @ClassName {@link BaseActivity}
+ * @ClassName {@link BaseAppCompatActivity}
  * @Description Activity基类
  *
  * @Date 2016-10-10 19:19.
  * @Author xiaoshiwang.
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseAppCompatActivity extends AppCompatActivity {
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
@@ -91,7 +91,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         ib_custom_action_bar_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                finishByAnim();
             }
         });
         actionBar.setCustomView(actionBarView, new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));

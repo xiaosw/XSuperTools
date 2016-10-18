@@ -17,7 +17,7 @@ import com.xiaosw.library.R;
  * @Date 2016-10-10 19:21.
  * @Author xiaoshiwang.
  */
-public abstract class FragmentTabHostActivity extends BaseActivity {
+public abstract class FragmentTabHostActivity extends BaseAppCompatActivity {
 
     private FragmentTabHost mFragmentTabHost;
 

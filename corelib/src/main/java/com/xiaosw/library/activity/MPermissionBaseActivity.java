@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * @Date 2016-10-10 19:21.
  * @Author xiaoshiwang.
  */
-public abstract class MPermissionBaseActivity extends BaseActivity
+public abstract class MPermissionBaseActivity extends BaseAppCompatActivity
         implements MPermissionCompat.OnRequstPermissionListener {
 
 

@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
-import com.xiaosw.library.activity.BaseActivity;
+import com.xiaosw.library.activity.BaseAppCompatActivity;
 import com.xiaosw.library.widget.BaseRecyclerView;
 import com.xiaosw.library.widget.dialog.SuperToast;
 import com.xiaosw.library.widget.divider.DividerItemDecoration;
@@ -35,7 +35,7 @@ import butterknife.Bind;
  * @Date 2016-10-10 19:17.
  * @Author xiaoshiwang.
  */
-public class FunctionListActivity extends BaseActivity implements AdapterView.OnItemClickListener,
+public class FunctionListActivity extends BaseAppCompatActivity implements AdapterView.OnItemClickListener,
     AdapterView.OnItemLongClickListener{
 
     private static final String TAG = "FunctionListActivity";

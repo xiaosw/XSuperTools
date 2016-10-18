@@ -2,7 +2,7 @@ package com.xiaosw.tool.activity;
 
 import android.os.Bundle;
 
-import com.xiaosw.library.activity.BaseActivity;
+import com.xiaosw.library.activity.BaseAppCompatActivity;
 import com.xiaosw.tool.R;
 
 /**
@@ -12,7 +12,7 @@ import com.xiaosw.tool.R;
  * @Date 2016-10-10 19:17.
  * @Author xiaoshiwang.
  */
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseAppCompatActivity {
     private static final String TAG = "MainActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {

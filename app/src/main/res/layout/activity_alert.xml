@@ -15,10 +15,38 @@
         android:onClick="showDialog"/>
 
     <Button
-        android:id="@+id/bt_custom_alert"
+        android:id="@+id/bt_custom_all"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="自定义Dialog"
+        android:text="标题，消息与按钮"
+        android:onClick="showDialog"/>
+
+    <Button
+        android:id="@+id/bt_title_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="标题与按钮"
+        android:onClick="showDialog"/>
+
+    <Button
+        android:id="@+id/bt_message_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="消息与按钮"
+        android:onClick="showDialog"/>
+
+    <Button
+        android:id="@+id/bt_one_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="一个按钮"
+        android:onClick="showDialog"/>
+
+    <Button
+        android:id="@+id/bt_two_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="两个按钮"
         android:onClick="showDialog"/>
 
 </LinearLayout>

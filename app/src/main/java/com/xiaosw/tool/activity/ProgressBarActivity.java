@@ -2,10 +2,10 @@ package com.xiaosw.tool.activity;
 
 import android.os.Bundle;
 
-import com.xiaosw.library.activity.BaseActivity;
+import com.xiaosw.library.activity.BaseAppCompatActivity;
 import com.xiaosw.tool.R;
 
-public class ProgressBarActivity extends BaseActivity {
+public class ProgressBarActivity extends BaseAppCompatActivity {
 
     private static final String TAG = "ProgressBarActivity";
 
