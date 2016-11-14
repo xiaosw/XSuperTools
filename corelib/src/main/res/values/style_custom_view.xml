@@ -7,4 +7,13 @@
         <attr name="text_change_color" format="color|reference" />
     </declare-styleable>
 
+    <!-- 圆形ProgressBar -->
+    <declare-styleable name="DotProgressBar">
+        <attr name="point_radius" format="dimension|reference" />
+        <attr name="stroke_width" format="dimension|reference" />
+        <attr name="progress_color" format="color|reference" />
+        <attr name="default_color" format="color|reference" />
+        <attr name="start_angle" format="integer|reference" />
+    </declare-styleable>
+
 </resources>
