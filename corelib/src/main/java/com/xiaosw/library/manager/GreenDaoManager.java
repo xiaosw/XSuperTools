@@ -33,8 +33,10 @@ public class GreenDaoManager {
     private DaoSession mDaoSession;
     public GreenDaoManager() {
         if (null == mDaoMaster) {
-            DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(AppContextUtil.getApp(), BaseAppConfig.DEFAULT_GREEN_DAO_DB_NAME, null);
-            mDaoMaster = new DaoMaster(devOpenHelper.getWritableDatabase());
+            DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(AppContextUtil.getApp(),
+                BaseAppConfig.ENCRYPTED ? BaseAppConfig.DEFAULT_GREEN_DAO_DB_NAME_ENCRYPTED : BaseAppConfig.DEFAULT_GREEN_DAO_DB_NAME,
+                null);
+            mDaoMaster = new DaoMaster(BaseAppConfig.ENCRYPTED ? devOpenHelper.getEncryptedReadableDb("super-secret") : devOpenHelper.getWritableDb());
         }
         if (null == mDaoSession) {
             mDaoSession = mDaoMaster.newSession();

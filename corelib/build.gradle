@@ -40,4 +40,6 @@ dependencies {
     compile 'com.android.support:multidex:1.0.0'
     compile 'com.android.support:recyclerview-v7:24.2.1'
     compile 'org.greenrobot:greendao:3.2.0'
+    // This is only needed if you want to use encrypted databases
+    compile 'net.zetetic:android-database-sqlcipher:3.5.4'
 }

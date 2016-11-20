@@ -77,7 +77,7 @@ public class AppContextUtil {
         return sApp.getResources().getString(resId);
     }
 
-    public static String getString(int resId, String[] objs) {
+    public static String getString(int resId, Object... objs) {
         if (null == sApp) {
             return null;
         }

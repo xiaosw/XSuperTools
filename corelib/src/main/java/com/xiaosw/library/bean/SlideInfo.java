@@ -277,4 +277,24 @@ public class SlideInfo {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getSlideInfoDao() : null;
     }
+
+    @Override
+    public String toString() {
+        return "SlideInfo{" +
+            "data7='" + data7 + '\'' +
+            ", data6='" + data6 + '\'' +
+            ", data5='" + data5 + '\'' +
+            ", data4='" + data4 + '\'' +
+            ", data3='" + data3 + '\'' +
+            ", data2='" + data2 + '\'' +
+            ", data1='" + data1 + '\'' +
+            ", data0='" + data0 + '\'' +
+            ", description='" + description + '\'' +
+            ", datetaken=" + datetaken +
+            ", dateModified=" + dateModified +
+            ", dateAdded=" + dateAdded +
+            ", title='" + title + '\'' +
+            ", id=" + id +
+            '}';
+    }
 }
