@@ -2,6 +2,8 @@ package com.xiaosw.library;
 
 import android.support.multidex.MultiDexApplication;
 
+import com.xiaosw.library.utils.AppContextUtil;
+
 /**
  * @ClassName : {@link BaseApplication}
  * @Description :
@@ -11,4 +13,9 @@ import android.support.multidex.MultiDexApplication;
  */
 public abstract class BaseApplication extends MultiDexApplication {
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        AppContextUtil.init(this);
+    }
 }
