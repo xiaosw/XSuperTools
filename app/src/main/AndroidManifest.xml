@@ -3,6 +3,7 @@
           package="com.xiaosw.tool">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".ToolApplication"
@@ -48,6 +49,16 @@
         <activity
             android:name=".activity.AlertActivity"
             android:label="@string/activity_alert">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.SAMPLE_CODE"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.SimpleGLSurfaceViewMedia"
+            android:label="@string/activity_gl_surface_view_media"
+            android:configChanges="keyboardHidden|orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
