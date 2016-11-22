@@ -20,12 +20,23 @@ android {
         }
     }
 
+    sourceSets.main {
+        jniLibs.srcDirs = ['libs']
+    }
+
 }
 
 greendao {
     schemaVersion 1
     daoPackage 'com.xiaosw.library.db.dao'
     targetGenDir 'src/main/java'
+}
+
+project.afterEvaluate {
+    printf("===============start ndk build======================\n")
+    compileDebugNdk.dependsOn 'NDKBuildDebug'
+    compileReleaseNdk.dependsOn 'NDKBuildRelease'
+    clean.dependsOn 'NDKBuildClean'
 }
 
 dependencies {
