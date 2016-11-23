@@ -39,7 +39,7 @@ public class OpenGLVideoPlayerUtil implements MediaPlayer.OnCompletionListener,
         MediaPlayer.OnErrorListener, MediaPlayer.OnPreparedListener, GLSurfaceView.Renderer
         , SurfaceTexture.OnFrameAvailableListener, MediaPlayer.OnVideoSizeChangedListener {
 
-    public static final String TAG = "VideoPlayerUtil";
+    public static final String TAG = "OpenGLVideoPlayerUtil";
 
     private GLSurfaceView mGLSurfaceView;
     /** 显示 */
@@ -162,6 +162,7 @@ public class OpenGLVideoPlayerUtil implements MediaPlayer.OnCompletionListener,
     }
 
     private void openVideo() {
+        LogUtil.i(TAG, "openVideo = " + mVideoUri);
         if (mVideoUri == null || mSurfaceTexture == null) {
             // not ready for playback just yet, will try again later
             return;
@@ -271,6 +272,7 @@ public class OpenGLVideoPlayerUtil implements MediaPlayer.OnCompletionListener,
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+        LogUtil.i(TAG, "------------------------------> onSurfaceCreated()");
         setupGraphics();
         setupVertexBuffer();
         setupTexture();

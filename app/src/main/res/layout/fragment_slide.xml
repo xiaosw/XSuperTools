@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1A1A1A"
     android:orientation="vertical">
 
-    <SurfaceView
-        android:id="@+id/surface_view"
+    <android.opengl.GLSurfaceView
+        android:id="@+id/gl_surface_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"/>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/view_pager"
+    <ImageView
+        android:id="@+id/iv_slide"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-</RelativeLayout>
+</FrameLayout>

@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.xiaosw.library.config.BaseAppConfig;
 
-
 /**
  * @ClassName: LogUtil
  * @Description: Log工具，类似android.util.Log。
@@ -76,7 +75,13 @@ public class LogUtil {
 
     public static void v(String msg) {
         if(printV) {
-            Log.v(getTag(), msg);
+            v(getTag(), msg);
+        }
+    }
+
+    public static void v(String tag, String msg) {
+        if(printV) {
+            Log.v(tag, msg);
         }
     }
 
@@ -84,24 +89,30 @@ public class LogUtil {
         if(printV) {
             Log.v(getTag(), msg, tr);
         }
-    }
+    };
 
     public static void i(String msg) {
+        i(getTag(), msg);
+    }
+
+    public static void i(String tag, String msg) {
         if(printI) {
-            Log.i(getTag(), msg);
+            Log.i(tag, msg);
         }
     }
 
     public static void i(String msg, Throwable tr) {
+        i(getTag(), msg, tr);
+    }
+
+    public static void i(String tag, String msg, Throwable tr) {
         if(printI) {
-            Log.i(getTag(), msg, tr);
+            Log.i(tag, msg, tr);
         }
     }
 
     public static void d(String msg) {
-        if(printD) {
-            Log.d(getTag(), msg);
-        }
+        d(getTag(), msg);
     }
 
     public static void d(String tag, String msg) {
@@ -111,15 +122,17 @@ public class LogUtil {
     }
 
     public static void d(String msg, Throwable tr) {
+        d(getTag(), msg, tr);
+    }
+
+    public static void d(String tag, String msg, Throwable tr) {
         if(printD) {
-            Log.d(getTag(), msg, tr);
+            Log.d(tag, msg, tr);
         }
     }
 
     public static void w(String msg) {
-        if(printW) {
-            Log.w(getTag(), msg);
-        }
+        w(getTag(), msg);
     }
 
     public static void w(String tag, String msg) {
@@ -128,37 +141,35 @@ public class LogUtil {
         }
     }
 
-    public static void w(String tag, String msg, Throwable throwable) {
-        if(printW) {
-            Log.w(tag, msg, throwable);
-        }
-    }
-
     public static void w(Throwable tr) {
         if(printW) {
             Log.w(getTag(), tr);
         }
-    };
+    }
 
     public static void w(String msg, Throwable tr) {
+        w(getTag(), msg, tr);
+    }
+
+    public static void w(String tag, String msg, Throwable tr) {
         if(printW) {
-            Log.w(getTag(), msg, tr);
+            Log.w(tag, msg, tr);
         }
     }
 
     public static void e(String msg) {
         e(getTag(), msg);
-    };
+    }
 
     public static void e(String tag, String msg) {
         if(printE) {
             Log.e(tag, msg);
         }
-    }
+    };
 
     public static void e(String msg, Throwable tr) {
         e(getTag(), msg, tr);
-    };
+    }
 
     public static void e(String tag, String msg, Throwable tr) {
         if(printE) {
@@ -167,8 +178,12 @@ public class LogUtil {
     }
 
     public static void wtf(String msg) {
+        wtf(getTag(), msg);
+    }
+
+    public static void wtf(String tag, String msg) {
         if(printWtf) {
-            Log.wtf(getTag(), msg);
+            Log.wtf(tag, msg);
         }
     }
 
@@ -178,9 +193,13 @@ public class LogUtil {
         }
     }
 
-    public static void wtf(String msg, Throwable tr) {
+    public static void wtf(String tag, Throwable tr) {
+        wtf(tag, tr);
+    }
+
+    public static void wtf(String tag, String msg, Throwable tr) {
         if(printWtf) {
-            Log.wtf(getTag(), msg, tr);
+            Log.wtf(tag, msg, tr);
         }
     }
 
