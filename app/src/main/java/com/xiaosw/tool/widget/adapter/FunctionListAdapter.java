@@ -11,7 +11,7 @@ import com.xiaosw.tool.bean.FunctionInfo;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
@@ -41,7 +41,7 @@ public class FunctionListAdapter extends BaseRecyclerAdapter<FunctionInfo, Funct
 
     class FunctionListViewHolder extends BaseViewHolder {
 
-        @Bind(R.id.tv_function_description)
+        @BindView(R.id.tv_function_description)
         TextView tv_function_description;
 
         public FunctionListViewHolder(View itemView) {

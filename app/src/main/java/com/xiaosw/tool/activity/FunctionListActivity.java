@@ -26,7 +26,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * @ClassName {@link MainActivity}
@@ -40,7 +40,7 @@ public class FunctionListActivity extends BaseAppCompatActivity implements Adapt
 
     private static final String TAG = "FunctionListActivity";
 
-    @Bind(R.id.recycler_view)
+    @BindView(R.id.recycler_view)
     BaseRecyclerView mRecyclerView;
 
     private FunctionListAdapter mFunctionListAdapter;
