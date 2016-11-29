@@ -57,9 +57,18 @@
         </activity>
         <activity
             android:name=".activity.SimpleGLSurfaceViewMedia"
-            android:label="@string/activity_gl_surface_view_media"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/activity_gl_surface_view_media">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
-            android:configChanges="keyboardHidden|orientation|screenSize">
+                <category android:name="android.intent.category.SAMPLE_CODE"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.RecyclerViewDragActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/activity_recycler_view_drag">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

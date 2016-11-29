@@ -5,5 +5,6 @@
     <string name="activity_tab_host_viewpager">TabHostViewPagerActivity</string>
     <string name="activity_alert">AlertActivity</string>
     <string name="activity_gl_surface_view_media">SimpleGLSurfaceViewMedia</string>
+    <string name="activity_recycler_view_drag">RecyclerViewDragActivity</string>
     <string name="setting">Setting</string>
 </resources>

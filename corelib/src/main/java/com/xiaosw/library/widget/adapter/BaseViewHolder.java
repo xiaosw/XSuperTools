@@ -6,6 +6,8 @@ import android.widget.AdapterView;
 
 import com.xiaosw.library.utils.LogUtil;
 
+import butterknife.ButterKnife;
+
 /**
  * @ClassName : {@link BaseViewHolder}
  * @Description :
@@ -13,7 +15,8 @@ import com.xiaosw.library.utils.LogUtil;
  * @Author xiaosw<xiaoshiwang@putao.com>
  * @Date 2016-10-11 11:11:29
  */
-public class BaseViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+public class BaseViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
+    View.OnLongClickListener {
 
     private static final String TAG = "BaseViewHolder";
 
@@ -24,6 +27,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder implements View.OnCl
 
     public BaseViewHolder(View itemView) {
         super(itemView);
+        ButterKnife.bind(this, itemView);
         itemView.setOnClickListener(this);
         itemView.setOnLongClickListener(this);
     }
@@ -52,4 +56,5 @@ public class BaseViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         }
         return false;
     }
+
 }
