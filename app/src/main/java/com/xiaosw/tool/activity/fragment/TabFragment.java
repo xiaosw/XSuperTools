@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.xiaosw.library.activity.fragment.BaseFragment;
+import com.xiaosw.library.utils.LogUtil;
 import com.xiaosw.library.widget.BaseViewPager;
 import com.xiaosw.library.widget.ColorTrackRadioButton;
 import com.xiaosw.library.widget.HorizontalScrollViewTabHost;
@@ -68,6 +69,7 @@ public class TabFragment extends BaseFragment implements BaseViewPager.OnTabChan
 
         mBaseViewPager.setAdapter(new BaseFragmentPagerAdapter<BaseFragment>(getChildFragmentManager(), initFragments(4)));
         mBaseViewPager.setOnTabChangeListener(this);
+        LogUtil.i(TAG, "onCreateView mTitle = " + mTitle);
     }
 
     @Override
