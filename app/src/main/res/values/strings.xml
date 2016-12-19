@@ -7,5 +7,6 @@
     <string name="activity_gl_surface_view_media">SimpleGLSurfaceViewMedia</string>
     <string name="activity_recycler_view_drag">RecyclerViewDragActivity</string>
     <string name="activity_search">SearchActivity</string>
+    <string name="activity_letter_index">LetterIndexActivity</string>
     <string name="setting">Setting</string>
 </resources>

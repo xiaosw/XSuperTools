@@ -75,9 +75,18 @@
                 <category android:name="android.intent.category.SAMPLE_CODE"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.SearchActivity"
+        <activity
+            android:name=".activity.SearchActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/activity_search">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.SAMPLE_CODE"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.LetterIndexActivity"
+              android:label="@string/activity_letter_index">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

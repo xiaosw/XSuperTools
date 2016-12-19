@@ -42,6 +42,7 @@ public class SearchView extends AutoCompleteTextView implements TextView.OnEdito
     ///////////////////////////////////////////////////////////////////////////
     // search icon
     ///////////////////////////////////////////////////////////////////////////
+    private Drawable mVoiceIcon;
     private Drawable mSearchIcon;
     private Rect mSearchRect;
     private Rect mHintTextRect;
@@ -78,9 +79,10 @@ public class SearchView extends AutoCompleteTextView implements TextView.OnEdito
     }
 
     private void initialize() {
-        mSearchIcon = getResources().getDrawable(R.mipmap.ic_search_api_holo_light);
+        mSearchIcon = getCompatDrawable(R.mipmap.ic_search_api_holo_light);
+        mVoiceIcon = getCompatDrawable(R.mipmap.ic_voice_search_api_holo_light);
         mSearchRect = new Rect(0, 0, mSearchIcon.getIntrinsicWidth(), mSearchIcon.getIntrinsicHeight());
-        mDeleteIcon = getResources().getDrawable(R.mipmap.ic_clear_search_api_holo_light);
+        mDeleteIcon = getCompatDrawable(R.mipmap.ic_clear_search_api_holo_light);
         mHintTextRect = new Rect();
         mHintText = getHint() + "";
 
@@ -93,6 +95,14 @@ public class SearchView extends AutoCompleteTextView implements TextView.OnEdito
         setThreshold(1);
         setImeOptions(EditorInfo.IME_ACTION_SEARCH);
         setOnEditorActionListener(this);
+    }
+
+    private Drawable getCompatDrawable(int resId) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return getResources().getDrawable(resId, getContext().getTheme());
+        } else {
+            return getResources().getDrawable(resId);
+        }
     }
 
     @Override

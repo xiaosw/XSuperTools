@@ -15,8 +15,11 @@
 
     <android.support.v7.widget.SearchView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         app:queryHint="原生搜索控件"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <com.xiaosw.library.widget.SearchView
         android:id="@+id/id_search"
