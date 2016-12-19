@@ -78,11 +78,13 @@ public class SearchView extends AutoCompleteTextView implements TextView.OnEdito
     }
 
     private void initialize() {
-        mSearchIcon = getResources().getDrawable(android.R.drawable.ic_menu_search);
+        mSearchIcon = getResources().getDrawable(R.mipmap.ic_search_api_holo_light);
         mSearchRect = new Rect(0, 0, mSearchIcon.getIntrinsicWidth(), mSearchIcon.getIntrinsicHeight());
-        mDeleteIcon = getResources().getDrawable(android.R.drawable.ic_menu_delete);
+        mDeleteIcon = getResources().getDrawable(R.mipmap.ic_clear_search_api_holo_light);
         mHintTextRect = new Rect();
         mHintText = getHint() + "";
+
+        setPadding(getPaddingLeft(), getPaddingTop(), 30, getPaddingBottom());
         setSingleLine();
         setGravity(Gravity.CENTER_VERTICAL);
         setEllipsize(TextUtils.TruncateAt.END);
@@ -202,10 +204,11 @@ public class SearchView extends AutoCompleteTextView implements TextView.OnEdito
                 Drawable right = drawables[2];
                 if (!TextUtils.isEmpty(getText())
                     && null != right
-                    && event.getX() < getMeasuredWidth() - getPaddingRight()
-                    && event.getX() >  getMeasuredWidth() - getPaddingRight() - right.getIntrinsicWidth()
+                    && event.getX() < getMeasuredWidth() - getPaddingRight() + 10
+                    && event.getX() >  getMeasuredWidth() - getPaddingRight() - right.getIntrinsicWidth() - 10
                     && System.currentTimeMillis() - mDownTime < 1000) {
                     setText(null);
+                    return true;
                 }
                 break;
         }
