@@ -2,12 +2,16 @@ package com.xiaosw.library.widget;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.v4.content.res.ConfigurationHelper;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -164,6 +168,14 @@ public class SearchView extends AutoCompleteTextView implements TextView.OnEdito
     }
 
     @Override
+    protected void onFinishInflate() {
+        super.onFinishInflate();
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        setMinWidth((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+            getSearchViewTextMinWidthDp(), metrics));
+    }
+
+    @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (!isFocused() && TextUtils.isEmpty(getText())) {
@@ -173,6 +185,50 @@ public class SearchView extends AutoCompleteTextView implements TextView.OnEdito
             getPaint().setColor(getCurrentHintTextColor());
             canvas.drawText(mHintText, mSearchRect.right, mCY + mHintTextRect.height() / 2 - 3, getPaint());
         }
+    }
+
+    @Override
+    public boolean onKeyPreIme(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            // special case for the back key, we do not even try to send it
+            // to the drop down list but instead, consume it immediately
+            if (event.getAction() == KeyEvent.ACTION_DOWN && event.getRepeatCount() == 0) {
+                KeyEvent.DispatcherState state = getKeyDispatcherState();
+                if (state != null) {
+                    state.startTracking(event, this);
+                }
+                return true;
+            } else if (event.getAction() == KeyEvent.ACTION_UP) {
+                KeyEvent.DispatcherState state = getKeyDispatcherState();
+                if (state != null) {
+                    state.handleUpEvent(event);
+                }
+                if (event.isTracking() && !event.isCanceled()) {
+                    clearFocus();
+                    hideSoftInputFromWindow(this);
+                    return true;
+                }
+            }
+        }
+        return super.onKeyPreIme(keyCode, event);
+    }
+
+    /**
+     * We override this method to avoid replacing the query box text when a
+     * suggestion is clicked.
+     */
+    @Override
+    protected void replaceText(CharSequence text) {
+    }
+
+    /**
+     * We override this method to avoid an extra onItemClick being called on
+     * the drop-down's OnItemClickListener by
+     * {@link AutoCompleteTextView#onKeyUp(int, KeyEvent)} when an item is
+     * clicked with the trackball.
+     */
+    @Override
+    public void performCompletion() {
     }
 
     long mDownTime;
@@ -224,6 +280,23 @@ public class SearchView extends AutoCompleteTextView implements TextView.OnEdito
 
     public interface OnSearchListener {
         boolean onSearch(TextView v, int actionId);
+    }
+
+    /**
+     * Get minimum width of the search view text entry area.
+     */
+    private int getSearchViewTextMinWidthDp() {
+        final Configuration config = getResources().getConfiguration();
+        final int widthDp = ConfigurationHelper.getScreenWidthDp(getResources());
+        final int heightDp = ConfigurationHelper.getScreenHeightDp(getResources());
+
+        if (widthDp >= 960 && heightDp >= 720
+            && config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            return 256;
+        } else if (widthDp >= 600 || (widthDp >= 640 && heightDp >= 480)) {
+            return 192;
+        }
+        return 160;
     }
 
 }
