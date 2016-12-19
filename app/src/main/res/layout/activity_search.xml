@@ -2,6 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_search"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,16 +13,18 @@
     android:orientation="vertical"
     tools:context="com.xiaosw.tool.activity.SearchActivity">
 
+    <android.support.v7.widget.SearchView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:queryHint="原生搜索控件"/>
+
     <com.xiaosw.library.widget.SearchView
         android:id="@+id/id_search"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="44dp"
         android:paddingLeft="6dp"
         android:paddingRight="6dp"
+        android:layout_marginTop="12dp"
         android:hint="请输入搜索内容"/>
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
 
 </LinearLayout>

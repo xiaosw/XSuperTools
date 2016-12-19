@@ -23,7 +23,6 @@ public class SearchActivity  extends BaseAppCompatActivity implements SearchView
         setDisplayHomeAsUpEnabled(true);
         setTitle(TAG);
         mSearchView.setOnSearchListener(this);
-        mSearchView.setAutoLinkMask(1);
         String [] arr={"aa","aab","aac"};
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,arr);
         mSearchView.setAdapter(arrayAdapter);

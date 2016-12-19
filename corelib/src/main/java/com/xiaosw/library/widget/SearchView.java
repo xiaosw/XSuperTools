@@ -16,6 +16,8 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
@@ -81,8 +83,9 @@ public class SearchView extends AutoCompleteTextView implements TextView.OnEdito
         mDeleteIcon = getResources().getDrawable(android.R.drawable.ic_menu_delete);
         mHintTextRect = new Rect();
         mHintText = getHint() + "";
-        setGravity(Gravity.CENTER);
         setSingleLine();
+        setGravity(Gravity.CENTER_VERTICAL);
+        setEllipsize(TextUtils.TruncateAt.END);
         setBackgroundResource(R.drawable.selector_drawable_search_view);
 
         setThreshold(1);
@@ -108,56 +111,11 @@ public class SearchView extends AutoCompleteTextView implements TextView.OnEdito
         return true;
     }
 
-    protected void launchQuerySearch(TextView v, int actionId) {
-        if ((null == mOnSearchListener || !mOnSearchListener.onSearch(v, actionId))
-            && !TextUtils.isEmpty(getText())) {
-            if (isPopupShowing()) {
-                dismissDropDown();
-            }
-            hideSoftInputFromWindow(v);
+    @Override
+    public void dismissDropDown() {
+        if (isPopupShowing()) {
+            super.dismissDropDown();
         }
-        Toast.makeText(getContext(), getText().toString(), Toast.LENGTH_SHORT).show();
-    }
-
-    /**
-     * 隐藏软键盘
-     * @param targetView 用于获取token，The token of the window that is making the request,
-     * as returned by {@link View#getWindowToken() View.getWindowToken()}.
-     */
-    protected void hideSoftInputFromWindow(View targetView) {
-        InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (inputMethodManager.isActive()) {
-            inputMethodManager.hideSoftInputFromWindow(targetView.getWindowToken(), 0);
-        }
-    }
-
-    private void setIcon() {
-        Drawable[] drawables = getCompoundDrawables();
-        Drawable left = drawables[0];
-        if (null == left) {
-            left = mSearchIcon;
-        }
-        if (isFocused()) {
-            Drawable right = drawables[2];
-            if (right == null) {
-                right = mDeleteIcon;
-            }
-            if (TextUtils.isEmpty(getText())) {
-                setCompoundDrawablesWithIntrinsicBounds(left, drawables[1], null, drawables[3]);
-            } else {
-                setCompoundDrawablesWithIntrinsicBounds(left, drawables[1], right, drawables[3]);
-            }
-            if (getGravity() != Gravity.LEFT) {
-                setGravity(Gravity.LEFT);
-            }
-            setHint(mHintText);
-        } else if (TextUtils.isEmpty(getText())){
-            setCompoundDrawablesWithIntrinsicBounds(null, drawables[1], null, drawables[3]);
-            setHint(null);
-        } else {
-            setCompoundDrawablesWithIntrinsicBounds(left, drawables[1], null, drawables[3]);
-        }
-
     }
 
     @Override
@@ -217,9 +175,9 @@ public class SearchView extends AutoCompleteTextView implements TextView.OnEdito
      * We override this method to avoid replacing the query box text when a
      * suggestion is clicked.
      */
-    @Override
-    protected void replaceText(CharSequence text) {
-    }
+//    @Override
+//    protected void replaceText(CharSequence text) {
+//    }
 
     /**
      * We override this method to avoid an extra onItemClick being called on
@@ -254,6 +212,67 @@ public class SearchView extends AutoCompleteTextView implements TextView.OnEdito
         return super.onTouchEvent(event);
     }
 
+    protected void launchQuerySearch(TextView v, int actionId) {
+        if ((null == mOnSearchListener || !mOnSearchListener.onSearch(v, actionId))
+            && !TextUtils.isEmpty(getText())) {
+
+            clearOwnFocus();
+            hideSoftInputFromWindow(v);
+        }
+        Toast.makeText(getContext(), getText().toString(), Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * 取消当前控件焦点
+     */
+    protected void clearOwnFocus() {
+        ViewParent viewParent = getParent();
+        if (null != viewParent) {
+            ViewGroup viewGroup = (ViewGroup) viewParent;
+            viewGroup.setFocusable(true);
+            viewGroup.setFocusableInTouchMode(true);
+            viewGroup.requestFocus();
+        }
+    }
+
+    /**
+     * 隐藏软键盘
+     * @param targetView 用于获取token，The token of the window that is making the request,
+     * as returned by {@link View#getWindowToken() View.getWindowToken()}.
+     */
+    protected void hideSoftInputFromWindow(View targetView) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (inputMethodManager.isActive()) {
+            inputMethodManager.hideSoftInputFromWindow(targetView.getWindowToken(), 0);
+        }
+    }
+
+    private void setIcon() {
+        Drawable[] drawables = getCompoundDrawables();
+        Drawable left = drawables[0];
+        if (null == left) {
+            left = mSearchIcon;
+        }
+        if (isFocused()) {
+            Drawable right = drawables[2];
+            if (right == null) {
+                right = mDeleteIcon;
+            }
+            if (TextUtils.isEmpty(getText())) {
+                setCompoundDrawablesWithIntrinsicBounds(left, drawables[1], null, drawables[3]);
+            } else {
+                setCompoundDrawablesWithIntrinsicBounds(left, drawables[1], right, drawables[3]);
+            }
+            setHint(mHintText);
+        } else if (TextUtils.isEmpty(getText())){
+            setCompoundDrawablesWithIntrinsicBounds(null, drawables[1], null, drawables[3]);
+            setHint(null);
+        } else {
+            setCompoundDrawablesWithIntrinsicBounds(left, drawables[1], null, drawables[3]);
+        }
+
+    }
+
     /**
      *  計算搜索icon位置
      */
@@ -268,18 +287,6 @@ public class SearchView extends AutoCompleteTextView implements TextView.OnEdito
             mSearchRect.set(l, t, r, b);
             mSearchIcon.setBounds(mSearchRect);
         }
-    }
-
-    public OnSearchListener getOnSearchListener() {
-        return mOnSearchListener;
-    }
-
-    public void setOnSearchListener(OnSearchListener onSearchListener) {
-        mOnSearchListener = onSearchListener;
-    }
-
-    public interface OnSearchListener {
-        boolean onSearch(TextView v, int actionId);
     }
 
     /**
@@ -297,6 +304,18 @@ public class SearchView extends AutoCompleteTextView implements TextView.OnEdito
             return 192;
         }
         return 160;
+    }
+
+    public OnSearchListener getOnSearchListener() {
+        return mOnSearchListener;
+    }
+
+    public void setOnSearchListener(OnSearchListener onSearchListener) {
+        mOnSearchListener = onSearchListener;
+    }
+
+    public interface OnSearchListener {
+        boolean onSearch(TextView v, int actionId);
     }
 
 }
