@@ -13,11 +13,12 @@
     tools:context="com.xiaosw.tool.activity.SearchActivity">
 
     <com.xiaosw.library.widget.SearchView
+        android:id="@+id/id_search"
         android:layout_width="match_parent"
-        android:layout_height="46dp"
+        android:layout_height="wrap_content"
         android:paddingLeft="6dp"
         android:paddingRight="6dp"
-        android:hint="請輸入搜索内容"/>
+        android:hint="请输入搜索内容"/>
 
     <EditText
         android:layout_width="match_parent"

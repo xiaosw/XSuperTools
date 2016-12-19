@@ -9,8 +9,14 @@ import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
-import android.widget.EditText;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AutoCompleteTextView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.xiaosw.library.R;
 
@@ -21,7 +27,7 @@ import com.xiaosw.library.R;
  * <br/>Author : xiaosw<xiaoshiwang@putao.com>
  * <br/>Create date : 2016-12-17 16:16:27</p>
  */
-public class SearchView extends EditText {
+public class SearchView extends AutoCompleteTextView implements TextView.OnEditorActionListener {
     /**
      * @see SearchView#getClass().getSimpleName()
      */
@@ -42,6 +48,8 @@ public class SearchView extends EditText {
 
     private int mCX;
     private int mCY;
+
+    private OnSearchListener mOnSearchListener;
 
     public SearchView(Context context) {
         this(context, null);
@@ -72,6 +80,10 @@ public class SearchView extends EditText {
         setGravity(Gravity.CENTER);
         setSingleLine();
         setBackgroundResource(R.drawable.selector_drawable_search_view);
+
+        setThreshold(1);
+        setImeOptions(EditorInfo.IME_ACTION_SEARCH);
+        setOnEditorActionListener(this);
     }
 
     @Override
@@ -84,6 +96,35 @@ public class SearchView extends EditText {
     protected void onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter) {
         super.onTextChanged(text, start, lengthBefore, lengthAfter);
         setIcon();
+    }
+
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        launchQuerySearch(v, actionId);
+        return true;
+    }
+
+    protected void launchQuerySearch(TextView v, int actionId) {
+        if ((null == mOnSearchListener || !mOnSearchListener.onSearch(v, actionId))
+            && !TextUtils.isEmpty(getText())) {
+            if (isPopupShowing()) {
+                dismissDropDown();
+            }
+            hideSoftInputFromWindow(v);
+        }
+        Toast.makeText(getContext(), getText().toString(), Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * 隐藏软键盘
+     * @param targetView 用于获取token，The token of the window that is making the request,
+     * as returned by {@link View#getWindowToken() View.getWindowToken()}.
+     */
+    protected void hideSoftInputFromWindow(View targetView) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (inputMethodManager.isActive()) {
+            inputMethodManager.hideSoftInputFromWindow(targetView.getWindowToken(), 0);
+        }
     }
 
     private void setIcon() {
@@ -171,6 +212,18 @@ public class SearchView extends EditText {
             mSearchRect.set(l, t, r, b);
             mSearchIcon.setBounds(mSearchRect);
         }
+    }
+
+    public OnSearchListener getOnSearchListener() {
+        return mOnSearchListener;
+    }
+
+    public void setOnSearchListener(OnSearchListener onSearchListener) {
+        mOnSearchListener = onSearchListener;
+    }
+
+    public interface OnSearchListener {
+        boolean onSearch(TextView v, int actionId);
     }
 
 }
