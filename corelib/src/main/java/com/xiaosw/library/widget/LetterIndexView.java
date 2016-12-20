@@ -2,6 +2,7 @@ package com.xiaosw.library.widget;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -14,6 +15,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.ValueAnimator;
+import com.xiaosw.library.R;
 
 /**
  * <p><br/>ClassName : {@link LetterIndexView}
@@ -31,10 +33,15 @@ public class LetterIndexView extends View {
 
     private String TEXT_String = "#ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // index letter
 
+    /** 默认文字大小 */
+    public static final float LETTER_SIZE_DEFAULT = 30.0f;
     /** 默认文字颜色 */
     public static final int LETTER_COLOR_DEFAULT = Color.BLACK;
     /** 默认挤压文字颜色 */
     public static final int LETTER_COLOR_PRESS = Color.WHITE;
+    /** 默认文字选中背景 */
+    public static final int LETTER_COLOR_PRESS_BACKGROUD = Color.GREEN;
+
     /** 动画执行时间(ms) */
     public static final int LETTER_ANIM_RUNING_DURATION = 300;
 
@@ -52,7 +59,6 @@ public class LetterIndexView extends View {
     private float pointYAfter = pointY + distance;
     private float sinH = 0.0f; // control y
     private float baseX = 0.0f; // letter x position
-    private float textSize = 32.0f;
 
     private Paint mPaint;
     private Paint mCirclePaint;
@@ -70,27 +76,31 @@ public class LetterIndexView extends View {
     private int mDefaultTextColor;
     /** 按下文字颜色 */
     private int mPressTextColor;
+    /** 默认文字选中背景 */
+    private int mCircleColor;
+    /** 默认文字选中背景 */
+    private float mTextSize;
 
     private OnIndexChangedListener mIndexChangeListener;
 
     public LetterIndexView(Context context) {
         super(context);
-        init();
+        init(null);
     }
 
     public LetterIndexView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(attrs);
     }
 
     public LetterIndexView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        init(attrs);
     }
 
 
     public void setTextSize(float size){
-        textSize = size;
+        mTextSize = size;
         invalidate();
     }
 
@@ -101,16 +111,24 @@ public class LetterIndexView extends View {
         perHeight = (mHeight - 2 * padding) / (float) (TEXT_String.length());
     }
 
-    private void init() {
-        mDefaultTextColor = LETTER_COLOR_DEFAULT;
-        mPressTextColor = LETTER_COLOR_PRESS;
-        mPaint = new Paint();
+    private void init(AttributeSet attrs) {
+        if (null != attrs) {
+            TypedArray ta =  getContext().obtainStyledAttributes(attrs, R.styleable.LetterIndexView);
+            mDefaultTextColor = ta.getColor(R.styleable.LetterIndexView_text_color_def, LETTER_COLOR_DEFAULT);
+            mPressTextColor = ta.getColor(R.styleable.LetterIndexView_text_color_press, LETTER_COLOR_PRESS);
+            mCircleColor = ta.getColor(R.styleable.LetterIndexView_circle_color, LETTER_COLOR_PRESS_BACKGROUD);
+            mTextSize = ta.getDimension(R.styleable.LetterIndexView_text_size, LETTER_SIZE_DEFAULT);
+            ta.recycle();
+        } else {
+            mDefaultTextColor = LETTER_COLOR_DEFAULT;
+            mPressTextColor = LETTER_COLOR_PRESS;
+            mCircleColor = LETTER_COLOR_PRESS_BACKGROUD;
+            mTextSize = LETTER_SIZE_DEFAULT;
+        }
+        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setColor(mDefaultTextColor);
-        mPaint.setAntiAlias(true);
-        mPaint.setStyle(Paint.Style.FILL);
-        mPaint.setTextSize(textSize);
+        mPaint.setTextSize(mTextSize);
         mPaint.setTextAlign(Paint.Align.CENTER);
-        mPaint.setStrokeWidth(12);
         mPaint.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
         measureView(this);
         mWidth = this.getMeasuredWidth();
@@ -118,10 +136,8 @@ public class LetterIndexView extends View {
         perHeight = (mHeight - 2 * padding) / (float) (TEXT_String.length());
         this.setWillNotDraw(false);
 
-        mCirclePaint = new Paint();
-        mCirclePaint.setColor(Color.rgb(137, 205, 32));
-        mCirclePaint.setAntiAlias(true);
-        mCirclePaint.setStyle(Paint.Style.FILL);
+        mCirclePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mCirclePaint.setColor(mCircleColor);
 
         mAnimator = new ValueAnimator();
         mAnimator.setDuration(LETTER_ANIM_RUNING_DURATION);
@@ -134,7 +150,7 @@ public class LetterIndexView extends View {
                 circleR = (sinH / sinMax) * circleMax;
                 if (isAutoWidth) {
                     ViewGroup.LayoutParams params = getLayoutParams();
-                    params.width = (int) (sinH + 26.0f + textSize + circleRCurrent / 2);
+                    params.width = (int) (sinH + 26.0f + mTextSize + circleRCurrent / 2);
                     mWidth = params.width;
                     setLayoutParams(params);
                 }
@@ -192,7 +208,7 @@ public class LetterIndexView extends View {
     public void setAutoWidth(boolean isAutoWidth) {
         this.isAutoWidth = isAutoWidth;
         ViewGroup.LayoutParams params = this.getLayoutParams();
-        params.width = (int) (25.0f + textSize);
+        params.width = (int) (25.0f + mTextSize);
         this.setLayoutParams(params);
     }
 
@@ -243,8 +259,9 @@ public class LetterIndexView extends View {
 
     // draw circle that we point to
     private void drawCircle(Canvas canvas) {
-        circleRCurrent = textSize * 2 * (sinH / sinMax);
-        canvas.drawCircle(baseX - sinH, pointY, circleRCurrent, mCirclePaint);
+        circleRCurrent = mTextSize * 1.6f * (sinH / sinMax);
+        float realY = Math.min(Math.max(pointY, 0), getHeight() - getPaddingBottom());
+        canvas.drawCircle(baseX - sinH, realY, circleRCurrent, mCirclePaint);
     }
 
     private void drawSinusoid(Canvas canvas) {
@@ -265,7 +282,7 @@ public class LetterIndexView extends View {
                     trans = (float) (-sinH / 2 * (Math.sin(3.1416f
                         / (distance / 2.0f) * (realY) - 3.1416 / 2) + 1.0f));
                 }
-                mPaint.setTextSize(textSize * (-trans / sinMax + 1));
+                mPaint.setTextSize(mTextSize * (-trans / sinMax + 1));
 
                 if (Math.abs(recordY - pointY) < perHeight / 2.0f) {
                     if (mHighLightPosition != i || (mHighLightPosition == i && isCallTextChange)) {
@@ -284,7 +301,7 @@ public class LetterIndexView extends View {
                 canvas.drawText(TEXT_String, i, i + 1, baseX + trans, recordY,
                     mPaint);
             } else {
-                mPaint.setTextSize(textSize);
+                mPaint.setTextSize(mTextSize);
                 canvas.drawText(TEXT_String, i, i + 1, baseX, recordY, mPaint);
             }
         }
@@ -307,13 +324,17 @@ public class LetterIndexView extends View {
             case MotionEvent.ACTION_DOWN:
                 pointX = event.getX();
                 pointY = event.getY();
+
                 isCallTextChange = true;
                 startSinAnimator(sinH, sinMax);
                 break;
             case MotionEvent.ACTION_MOVE:
                 pointX = event.getX();
                 pointY = event.getY();
-                this.invalidate();
+                if (pointY > 0
+                    && pointY < (getHeight() - getPaddingBottom())) {
+                    invalidate();
+                }
                 break;
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP:

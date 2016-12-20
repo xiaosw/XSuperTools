@@ -2,9 +2,9 @@ package com.xiaosw.tool.activity;
 
 import android.os.Bundle;
 import android.view.MotionEvent;
+import android.widget.TextView;
 
 import com.xiaosw.library.activity.BaseAppCompatActivity;
-import com.xiaosw.library.utils.LogUtil;
 import com.xiaosw.library.widget.LetterIndexView;
 import com.xiaosw.tool.R;
 
@@ -18,6 +18,9 @@ public class LetterIndexActivity extends BaseAppCompatActivity implements
 
     @BindView(R.id.letter_index_view)
     LetterIndexView letter_index_view;
+
+    @BindView(R.id.tv_description)
+    TextView tv_description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,7 @@ public class LetterIndexActivity extends BaseAppCompatActivity implements
 
     @Override
     public void onIndexChanged(char charAt, int index) {
-        LogUtil.i(TAG, "onIndexChanged charAt = " + charAt + ", index = " + index);
+//        LogUtil.i(TAG, "onIndexChanged charAt = " + charAt + ", index = " + index);
+        tv_description.setText("index = " + index + ", letter = " + charAt);
     }
 }

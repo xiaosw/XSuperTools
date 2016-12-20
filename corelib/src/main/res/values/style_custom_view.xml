@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Base Attr -->
+    <attr name="circle_color" format="color|reference" />
+    <attr name="text_size" format="dimension|reference" />
+    <attr name="text_color_def" format="color|reference" />
+    <attr name="text_color_press" format="color|reference" />
 
     <!-- 普通对话框 -->
     <declare-styleable name="ColorTrackRadioButton">
@@ -14,6 +19,14 @@
         <attr name="progress_color" format="color|reference" />
         <attr name="default_color" format="color|reference" />
         <attr name="start_angle" format="integer|reference" />
+    </declare-styleable>
+
+    <!-- 字母指示器 -->
+    <declare-styleable name="LetterIndexView" >
+        <attr name="circle_color" />
+        <attr name="text_size" />
+        <attr name="text_color_def" />
+        <attr name="text_color_press" />
     </declare-styleable>
 
 </resources>
