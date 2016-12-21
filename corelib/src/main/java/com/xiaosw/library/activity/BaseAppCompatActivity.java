@@ -1,7 +1,10 @@
 package com.xiaosw.library.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
@@ -11,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.xiaosw.library.R;
+import com.xiaosw.library.precenter.BasePercenter;
 
 import butterknife.ButterKnife;
 
@@ -21,7 +25,92 @@ import butterknife.ButterKnife;
  * @Date 2016-10-10 19:19.
  * @Author xiaoshiwang.
  */
-public abstract class BaseAppCompatActivity extends AppCompatActivity {
+public abstract class BaseAppCompatActivity<T extends BasePercenter> extends AppCompatActivity {
+
+    T mPercenter;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        doOnCreate(savedInstanceState);
+        if (null != mPercenter) {
+            mPercenter.onCreate();
+        }
+    }
+
+    protected void doOnCreate(@Nullable Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
+        super.onCreate(savedInstanceState, persistentState);
+        doOnCreate(savedInstanceState, persistentState);
+        if (null != mPercenter) {
+            mPercenter.onCreate();
+        }
+    }
+
+    protected void doOnCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
+
+    }
+
+    @Override
+    public void onStart() {
+        if (null != mPercenter) {
+            mPercenter.onStart();
+        }
+        super.onStart();
+    }
+
+    @Override
+    protected void onRestart() {
+        if (null != mPercenter) {
+            mPercenter.onRestart();
+        }
+        super.onRestart();
+    }
+
+    @Override
+    public void onResume() {
+        if (null != mPercenter) {
+            mPercenter.onResume();
+        }
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        if (null != mPercenter) {
+            mPercenter.onPause();
+        }
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        if (null != mPercenter) {
+            mPercenter.cancel();
+            mPercenter.onStop();
+        }
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        if (null != mPercenter) {
+            mPercenter.onDestroy();
+        }
+        super.onDestroy();
+    }
+
+    public T getPercenter() {
+        return mPercenter;
+    }
+
+    public void setPercenter(T percenter) {
+        mPercenter = percenter;
+    }
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
@@ -68,7 +157,7 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
     /**
      * 使用自定义ActionBar
      */
-    public View useCustomActionBar() {
+    protected View useCustomActionBar() {
         //得到actionBar，注意我的是V7包，使用getSupportActionBar()
         ActionBar actionBar = getSupportActionBar();
         if (actionBar == null) {

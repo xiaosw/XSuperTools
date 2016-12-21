@@ -19,6 +19,8 @@ import com.xiaosw.tool.activity.TabHostViewPagerActivity;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+
 /**
  * @ClassName : {@link TabFragment}
  * @Description :
@@ -34,8 +36,10 @@ public class TabFragment extends BaseFragment implements BaseViewPager.OnTabChan
 
     private String mTitle;
 
-    private HorizontalScrollViewTabHost mHorizontalScrollViewTabHost;
-    private BaseViewPager mBaseViewPager;
+    @BindView(R.id.hsv_tab_host)
+    HorizontalScrollViewTabHost mHorizontalScrollViewTabHost;
+    @BindView(R.id.view_pager)
+    BaseViewPager mBaseViewPager;
 
     private FragmentTabHost mFragmentTabHost;
     @Override
@@ -45,15 +49,13 @@ public class TabFragment extends BaseFragment implements BaseViewPager.OnTabChan
     }
 
     @Override
-    public View createAttachView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View doCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_tab, null);
     }
 
     @Override
     public void initByAttachView(View attachView) {
         super.initByAttachView(attachView);
-        mHorizontalScrollViewTabHost = findViewById(R.id.hsv_tab_host);
-        mBaseViewPager = findViewById(R.id.view_pager);
         mHorizontalScrollViewTabHost.bindViewPager(mBaseViewPager);
         Bundle mArgs = getArguments();
         if (mArgs == null) {

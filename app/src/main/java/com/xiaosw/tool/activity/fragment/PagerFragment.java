@@ -22,7 +22,7 @@ public class PagerFragment extends BaseFragment {
     public static final String KEY_DESCRIPTION = "DESCRIPTION";
 
     @Override
-    public View createAttachView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View doCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.item_fragment_pager, null);
     }
 

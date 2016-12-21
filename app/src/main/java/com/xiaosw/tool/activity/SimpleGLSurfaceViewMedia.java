@@ -73,7 +73,7 @@ public class SimpleGLSurfaceViewMedia extends BaseAppCompatActivity implements V
         mHandler.postDelayed(mUpdateTask, DEFAULT_AUTO_SWITCH_GAP);
     }
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         if (null != mOpenGLVideoPlayerUtil) {
             mOpenGLVideoPlayerUtil.onResume();
@@ -265,7 +265,7 @@ public class SimpleGLSurfaceViewMedia extends BaseAppCompatActivity implements V
     };
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         mHandler.removeCallbacks(mUpdateTask);
         ScreenUtil.cancelFullScreen(this);
         super.onDestroy();
