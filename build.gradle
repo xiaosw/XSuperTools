@@ -40,9 +40,9 @@ def getNDKBuildCmd() {
         throw new GradleException('NDK not found! Check your environment for ANDROID_NDK or your local.properties contains ndk.dir')
     }
     if (org.gradle.internal.os.OperatingSystem.current().isWindows()) {
-        return ndkDir + '\\ndk-build.cmd'
+        return ndkDir + '/ndk-build.cmd'
     } else {
-        return ndkDir + '\\ndk-build'
+        return ndkDir + '/ndk-build'
     }
 }
 
