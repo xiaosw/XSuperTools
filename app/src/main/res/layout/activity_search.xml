@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <com.xiaosw.library.widget.SearchView
+    <com.xiaosw.library.widget.GUISearchView
         android:id="@+id/id_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -9,26 +9,26 @@ import android.widget.AdapterView;
 import com.xiaosw.library.widget.adapter.BaseRecyclerAdapter;
 
 /**
- * @ClassName : {@link BaseRecyclerView}
+ * @ClassName : {@link GUIBaseRecyclerView}
  * @Description :
  *
  * @Author xiaosw<xiaoshiwang@putao.com>
  * @Date 2016-10-11 13:13:13
  */
-public class BaseRecyclerView extends RecyclerView {
+public class GUIBaseRecyclerView extends RecyclerView {
 
     private AdapterView.OnItemClickListener mOnItemClickListener;
     private AdapterView.OnItemLongClickListener mOnItemLongClickListener;
 
-    public BaseRecyclerView(Context context) {
+    public GUIBaseRecyclerView(Context context) {
         this(context, null);
     }
 
-    public BaseRecyclerView(Context context, @Nullable AttributeSet attrs) {
+    public GUIBaseRecyclerView(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public BaseRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
+    public GUIBaseRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 

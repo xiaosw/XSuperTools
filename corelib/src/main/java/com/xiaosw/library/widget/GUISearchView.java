@@ -27,15 +27,15 @@ import android.widget.Toast;
 import com.xiaosw.library.R;
 
 /**
- * <p><br/>ClassName : {@link SearchView}
- * <br/>Description :
+ * <p><br/>ClassName : {@link GUISearchView}
+ * <br/>Description : 搜索框
  * <br/>
  * <br/>Author : xiaosw<xiaoshiwang@putao.com>
  * <br/>Create date : 2016-12-17 16:16:27</p>
  */
-public class SearchView extends AutoCompleteTextView implements TextView.OnEditorActionListener {
+public class GUISearchView extends AutoCompleteTextView implements TextView.OnEditorActionListener {
     /**
-     * @see SearchView#getClass().getSimpleName()
+     * @see GUISearchView#getClass().getSimpleName()
      */
     private static final String TAG = "xiaosw-SearchView";
 
@@ -58,22 +58,22 @@ public class SearchView extends AutoCompleteTextView implements TextView.OnEdito
 
     private OnSearchListener mOnSearchListener;
 
-    public SearchView(Context context) {
+    public GUISearchView(Context context) {
         this(context, null);
     }
 
-    public SearchView(Context context, AttributeSet attrs) {
+    public GUISearchView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initialize();
     }
 
-    public SearchView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public GUISearchView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initialize();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public SearchView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public GUISearchView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         initialize();
     }

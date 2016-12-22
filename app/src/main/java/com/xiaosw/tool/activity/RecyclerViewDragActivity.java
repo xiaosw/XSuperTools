@@ -8,7 +8,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.xiaosw.library.activity.BaseAppCompatActivity;
 import com.xiaosw.library.helper.SimpleItemTouchHelperCallback;
-import com.xiaosw.library.widget.BaseRecyclerView;
+import com.xiaosw.library.widget.GUIBaseRecyclerView;
 import com.xiaosw.library.widget.adapter.SimpleItemTouchAdapter;
 import com.xiaosw.tool.R;
 import com.xiaosw.tool.adapter.RecyclerViewDragAdapter;
@@ -24,7 +24,7 @@ public class RecyclerViewDragActivity extends BaseAppCompatActivity implements S
     private static final String TAG = "xiaosw-RecyclerViewDragActivity";
 
     @BindView(R.id.drag_recycler_view)
-    BaseRecyclerView mBaseRecyclerView;
+    GUIBaseRecyclerView mBaseRecyclerView;
 
     private RecyclerViewDragAdapter mRecyclerViewDragAdapter;
     private ItemTouchHelper mItemTouchHelper;

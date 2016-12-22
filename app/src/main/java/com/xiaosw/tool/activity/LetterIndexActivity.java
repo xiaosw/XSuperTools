@@ -5,19 +5,19 @@ import android.view.MotionEvent;
 import android.widget.TextView;
 
 import com.xiaosw.library.activity.BaseAppCompatActivity;
-import com.xiaosw.library.widget.LetterIndexView;
+import com.xiaosw.library.widget.GUILetterIndexView;
 import com.xiaosw.tool.R;
 
 import butterknife.BindView;
 
 public class LetterIndexActivity extends BaseAppCompatActivity implements
-    LetterIndexView.OnIndexChangedListener {
+    GUILetterIndexView.OnIndexChangedListener {
     
     /** @see LetterIndexActivity#getClass().getSimpleName() */
     private static final String TAG = "xiaosw-LetterIndexActivity";
 
     @BindView(R.id.letter_index_view)
-    LetterIndexView letter_index_view;
+    GUILetterIndexView letter_index_view;
 
     @BindView(R.id.tv_description)
     TextView tv_description;

@@ -14,17 +14,17 @@ import android.view.MotionEvent;
 import com.xiaosw.library.widget.adapter.AbsBannerAdapter;
 
 /**
- * <p><br/>ClassName : {@link AutoSkipViewPager}
+ * <p><br/>ClassName : {@link GUIAutoSkipViewPager}
  * <br/>Description :
  * <br/>
  * <br/>Author : xiaosw<xiaoshiwang@putao.com>
  * <br/>Create date : 2016-12-22 11:11:04</p>
  */
-public class AutoSkipViewPager extends ViewPager implements Handler.Callback,
+public class GUIAutoSkipViewPager extends ViewPager implements Handler.Callback,
     AbsBannerAdapter.OnNotifyDataSetChangedListener {
 
     /**
-     * @see AutoSkipViewPager#getClass().getSimpleName()
+     * @see GUIAutoSkipViewPager#getClass().getSimpleName()
      */
     private static final String TAG = "xiaosw-AutoSkipViewPager";
 
@@ -41,11 +41,11 @@ public class AutoSkipViewPager extends ViewPager implements Handler.Callback,
     private Handler mSkipHandler;
     private int mSkipTime;
 
-    public AutoSkipViewPager(Context context) {
+    public GUIAutoSkipViewPager(Context context) {
         this(context, null);
     }
 
-    public AutoSkipViewPager(Context context, AttributeSet attrs) {
+    public GUIAutoSkipViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
         mGestureDetectorCompat = new GestureDetectorCompat(context, mOnGestureListener);
         mSkipHandler = new Handler(Looper.getMainLooper(), this);

@@ -5,15 +5,16 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.xiaosw.library.activity.BaseAppCompatActivity;
-import com.xiaosw.library.widget.SearchView;
+import com.xiaosw.library.widget.GUISearchView;
 import com.xiaosw.tool.R;
 
 import butterknife.BindView;
 
-public class SearchActivity  extends BaseAppCompatActivity implements SearchView.OnSearchListener {
+public class SearchActivity  extends BaseAppCompatActivity implements GUISearchView.OnSearchListener {
 
     private static final String TAG = "SearchActivity";
-    @BindView(R.id.id_search) SearchView mSearchView;
+    @BindView(R.id.id_search)
+    GUISearchView mSearchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

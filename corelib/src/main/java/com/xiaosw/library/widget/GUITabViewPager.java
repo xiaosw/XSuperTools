@@ -2,6 +2,7 @@ package com.xiaosw.library.widget;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -11,28 +12,28 @@ import com.xiaosw.library.utils.LogUtil;
 
 /**
  * @ClassName : {@link GUITabViewPager}
- * @Description :
+ * @Description : 结合 {@link GUIHorizontalScrollViewTabHost}实现tab颜色渐变功能
  *
  * @Author xiaosw<xiaoshiwang@putao.com>
  * @Date 2016-10-12 20:20:26
  */
-public class GUITabViewPager extends GUIBaseViewPager implements RadioGroup.OnCheckedChangeListener {
+public class GUITabViewPager extends ViewPager implements RadioGroup.OnCheckedChangeListener {
 
-    private HorizontalScrollViewTabHost mHorizontalScrollViewTabHost;
+
+    private GUIHorizontalScrollViewTabHost mHorizontalScrollViewTabHost;
     private GestureDetector mGestureDetector;
     private OnTabChangeListener mOnTabChangeListener;
 
     public GUITabViewPager(Context context) {
-        super(context);
+        this(context, null);
     }
 
     public GUITabViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init();
     }
 
-    @Override
     void init() {
-        super.init();
         mGestureDetector = new GestureDetector(getContext(), new ViewPagerSimpleOnGestureListener());
     }
 
@@ -64,7 +65,7 @@ public class GUITabViewPager extends GUIBaseViewPager implements RadioGroup.OnCh
             ||super.onTouchEvent(ev);
     }
 
-    void bindHorizontalScrollViewTabHost(HorizontalScrollViewTabHost horizontalScrollViewTabHost) {
+    void bindHorizontalScrollViewTabHost(GUIHorizontalScrollViewTabHost horizontalScrollViewTabHost) {
         this.mHorizontalScrollViewTabHost = horizontalScrollViewTabHost;
         addOnPageChangeListener(mHorizontalScrollViewTabHost);
     }

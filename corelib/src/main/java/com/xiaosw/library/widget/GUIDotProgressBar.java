@@ -15,7 +15,7 @@ import com.xiaosw.library.R;
 
 
 /**
- * <p><br/>ClassName : {@link DotProgressBar}
+ * <p><br/>ClassName : {@link GUIDotProgressBar}
  * <br/>Description : 自定义圆形进度条
  * Simple：
  * <com.xiaosw.library.widget.DotProgressBar
@@ -37,7 +37,7 @@ import com.xiaosw.library.R;
  * <br/>Author : xiaosw<xiaoshiwang@putao.com>
  * <br/>Create date : 2016-11-14 10:10:06</p>
  */
-public class DotProgressBar extends View {
+public class GUIDotProgressBar extends View {
 
     ///////////////////////////////////////////////////////////////////////////
     // 常量部分
@@ -84,22 +84,22 @@ public class DotProgressBar extends View {
     /** 当前角度 */
     private float mAngle;
 
-    public DotProgressBar(Context context) {
+    public GUIDotProgressBar(Context context) {
         super(context);
         initialize(context, null);
     }
 
-    public DotProgressBar(Context context, AttributeSet attrs) {
+    public GUIDotProgressBar(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public DotProgressBar(Context context, AttributeSet attrs, int defStyleAttr) {
+    public GUIDotProgressBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initialize(context, attrs);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public DotProgressBar(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public GUIDotProgressBar(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         initialize(context, attrs);
     }
@@ -110,12 +110,12 @@ public class DotProgressBar extends View {
      * @param attrs 自定义属性
      */
     private void initialize(Context context, AttributeSet attrs) {
-        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.DotProgressBar);
-        mPointRadius = ta.getDimension(R.styleable.DotProgressBar_point_radius, MIN_POINT_RADIUS_PX);
-        mStrokeWidth = ta.getDimension(R.styleable.DotProgressBar_stroke_width, MIN_STROKE_WIDTH_PX);
-        mDefaultColor = ta.getColor(R.styleable.DotProgressBar_default_color, Color.parseColor("#C0C0C0"));
-        mProgressColor = ta.getColor(R.styleable.DotProgressBar_progress_color, Color.parseColor("#009f00"));
-        mStartAngle = ta.getInt(R.styleable.DotProgressBar_start_angle, -90);
+        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.GUIDotProgressBar);
+        mPointRadius = ta.getDimension(R.styleable.GUIDotProgressBar_point_radius, MIN_POINT_RADIUS_PX);
+        mStrokeWidth = ta.getDimension(R.styleable.GUIDotProgressBar_stroke_width, MIN_STROKE_WIDTH_PX);
+        mDefaultColor = ta.getColor(R.styleable.GUIDotProgressBar_default_color, Color.parseColor("#C0C0C0"));
+        mProgressColor = ta.getColor(R.styleable.GUIDotProgressBar_progress_color, Color.parseColor("#009f00"));
+        mStartAngle = ta.getInt(R.styleable.GUIDotProgressBar_start_angle, -90);
         ta.recycle();
         mMax = 100;
         mProgress = 0;

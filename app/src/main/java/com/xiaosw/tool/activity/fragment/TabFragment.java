@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import com.xiaosw.library.activity.fragment.BaseFragment;
 import com.xiaosw.library.utils.LogUtil;
 import com.xiaosw.library.widget.GUITabViewPager;
-import com.xiaosw.library.widget.ColorTrackRadioButton;
-import com.xiaosw.library.widget.HorizontalScrollViewTabHost;
+import com.xiaosw.library.widget.GUIColorTrackRadioButton;
+import com.xiaosw.library.widget.GUIHorizontalScrollViewTabHost;
 import com.xiaosw.library.widget.adapter.BaseFragmentPagerAdapter;
 import com.xiaosw.tool.R;
 import com.xiaosw.tool.activity.TabHostViewPagerActivity;
@@ -37,7 +37,7 @@ public class TabFragment extends BaseFragment implements GUITabViewPager.OnTabCh
     private String mTitle;
 
     @BindView(R.id.hsv_tab_host)
-    HorizontalScrollViewTabHost mHorizontalScrollViewTabHost;
+    GUIHorizontalScrollViewTabHost mHorizontalScrollViewTabHost;
     @BindView(R.id.view_pager)
     GUITabViewPager mBaseViewPager;
 
@@ -95,7 +95,7 @@ public class TabFragment extends BaseFragment implements GUITabViewPager.OnTabCh
     }
 
     private void addTab(int id, CharSequence title, boolean isChecked) {
-        ColorTrackRadioButton radioButton = mHorizontalScrollViewTabHost.getBasicRadioButton();
+        GUIColorTrackRadioButton radioButton = mHorizontalScrollViewTabHost.getBasicRadioButton();
         radioButton.setPadding(24, 0, 24, 0);
         radioButton.setId(id);
         radioButton.setText(title);

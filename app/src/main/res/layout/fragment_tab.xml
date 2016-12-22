@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.xiaosw.library.widget.HorizontalScrollViewTabHost
+    <com.xiaosw.library.widget.GUIHorizontalScrollViewTabHost
         android:id="@+id/hsv_tab_host"
         android:layout_width="match_parent"
         android:layout_height="60dp"

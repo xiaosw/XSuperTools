@@ -14,13 +14,13 @@ import android.widget.RadioButton;
 import com.xiaosw.library.R;
 
 /**
- * @ClassName : {@link ColorTrackRadioButton}
- * @Description :
+ * @ClassName : {@link GUIColorTrackRadioButton}
+ * @Description : 底部带指示器的RadioButton
  *
  * @Author xiaosw<xiaoshiwang@putao.com>
  * @Date 2016-10-15 17:17:50
  */
-public class ColorTrackRadioButton extends RadioButton {
+public class GUIColorTrackRadioButton extends RadioButton {
     private static final String TAG = "ColorTrackRadioButton";
     private int mTextOriginalColor = Color.BLACK;
     private int mTextChangeColor = Color.GREEN;
@@ -35,22 +35,22 @@ public class ColorTrackRadioButton extends RadioButton {
     private Paint mTextPaint;
     private float mProgress;
 
-    public ColorTrackRadioButton(Context context) {
+    public GUIColorTrackRadioButton(Context context) {
         this(context, null);
     }
 
-    public ColorTrackRadioButton(Context context, AttributeSet attrs) {
+    public GUIColorTrackRadioButton(Context context, AttributeSet attrs) {
         super(context, attrs);
         parseAttrs(attrs);
     }
 
-    public ColorTrackRadioButton(Context context, AttributeSet attrs, int defStyleAttr) {
+    public GUIColorTrackRadioButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         parseAttrs(attrs);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public ColorTrackRadioButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public GUIColorTrackRadioButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         parseAttrs(attrs);
     }
@@ -61,9 +61,9 @@ public class ColorTrackRadioButton extends RadioButton {
         if (null == attrs) {
             return;
         }
-        TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.ColorTrackRadioButton);
-        mTextOriginalColor = ta.getColor(R.styleable.ColorTrackRadioButton_text_origin_color, Color.BLACK);
-        mTextChangeColor = ta.getColor(R.styleable.ColorTrackRadioButton_text_change_color, Color.GRAY);
+        TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.GUIColorTrackRadioButton);
+        mTextOriginalColor = ta.getColor(R.styleable.GUIColorTrackRadioButton_text_origin_color, Color.BLACK);
+        mTextChangeColor = ta.getColor(R.styleable.GUIColorTrackRadioButton_text_change_color, Color.GRAY);
         ta.recycle();
     }
 

@@ -13,7 +13,7 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.xiaosw.library.activity.BaseAppCompatActivity;
-import com.xiaosw.library.widget.BaseRecyclerView;
+import com.xiaosw.library.widget.GUIBaseRecyclerView;
 import com.xiaosw.library.widget.dialog.SuperToast;
 import com.xiaosw.library.widget.divider.DividerItemDecoration;
 import com.xiaosw.tool.R;
@@ -41,7 +41,7 @@ public class FunctionListActivity extends BaseAppCompatActivity implements Adapt
     private static final String TAG = "FunctionListActivity";
 
     @BindView(R.id.recycler_view)
-    BaseRecyclerView mRecyclerView;
+    GUIBaseRecyclerView mRecyclerView;
 
     private FunctionListAdapter mFunctionListAdapter;
 

@@ -18,16 +18,16 @@ import com.nineoldandroids.animation.ValueAnimator;
 import com.xiaosw.library.R;
 
 /**
- * <p><br/>ClassName : {@link LetterIndexView}
+ * <p><br/>ClassName : {@link GUILetterIndexView}
  * <br/>Description :
  * <br/>
  * <br/>Author : xiaosw<xiaoshiwang@putao.com>
  * <br/>Create date : 2016-12-19 18:18:21</p>
  */
-public class LetterIndexView extends View {
+public class GUILetterIndexView extends View {
 
     /**
-     * @see LetterIndexView#getClass().getSimpleName()
+     * @see GUILetterIndexView#getClass().getSimpleName()
      */
     private static final String TAG = "xiaosw-LetterIndexView";
 
@@ -83,17 +83,17 @@ public class LetterIndexView extends View {
 
     private OnIndexChangedListener mIndexChangeListener;
 
-    public LetterIndexView(Context context) {
+    public GUILetterIndexView(Context context) {
         super(context);
         init(null);
     }
 
-    public LetterIndexView(Context context, AttributeSet attrs) {
+    public GUILetterIndexView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(attrs);
     }
 
-    public LetterIndexView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public GUILetterIndexView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(attrs);
     }
@@ -113,11 +113,11 @@ public class LetterIndexView extends View {
 
     private void init(AttributeSet attrs) {
         if (null != attrs) {
-            TypedArray ta =  getContext().obtainStyledAttributes(attrs, R.styleable.LetterIndexView);
-            mDefaultTextColor = ta.getColor(R.styleable.LetterIndexView_text_color_def, LETTER_COLOR_DEFAULT);
-            mPressTextColor = ta.getColor(R.styleable.LetterIndexView_text_color_press, LETTER_COLOR_PRESS);
-            mCircleColor = ta.getColor(R.styleable.LetterIndexView_circle_color, LETTER_COLOR_PRESS_BACKGROUD);
-            mTextSize = ta.getDimension(R.styleable.LetterIndexView_text_size, LETTER_SIZE_DEFAULT);
+            TypedArray ta =  getContext().obtainStyledAttributes(attrs, R.styleable.GUILetterIndexView);
+            mDefaultTextColor = ta.getColor(R.styleable.GUILetterIndexView_text_color_def, LETTER_COLOR_DEFAULT);
+            mPressTextColor = ta.getColor(R.styleable.GUILetterIndexView_text_color_press, LETTER_COLOR_PRESS);
+            mCircleColor = ta.getColor(R.styleable.GUILetterIndexView_circle_color, LETTER_COLOR_PRESS_BACKGROUD);
+            mTextSize = ta.getDimension(R.styleable.GUILetterIndexView_text_size, LETTER_SIZE_DEFAULT);
             ta.recycle();
         } else {
             mDefaultTextColor = LETTER_COLOR_DEFAULT;

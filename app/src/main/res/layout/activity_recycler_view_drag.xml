@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".activity.RecyclerViewDragActivity">
 
-    <com.xiaosw.library.widget.BaseRecyclerView
+    <com.xiaosw.library.widget.GUIBaseRecyclerView
         android:id="@+id/drag_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

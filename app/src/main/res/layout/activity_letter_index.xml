@@ -10,7 +10,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.xiaosw.tool.activity.LetterIndexActivity">
 
-    <com.xiaosw.library.widget.LetterIndexView
+    <com.xiaosw.library.widget.GUILetterIndexView
         android:id="@+id/letter_index_view"
         android:layout_width="100dp"
         android:layout_height="wrap_content"

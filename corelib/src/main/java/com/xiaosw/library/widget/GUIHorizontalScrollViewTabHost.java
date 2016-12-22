@@ -18,34 +18,34 @@ import com.xiaosw.library.R;
 import com.xiaosw.library.utils.LogUtil;
 
 /**
- * @ClassName : {@link HorizontalScrollViewTabHost}
- * @Description :
+ * @ClassName : {@link GUIHorizontalScrollViewTabHost}
+ * @Description : 字母指示器
  *
  * @Author xiaosw<xiaoshiwang@putao.com>
  * @Date 2016-10-12 20:20:32
  */
-public class HorizontalScrollViewTabHost extends HorizontalScrollView
+public class GUIHorizontalScrollViewTabHost extends HorizontalScrollView
     implements ViewPager.OnPageChangeListener {
 
     private RadioGroup mRadioGroup;
     private GUITabViewPager mViewPager;
 
-    public HorizontalScrollViewTabHost(Context context) {
+    public GUIHorizontalScrollViewTabHost(Context context) {
         this(context, null);
     }
 
-    public HorizontalScrollViewTabHost(Context context, AttributeSet attrs) {
+    public GUIHorizontalScrollViewTabHost(Context context, AttributeSet attrs) {
         super(context, attrs);
         initialized();
     }
 
-    public HorizontalScrollViewTabHost(Context context, AttributeSet attrs, int defStyleAttr) {
+    public GUIHorizontalScrollViewTabHost(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initialized();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public HorizontalScrollViewTabHost(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public GUIHorizontalScrollViewTabHost(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         initialized();
     }
@@ -64,18 +64,18 @@ public class HorizontalScrollViewTabHost extends HorizontalScrollView
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        ColorTrackRadioButton left = null;
-        ColorTrackRadioButton right = null;
+        GUIColorTrackRadioButton left = null;
+        GUIColorTrackRadioButton right = null;
         if (positionOffset > 0 && position < mRadioGroup.getChildCount() - 1) {
-            left = (ColorTrackRadioButton) mRadioGroup.getChildAt(position);
-            right = (ColorTrackRadioButton) mRadioGroup.getChildAt(position + 1);
+            left = (GUIColorTrackRadioButton) mRadioGroup.getChildAt(position);
+            right = (GUIColorTrackRadioButton) mRadioGroup.getChildAt(position + 1);
         } else if (positionOffset < 0 && position > 0) {
-            left = (ColorTrackRadioButton) mRadioGroup.getChildAt(position-1);
-            right = (ColorTrackRadioButton) mRadioGroup.getChildAt(position);
+            left = (GUIColorTrackRadioButton) mRadioGroup.getChildAt(position-1);
+            right = (GUIColorTrackRadioButton) mRadioGroup.getChildAt(position);
         }
         if (null != left) {
-            left.setClipStart(ColorTrackRadioButton.CLIP_START_BY_RIGHT);
-            right.setClipStart(ColorTrackRadioButton.CLIP_START_BY_LEFT);
+            left.setClipStart(GUIColorTrackRadioButton.CLIP_START_BY_RIGHT);
+            right.setClipStart(GUIColorTrackRadioButton.CLIP_START_BY_LEFT);
             left.setProgress(1 - positionOffset);
             right.setProgress(positionOffset);
         }
@@ -97,8 +97,8 @@ public class HorizontalScrollViewTabHost extends HorizontalScrollView
         }
     }
 
-    public ColorTrackRadioButton getBasicRadioButton() {
-        return (ColorTrackRadioButton) inflate(getContext(), R.layout.view_radio_button, null);
+    public GUIColorTrackRadioButton getBasicRadioButton() {
+        return (GUIColorTrackRadioButton) inflate(getContext(), R.layout.view_radio_button, null);
     }
 
     public void addRadioButton (RadioButton radioButton) throws IllegalArgumentException {
