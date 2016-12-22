@@ -7,8 +7,8 @@
     android:layout_height="match_parent"
     tools:context="com.xiaosw.tool.activity.BannerActivity">
 
-    <com.xiaosw.library.widget.GUIBannerViewPager
-        android:id="@+id/view_pager_banner"
+    <com.xiaosw.library.widget.GUIBannerView
+        android:id="@+id/view_banner"
         android:layout_width="match_parent"
         android:layout_height="200dp" />
 

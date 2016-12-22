@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.xiaosw.library.activity.BaseAppCompatActivity;
 import com.xiaosw.library.bean.Banner;
-import com.xiaosw.library.widget.GUIBannerViewPager;
+import com.xiaosw.library.widget.GUIBannerView;
 import com.xiaosw.tool.R;
 import com.xiaosw.tool.adapter.BannerPagerAdapter;
 
@@ -21,8 +21,8 @@ public class BannerActivity extends BaseAppCompatActivity {
                     "http://pic15.nipic.com/20110722/2912365_092519919000_2.jpg",
                     "http://pic.58pic.com/58pic/12/64/27/55U58PICrdX.jpg"};
 
-    @BindView(R.id.view_pager_banner)
-    GUIBannerViewPager view_pager_banner;
+    @BindView(R.id.view_banner)
+    GUIBannerView view_banner;
 
     private List<Banner> mData;
     private BannerPagerAdapter mBannerPagerAdapter;
@@ -37,8 +37,7 @@ public class BannerActivity extends BaseAppCompatActivity {
 
         generateData();
         mBannerPagerAdapter = new BannerPagerAdapter(this, mData);
-        mBannerPagerAdapter.addOnNotifyDataSetChangedListener(view_pager_banner);
-        view_pager_banner.setAdapter(mBannerPagerAdapter);
+        view_banner.setAdapter(mBannerPagerAdapter);
     }
 
     ///////////////////////////////////////////////////////////////////////////
