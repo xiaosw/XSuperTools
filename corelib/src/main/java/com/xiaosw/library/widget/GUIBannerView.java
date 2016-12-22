@@ -61,14 +61,21 @@ public class GUIBannerView extends RelativeLayout implements ViewPager.OnPageCha
                                                                 ViewGroup.LayoutParams.WRAP_CONTENT);
         mIndeicatorParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
         mIndeicatorParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        mIndeicatorParams.bottomMargin = 24;
         addView(mGUIPageIndeicator, mIndeicatorParams);
     }
 
     public void setAdapter(AbsBannerAdapter adapter) {
         adapter.addOnNotifyDataSetChangedListener(mGUIAutoSkipViewPager);
         mGUIAutoSkipViewPager.setAdapter(adapter);
-        mGUIPageIndeicator.setIndicatorCount(adapter.getRealCount());
-        mGUIPageIndeicator.setCurrentSelectIndicator(mGUIAutoSkipViewPager.getCurrentItem());
+        mGUIAutoSkipViewPager.setCurrentItem(adapter.getRealCount() * 1000);
+
+        int realCount = adapter.getRealCount();
+        if (realCount > 0) {
+            mGUIPageIndeicator.setIndicatorCount(adapter.getRealCount());
+            mGUIPageIndeicator.setCurrentSelectIndicator(mGUIAutoSkipViewPager.getCurrentItem());
+        }
+
     }
 
     @Override

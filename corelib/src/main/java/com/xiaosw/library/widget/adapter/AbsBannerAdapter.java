@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.xiaosw.library.bean.Banner;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +17,7 @@ import java.util.List;
  * <br/>Author : xiaosw<xiaoshiwang@putao.com>
  * <br/>Create date : 2016-12-21 19:19:02</p>
  */
-public abstract class AbsBannerAdapter<T> extends BasePagerAdapter<T> {
+public abstract class AbsBannerAdapter<T extends Banner> extends BasePagerAdapter<T> {
 
     public static final int MIN_CHACHE_SIZE = 3;
 
@@ -116,6 +118,11 @@ public abstract class AbsBannerAdapter<T> extends BasePagerAdapter<T> {
                 onNotifyDataSetChangedListener.onNotifyDataSetChanged();
             }
         }
+    }
+
+    @Override
+    public T getItemByPosition(int position) {
+        return super.getItemByPosition(position);
     }
 
     public interface OnNotifyDataSetChangedListener {

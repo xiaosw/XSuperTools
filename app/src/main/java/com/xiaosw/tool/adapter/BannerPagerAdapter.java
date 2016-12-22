@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.xiaosw.library.bean.Banner;
@@ -54,5 +55,8 @@ public class BannerPagerAdapter extends AbsBannerAdapter<Banner> {
         Glide.with(getContext())
             .load(getItemByPosition(position).getUrl())
             .into(iv_banner);
+
+        TextView tv_title = ViewHolder.getView(convertView, R.id.tv_title);
+        tv_title.setText(itemData.getTitle());
     }
 }
