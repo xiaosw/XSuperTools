@@ -8,5 +8,6 @@
     <string name="activity_recycler_view_drag">RecyclerViewDragActivity</string>
     <string name="activity_search">SearchActivity</string>
     <string name="activity_letter_index">LetterIndexActivity</string>
+    <string name="activity_banner">BannerActivity</string>
     <string name="setting">Setting</string>
 </resources>

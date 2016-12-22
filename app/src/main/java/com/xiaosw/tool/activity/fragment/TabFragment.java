@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.xiaosw.library.activity.fragment.BaseFragment;
 import com.xiaosw.library.utils.LogUtil;
-import com.xiaosw.library.widget.BaseViewPager;
+import com.xiaosw.library.widget.GUITabViewPager;
 import com.xiaosw.library.widget.ColorTrackRadioButton;
 import com.xiaosw.library.widget.HorizontalScrollViewTabHost;
 import com.xiaosw.library.widget.adapter.BaseFragmentPagerAdapter;
@@ -28,7 +28,7 @@ import butterknife.BindView;
  * @Author xiaosw<xiaoshiwang@putao.com>
  * @Date 2016-10-13 11:11:54
  */
-public class TabFragment extends BaseFragment implements BaseViewPager.OnTabChangeListener {
+public class TabFragment extends BaseFragment implements GUITabViewPager.OnTabChangeListener {
 
     private static final String TAG = "TabFragment";
     public static final String KEY_BACKGROUND_COLOR = "background_color";
@@ -39,7 +39,7 @@ public class TabFragment extends BaseFragment implements BaseViewPager.OnTabChan
     @BindView(R.id.hsv_tab_host)
     HorizontalScrollViewTabHost mHorizontalScrollViewTabHost;
     @BindView(R.id.view_pager)
-    BaseViewPager mBaseViewPager;
+    GUITabViewPager mBaseViewPager;
 
     private FragmentTabHost mFragmentTabHost;
     @Override

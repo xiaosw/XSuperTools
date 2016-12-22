@@ -2,7 +2,6 @@ package com.xiaosw.library.widget;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -11,29 +10,29 @@ import android.widget.RadioGroup;
 import com.xiaosw.library.utils.LogUtil;
 
 /**
- * @ClassName : {@link BaseViewPager}
+ * @ClassName : {@link GUITabViewPager}
  * @Description :
  *
  * @Author xiaosw<xiaoshiwang@putao.com>
  * @Date 2016-10-12 20:20:26
  */
-public class BaseViewPager extends ViewPager implements RadioGroup.OnCheckedChangeListener {
+public class GUITabViewPager extends GUIBaseViewPager implements RadioGroup.OnCheckedChangeListener {
 
     private HorizontalScrollViewTabHost mHorizontalScrollViewTabHost;
     private GestureDetector mGestureDetector;
     private OnTabChangeListener mOnTabChangeListener;
 
-    public BaseViewPager(Context context) {
+    public GUITabViewPager(Context context) {
         super(context);
-        initViewPager();
     }
 
-    public BaseViewPager(Context context, AttributeSet attrs) {
+    public GUITabViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initViewPager();
     }
 
-    void initViewPager() {
+    @Override
+    void init() {
+        super.init();
         mGestureDetector = new GestureDetector(getContext(), new ViewPagerSimpleOnGestureListener());
     }
 

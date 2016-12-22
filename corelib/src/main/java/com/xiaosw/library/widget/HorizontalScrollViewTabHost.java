@@ -28,7 +28,7 @@ public class HorizontalScrollViewTabHost extends HorizontalScrollView
     implements ViewPager.OnPageChangeListener {
 
     private RadioGroup mRadioGroup;
-    private BaseViewPager mViewPager;
+    private GUITabViewPager mViewPager;
 
     public HorizontalScrollViewTabHost(Context context) {
         this(context, null);
@@ -117,7 +117,7 @@ public class HorizontalScrollViewTabHost extends HorizontalScrollView
         ((RadioGroup) childView).addView(radioButton, params);
     }
 
-    public void bindViewPager(BaseViewPager viewPager) {
+    public void bindViewPager(GUITabViewPager viewPager) {
         this.mViewPager = viewPager;
         mRadioGroup.setOnCheckedChangeListener(mViewPager);
         mViewPager.bindHorizontalScrollViewTabHost(this);
