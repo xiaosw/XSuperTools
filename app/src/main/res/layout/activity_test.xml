@@ -4,12 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.xiaosw.tool.activity.TestActivity">
+    tools:context="com.xiaosw.tool.activity.TestActivity"
+    android:background="#EFEFF4">
 
-    <Button
-        android:layout_width="match_parent"
+    <com.xiaosw.library.widget.GUIHorizontalLetterView
+        android:id="@+id/view_horizontal_letter"
+        android:layout_width="800dp"
         android:layout_height="wrap_content"
-        android:text="Request"
-        android:onClick="request"/>
+        android:layout_centerHorizontal="true"/>
+
+    <ExpandableListView
+        android:id="@+id/expandable_list_view"
+        android:layout_width="600dp"
+        android:layout_height="match_parent"
+        android:layout_below="@id/view_horizontal_letter"
+        android:background="#E2E2E7"
+        android:groupIndicator="@null"
+        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>
