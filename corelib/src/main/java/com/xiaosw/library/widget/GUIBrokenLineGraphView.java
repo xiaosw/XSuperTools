@@ -54,7 +54,7 @@ public class GUIBrokenLineGraphView extends View {
     /** 背景线颜色 */
     private final int BACKGROUD_LINE_COLOR = Color.GRAY;
     /** 线宽 */
-    private final int LINE_WIDTH_PX = 3;
+    private final float LINE_WIDTH_PX = 6;
     /** 文字颜色 */
     private final int TEXT_COLRO = BACKGROUD_LINE_COLOR;
 
@@ -91,6 +91,7 @@ public class GUIBrokenLineGraphView extends View {
     /** 绘制这线示意图 */
     private RectF mOriginalIndicatorRectF;
     private RectF mDrawIndicatorRectF;
+    private RectF mContentRectF;
 
     private Path mPath;
     private LinearGradient mLinearGradient;
@@ -206,6 +207,10 @@ public class GUIBrokenLineGraphView extends View {
      * @param canvas
      */
     private void drawBrokenLine(Canvas canvas) {
+        if (mLinePoints.size() == 1) {
+            canvas.save(Canvas.CLIP_SAVE_FLAG);
+            canvas.clipRect(mContentRectF);
+        }
         mDrawIndicatorRectF.set(mOriginalIndicatorRectF.left,
             mOriginalIndicatorRectF.top,
             mOriginalIndicatorRectF.right,
@@ -217,10 +222,9 @@ public class GUIBrokenLineGraphView extends View {
             BrokenLineGraph brokenLineGraph = mLineDatas.get(i);
             if (i == 0 && mLineDatas.size() == 1) {
                 mContentPaint.setColor(Color.parseColor("#E0000000"));
-//                LinearGradient linearGradient = new LinearGradient(mRealWidth / 2, 0,
-//                    mRealWidth / 2, mRealHeight, Color.RED, Color.GREEN, Shader.TileMode.CLAMP);
                 mContentPaint.setShader(mLinearGradient);
                 canvas.drawPath(mPath, mContentPaint);
+                startAnim();
             }
             mContentPaint.setShader(null);
             mContentPaint.setColor(brokenLineGraph.getColor());
@@ -232,14 +236,32 @@ public class GUIBrokenLineGraphView extends View {
                 // 折线
                 canvas.drawLine(point.x, point.y, nextPoint.x, nextPoint.y, mContentPaint);
                 // 折点
-                canvas.drawCircle(point.x, point.y, LINE_WIDTH_PX * 2, mContentPaint);
+                canvas.drawCircle(point.x, point.y, LINE_WIDTH_PX * 1.6f, mContentPaint);
                 if (j == pointsSize - 2) {
-                    canvas.drawCircle(nextPoint.x, nextPoint.y, LINE_WIDTH_PX * 3, mContentPaint);
+                    canvas.drawCircle(nextPoint.x, nextPoint.y, LINE_WIDTH_PX * 2f, mContentPaint);
                 }
 
             }
         }
+        if (mLinePoints.size() == 1) {
+            canvas.restore();
+        }
     }
+
+    private void startAnim() {
+        if (mContentRectF.right <= (BACKGROUND_MARGIN + BACKGROUND_PADDING + mRealWidth)) {
+            getHandler().postDelayed(mAnimRunnable, 5);
+        }
+    }
+
+    private Runnable mAnimRunnable = new Runnable() {
+        @Override
+        public void run() {
+            float r = mContentRectF.right + 12;
+            mContentRectF.right = r;
+            invalidate();
+        }
+    };
 
     /**
      * 绘制折线图描述（如红色代表什么，蓝色代表什么）
@@ -285,10 +307,11 @@ public class GUIBrokenLineGraphView extends View {
         mBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mBackgroundPaint.setColor(Color.BLACK);
         mBackgroundPaint.setTextSize(28);
-        mBackgroundPaint.setStrokeWidth(LINE_WIDTH_PX);
+        mBackgroundPaint.setStrokeWidth(LINE_WIDTH_PX / 3);
         mTextBound = new Rect();
         mOriginalIndicatorRectF = new RectF();
         mDrawIndicatorRectF = new RectF();
+        mContentRectF = new RectF();
 
         // 保留三位小数
         mDecimalFormat = new DecimalFormat("#.000");
@@ -354,17 +377,18 @@ public class GUIBrokenLineGraphView extends View {
                 List graphDatas = lineData.getGraphDatas();
                 for (int i = 0; i < graphDatas.size(); i++) {
                     GraphData graphData = (GraphData) graphDatas.get(i);
-                    mMax = Math.max(mMax, graphData.getSize());
+                    mMax = Math.max(mMax, graphData.getSize() + 10); // +10防止最大值达到顶刻度
                 }
                 maxSpanCount = Math.max(maxSpanCount, graphDatas.size());
             }
-
             // 计算实际绘图区大小
             mBackgroundWidth = mRealWidth - BACKGROUND_MARGIN * 2 - BACKGROUND_PADDING - BACKGROUND_ARROW_LEN;
             mSclaeIntervalX = mBackgroundWidth / maxSpanCount;
 
             mBackgroundHeight = mRealHeight - BACKGROUND_MARGIN * 2 - BACKGROUND_PADDING - BACKGROUND_ARROW_LEN * 10;
             mSclaeIntervalY = mBackgroundHeight / SCALE_MARK_COUNT;
+
+            mContentRectF.set(0, 0, BACKGROUND_MARGIN + BACKGROUND_PADDING, getMeasuredHeight());
 
             // 计算数据在坐标轴中对应坐标位置
             double yScale = mBackgroundHeight / mMax;
@@ -391,14 +415,25 @@ public class GUIBrokenLineGraphView extends View {
                 List<Point> points = mLinePoints.get(0);
                 Point firstPoint = points.get(0);
                 mPath.moveTo(firstPoint.x, firstPoint.y);
-                for (int i = 1; i < points.size(); i++) {
+                // 不需要覆盖在X、Y轴
+                float strokeWidthOffset = mBackgroundPaint.getStrokeWidth() / 2;
+                int pointSize = points.size();
+                for (int i = 1; i < pointSize; i++) {
                     Point point = points.get(i);
-                    mPath.lineTo(point.x, point.y);
+                    if (i < pointSize - 1) {
+                        mPath.lineTo(point.x, point.y);
+                    } else {
+                        mPath.lineTo(point.x + strokeWidthOffset, point.y - strokeWidthOffset);
+                    }
+
                 }
                 Point lastPoint = points.get(points.size() - 1);
-                mPath.lineTo(lastPoint.x, mRealHeight - BACKGROUND_MARGIN - BACKGROUND_PADDING);
-                mPath.lineTo(BACKGROUND_MARGIN + BACKGROUND_PADDING, mRealHeight - BACKGROUND_MARGIN - BACKGROUND_PADDING);
-                mPath.lineTo(firstPoint.x, firstPoint.y);
+
+
+                mPath.lineTo(lastPoint.x + strokeWidthOffset, mRealHeight - BACKGROUND_MARGIN - BACKGROUND_PADDING - strokeWidthOffset);
+                mPath.lineTo(BACKGROUND_MARGIN + BACKGROUND_PADDING + strokeWidthOffset,
+                    mRealHeight - BACKGROUND_MARGIN - BACKGROUND_PADDING - strokeWidthOffset);
+                mPath.lineTo(firstPoint.x + strokeWidthOffset, firstPoint.y);
             }
         }
 
