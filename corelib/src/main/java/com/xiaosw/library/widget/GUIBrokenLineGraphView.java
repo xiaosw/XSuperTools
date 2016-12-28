@@ -13,6 +13,8 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.xiaosw.library.bean.BrokenLineGraph;
+import com.xiaosw.library.bean.GraphData;
 import com.xiaosw.library.utils.LogUtil;
 
 import java.text.DecimalFormat;
@@ -27,7 +29,7 @@ import java.util.List;
  * <br/>Author : xiaosw<xiaoshiwang@putao.com>
  * <br/>Create date : 2016-12-27 18:18:15</p>
  */
-public class GUIBrokenLineGraphView<T extends GUIBrokenLineGraphView.LineData> extends View {
+public class GUIBrokenLineGraphView extends View {
 
     /**
      * @see GUIBrokenLineGraphView#getClass().getSimpleName()
@@ -39,9 +41,11 @@ public class GUIBrokenLineGraphView<T extends GUIBrokenLineGraphView.LineData> e
     /** 最小高度 */
     private final int MIN_HEIGTH_PX = 800;
 
-    /** 背景边距 */
+    /** left到X轴起点的距离 */
     private final int BACKGROUND_MARGIN = 20;
+    /** X轴起点到原点的距离 */
     private final int BACKGROUND_PADDING = 120;
+    /** X、Y轴箭头长度 */
     private final int BACKGROUND_ARROW_LEN = 10;
 
     /** 背景线颜色 */
@@ -58,23 +62,32 @@ public class GUIBrokenLineGraphView<T extends GUIBrokenLineGraphView.LineData> e
     private float mRealWidth;
     /** 实际高度 */
     private float mRealHeight;
-    /** 实际高度 */
+    /** 图标绘制区宽度 */
     private float mBackgroundWidth;
+    /** 图标绘制区高度 */
     private float mBackgroundHeight;
-    private List<List<T>> mLineDatas;
+    /** 折线数据 */
+    private List<BrokenLineGraph> mLineDatas;
+    /** 根据数据计算出的坐标点 */
     private List<List<Point>> mLinePoints;
-    private List<LineDescription> mLineDescriptions;
+    /** X轴刻度(屏幕尺寸) */
     private double mSclaeIntervalX;
+    /** Y轴刻度(屏幕尺寸) */
     private double mSclaeIntervalY;
+    /** 统计图中最大值 */
     private double mMax;
+    /** 格式化数据显示 */
     private DecimalFormat mDecimalFormat;
     /** 线、点等 */
     private Paint mContentPaint;
     /** 坐标刻度 */
     private Paint mBackgroundPaint;
+    /** 存储文字尺寸相关信息 */
     private Rect mTextBound;
-    private RectF mOriginalIndiactorRectF;
-    private RectF mDrawIndiactorRectF;
+
+    /** 绘制这线示意图 */
+    private RectF mOriginalIndicatorRectF;
+    private RectF mDrawIndicatorRectF;
 
     public GUIBrokenLineGraphView(Context context) {
         super(context);
@@ -137,27 +150,29 @@ public class GUIBrokenLineGraphView<T extends GUIBrokenLineGraphView.LineData> e
         drawBrokenLine(canvas);
     }
 
+    /**
+     * 绘制折线背景相关
+     * @param canvas
+     */
     private void drawBackgroud(Canvas canvas) {
         mBackgroundPaint.setColor(BACKGROUD_LINE_COLOR);
-        // horizontal
-        // line
+        // Y轴
         float startX = BACKGROUND_MARGIN;
         float startY = mRealHeight - BACKGROUND_MARGIN - BACKGROUND_PADDING;
         float stopX = mRealWidth - BACKGROUND_MARGIN;
         float stopY = startY;
         canvas.drawLine(startX, startY, stopX, stopY, mBackgroundPaint);
-        // arrow
+        // Y轴箭头
         canvas.drawLine(stopX - BACKGROUND_ARROW_LEN, stopY - BACKGROUND_ARROW_LEN, stopX, stopY, mBackgroundPaint);
         canvas.drawLine(stopX - BACKGROUND_ARROW_LEN, stopY + BACKGROUND_ARROW_LEN, stopX, stopY, mBackgroundPaint);
 
-        // vertical
-        // line
+        // X轴
         startX = BACKGROUND_MARGIN + BACKGROUND_PADDING;
         startY = mRealHeight - BACKGROUND_MARGIN;
         stopX = startX;
         stopY = BACKGROUND_MARGIN;
         canvas.drawLine(startX, startY, stopX, stopY, mBackgroundPaint);
-        // arrow
+        // X轴箭头
         canvas.drawLine(stopX - BACKGROUND_ARROW_LEN, stopY + BACKGROUND_ARROW_LEN, stopX, stopY, mBackgroundPaint);
         canvas.drawLine(stopX + BACKGROUND_ARROW_LEN, stopY + BACKGROUND_ARROW_LEN, stopX, stopY, mBackgroundPaint);
 
@@ -185,41 +200,24 @@ public class GUIBrokenLineGraphView<T extends GUIBrokenLineGraphView.LineData> e
      * @param canvas
      */
     private void drawBrokenLine(Canvas canvas) {
-        mDrawIndiactorRectF.set(mOriginalIndiactorRectF.left,
-            mOriginalIndiactorRectF.top,
-            mOriginalIndiactorRectF.right,
-            mOriginalIndiactorRectF.bottom);
-
-        float leftOffset = 0;
-        for (int i = 0; i < mLinePoints.size(); i++) {
+        mDrawIndicatorRectF.set(mOriginalIndicatorRectF.left,
+            mOriginalIndicatorRectF.top,
+            mOriginalIndicatorRectF.right,
+            mOriginalIndicatorRectF.bottom);
+        mColorRectLeftOffset = 0;
+        for (int i = 0; i < mLinePoints.size(); i++) { // 折线数量
             List<Point> points = mLinePoints.get(i);
             int pointsSize = points.size();
-
-            LineDescription lineDescription = mLineDescriptions.get(i);
-            mContentPaint.setColor(lineDescription.getColor());
-            String description = lineDescription.getDescription();
-
+            BrokenLineGraph brokenLineGraph = mLineDatas.get(i);
+            mContentPaint.setColor(brokenLineGraph.getColor());
             // 折线图描述
-            if (!TextUtils.isEmpty(description)) {
-                int rectAndTextGap = 10;
-                float l = mDrawIndiactorRectF.left + leftOffset;
-                float t = mDrawIndiactorRectF.top;
-                float r = l + mDrawIndiactorRectF.width();
-                float b = mDrawIndiactorRectF.bottom;
-                mDrawIndiactorRectF.set(l, t, r, b);
-                canvas.drawRect(mDrawIndiactorRectF, mContentPaint);
-                mContentPaint.getTextBounds(description, 0, description.length(), mTextBound);
-
-                // 计算文字剧中
-                float textOffset = (mDrawIndiactorRectF.height() - mTextBound.height()) / 2;
-                canvas.drawText(description, mDrawIndiactorRectF.right + rectAndTextGap, mDrawIndiactorRectF.bottom - textOffset, mContentPaint);
-                leftOffset = mDrawIndiactorRectF.width() + rectAndTextGap * 2 + mTextBound.width();
-            }
-
-            for (int j = 0; j < pointsSize - 1; j++) {
+            drawLineDescription(canvas, brokenLineGraph);
+            for (int j = 0; j < pointsSize - 1; j++) { // 折线
                 Point point = points.get(j);
                 Point nextPoint = points.get(j + 1);
+                // 折线
                 canvas.drawLine(point.x, point.y, nextPoint.x, nextPoint.y, mContentPaint);
+                // 折点
                 canvas.drawCircle(point.x, point.y, LINE_WIDTH_PX * 2, mContentPaint);
                 if (j == pointsSize - 2) {
                     canvas.drawCircle(nextPoint.x, nextPoint.y, LINE_WIDTH_PX * 3, mContentPaint);
@@ -229,8 +227,41 @@ public class GUIBrokenLineGraphView<T extends GUIBrokenLineGraphView.LineData> e
 
     }
 
+    /**
+     * 绘制折线图描述（如红色代表什么，蓝色代表什么）
+     * @param canvas
+     * @param mColorRectLeftOffset
+     * @param lineDescription
+     * @return
+     */
+    private float mColorRectLeftOffset = 0;
+    private void drawLineDescription(Canvas canvas, BrokenLineGraph brokenLineGraph) {
+        String description = brokenLineGraph.getDescription();
+        if (!TextUtils.isEmpty(description)) {
+            // 颜色快
+            int rectAndTextGap = 10;
+            float l = mDrawIndicatorRectF.left + mColorRectLeftOffset;
+            float r = l + mDrawIndicatorRectF.width();
+            mDrawIndicatorRectF.left = l;
+            mDrawIndicatorRectF.right = r;
+            canvas.drawRect(mDrawIndicatorRectF, mContentPaint);
+            mContentPaint.getTextBounds(description, 0, description.length(), mTextBound);
+
+            // 色块描述
+            // 计算文字居中
+            float textOffset = (mDrawIndicatorRectF.height() - mTextBound.height()) / 2;
+            canvas.drawText(description, mDrawIndicatorRectF.right + rectAndTextGap, mDrawIndicatorRectF.bottom - textOffset, mContentPaint);
+            mColorRectLeftOffset = mDrawIndicatorRectF.width() + rectAndTextGap * 2 + mTextBound.width();
+        }
+    }
+
+    /**
+     * 初始化数据（画笔，数据等）
+     * @param context
+     * @param attrs
+     */
     private void init(Context context, AttributeSet attrs) {
-        //
+        // 折线
         mContentPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mContentPaint.setColor(Color.RED);
         mContentPaint.setTextSize(22);
@@ -242,45 +273,54 @@ public class GUIBrokenLineGraphView<T extends GUIBrokenLineGraphView.LineData> e
         mBackgroundPaint.setTextSize(28);
         mBackgroundPaint.setStrokeWidth(LINE_WIDTH_PX);
         mTextBound = new Rect();
-        mOriginalIndiactorRectF = new RectF();
-        mDrawIndiactorRectF = new RectF();
+        mOriginalIndicatorRectF = new RectF();
+        mDrawIndicatorRectF = new RectF();
 
         // 保留三位小数
         mDecimalFormat = new DecimalFormat("#.000");
 
         mLineDatas = new ArrayList<>();
         mLinePoints = new ArrayList<>();
-        mLineDescriptions = new ArrayList<>();
     }
 
-    public void setLineDatas(List<List<T>> datas, List<LineDescription> lineColors) {
+    /**
+     * 设置基础数据
+     * @param datas
+     */
+    public void setBrokenLineGraphs(List<BrokenLineGraph> datas) {
         mLineDatas.clear();
-        mLineDescriptions.clear();
         if (null != datas) {
             mLineDatas = datas;
         }
-        if (null != mLineDescriptions) {
-            mLineDescriptions = lineColors;
-        }
-        if (mLineDatas.size() != mLineDescriptions.size()) {
-            throw new IllegalArgumentException("line size is " + mLineDatas.size() + ", line color size is " + mLineDescriptions.size());
-        }
         handleData(true);
     }
 
-    public void addData(List<T> data, LineDescription lineDescription) {
-        if (null == data
-            || data.isEmpty()) {
+    /**
+     * 添加基础数据
+     * @param brokenLineGraph
+     */
+    public void addBrokenLineGraph(BrokenLineGraph brokenLineGraph) {
+        if (null == brokenLineGraph) {
             return;
         }
-        mLineDatas.add(data);
-        mLineDescriptions.add(lineDescription);
+        mLineDatas.add(brokenLineGraph);
         handleData(true);
     }
 
+    /**
+     * 添加基础数据
+     * @param datas
+     */
+    public void addBrokenLineGraphs(List<BrokenLineGraph> datas) {
+        mLineDatas.addAll(datas);
+        handleData(true);
+    }
+
+    /**
+     * 重制表格数据
+     */
     public void reset() {
         mLineDatas.clear();
-        mLineDescriptions.clear();
         handleData(true);
     }
 
@@ -293,11 +333,13 @@ public class GUIBrokenLineGraphView<T extends GUIBrokenLineGraphView.LineData> e
         if (mLineDatas != null && mLineDatas.size() > 0) {
             // 计算最大值
             int maxSpanCount = 0;
-            for (List<T> ts : mLineDatas) {
-                for (T t : ts) {
-                    mMax = Math.max(mMax, t.getSize());
+            for (BrokenLineGraph lineData : mLineDatas) {
+                List graphDatas = lineData.getGraphDatas();
+                for (int i = 0; i < graphDatas.size(); i++) {
+                    GraphData graphData = (GraphData) graphDatas.get(i);
+                    mMax = Math.max(mMax, graphData.getSize());
                 }
-                maxSpanCount = Math.max(maxSpanCount, ts.size());
+                maxSpanCount = Math.max(maxSpanCount, graphDatas.size());
             }
 
             // 计算实际绘图区大小
@@ -309,11 +351,14 @@ public class GUIBrokenLineGraphView<T extends GUIBrokenLineGraphView.LineData> e
 
             // 计算数据在坐标轴中对应坐标位置
             double yScale = mBackgroundHeight / mMax;
-            for (List<T> ts : mLineDatas) {
+
+            for (BrokenLineGraph lineData : mLineDatas) {
                 List<Point> tempPoints = new ArrayList<>();
-                for (int i = 0; i < ts.size(); i++) {
+                List graphDatas = lineData.getGraphDatas();
+                for (int i = 0; i < graphDatas.size(); i++) {
+                    GraphData grapData = (GraphData) graphDatas.get(i);
                     tempPoints.add(new Point((int) (BACKGROUND_MARGIN + BACKGROUND_PADDING + mSclaeIntervalX * i),
-                        (int) (mRealHeight - yScale * ts.get(i).getSize() - BACKGROUND_MARGIN - BACKGROUND_PADDING)));
+                        (int) (mRealHeight - yScale * grapData.getSize() - BACKGROUND_MARGIN - BACKGROUND_PADDING)));
                 }
                 mLinePoints.add(tempPoints);
             }
@@ -322,7 +367,7 @@ public class GUIBrokenLineGraphView<T extends GUIBrokenLineGraphView.LineData> e
             float t = mRealHeight - BACKGROUND_MARGIN - 40;
             float r = l + 40;
             float b = t + 40;
-            mOriginalIndiactorRectF.set(l, t, r, b);
+            mOriginalIndicatorRectF.set(l, t, r, b);
 
         }
         if (needInvalidate) {
@@ -330,48 +375,4 @@ public class GUIBrokenLineGraphView<T extends GUIBrokenLineGraphView.LineData> e
         }
     }
 
-    public static class LineData {
-        private double size;
-
-        public LineData(double size) {
-            this.size = size;
-        }
-
-        public double getSize() {
-            return size;
-        }
-
-        public void setSize(double size) {
-            this.size = size;
-        }
-    }
-
-    public static class LineDescription {
-        private int color;
-        private String description = "";
-
-        public LineDescription() {
-        }
-
-        public LineDescription(int color, String description) {
-            this.color = color;
-            this.description = description;
-        }
-
-        public int getColor() {
-            return color;
-        }
-
-        public void setColor(int color) {
-            this.color = color;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
-        }
-    }
 }
