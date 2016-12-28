@@ -7,7 +7,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.os.Build;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -25,7 +27,7 @@ import java.util.List;
  * <br/>Author : xiaosw<xiaoshiwang@putao.com>
  * <br/>Create date : 2016-12-27 18:18:15</p>
  */
-public class GUIBrokenLineGraphView<T extends GUIBrokenLineGraphView.BaseData> extends View {
+public class GUIBrokenLineGraphView<T extends GUIBrokenLineGraphView.LineData> extends View {
 
     /**
      * @see GUIBrokenLineGraphView#getClass().getSimpleName()
@@ -44,6 +46,8 @@ public class GUIBrokenLineGraphView<T extends GUIBrokenLineGraphView.BaseData> e
 
     /** 背景线颜色 */
     private final int BACKGROUD_LINE_COLOR = Color.GRAY;
+    /** 线宽 */
+    private final int LINE_WIDTH_PX = 3;
     /** 文字颜色 */
     private final int TEXT_COLRO = BACKGROUD_LINE_COLOR;
 
@@ -57,9 +61,9 @@ public class GUIBrokenLineGraphView<T extends GUIBrokenLineGraphView.BaseData> e
     /** 实际高度 */
     private float mBackgroundWidth;
     private float mBackgroundHeight;
-    private List<T> mData;
-    private List<Point> mPoints = new ArrayList<>();
-    private float mPointRadius = 6.0f;
+    private List<List<T>> mLineDatas;
+    private List<List<Point>> mLinePoints;
+    private List<LineDescription> mLineDescriptions;
     private double mSclaeIntervalX;
     private double mSclaeIntervalY;
     private double mMax;
@@ -69,6 +73,8 @@ public class GUIBrokenLineGraphView<T extends GUIBrokenLineGraphView.BaseData> e
     /** 坐标刻度 */
     private Paint mBackgroundPaint;
     private Rect mTextBound;
+    private RectF mOriginalIndiactorRectF;
+    private RectF mDrawIndiactorRectF;
 
     public GUIBrokenLineGraphView(Context context) {
         super(context);
@@ -121,7 +127,7 @@ public class GUIBrokenLineGraphView<T extends GUIBrokenLineGraphView.BaseData> e
         setMeasuredDimension(width, height);
         mRealWidth = getMeasuredWidth() - getPaddingLeft() - getPaddingRight();
         mRealHeight = getMeasuredHeight() - getPaddingTop() - getPaddingBottom();
-        handleData(mData, false);
+        handleData(false);
     }
 
     @Override
@@ -132,7 +138,6 @@ public class GUIBrokenLineGraphView<T extends GUIBrokenLineGraphView.BaseData> e
     }
 
     private void drawBackgroud(Canvas canvas) {
-
         mBackgroundPaint.setColor(BACKGROUD_LINE_COLOR);
         // horizontal
         // line
@@ -157,11 +162,12 @@ public class GUIBrokenLineGraphView<T extends GUIBrokenLineGraphView.BaseData> e
         canvas.drawLine(stopX + BACKGROUND_ARROW_LEN, stopY + BACKGROUND_ARROW_LEN, stopX, stopY, mBackgroundPaint);
 
         // 网格
-        startY = (int) (mRealHeight - BACKGROUND_MARGIN - BACKGROUND_PADDING);
+        startY = (mRealHeight - BACKGROUND_MARGIN - BACKGROUND_PADDING);
+        startX = BACKGROUND_MARGIN + BACKGROUND_PADDING;
+        stopX = mRealWidth - BACKGROUND_MARGIN - BACKGROUND_ARROW_LEN;
+        canvas.drawCircle(startX, startY, LINE_WIDTH_PX * 4, mBackgroundPaint);
         for (int i = 0; i < SCALE_MARK_COUNT; i++) {
-            startX = BACKGROUND_MARGIN + BACKGROUND_PADDING;
             startY -= mSclaeIntervalY;
-            stopX = mRealWidth - BACKGROUND_MARGIN - BACKGROUND_ARROW_LEN;
             stopY = startY;
             mBackgroundPaint.setColor(BACKGROUD_LINE_COLOR);
             canvas.drawLine(startX, startY, stopX, stopY, mBackgroundPaint);
@@ -171,6 +177,7 @@ public class GUIBrokenLineGraphView<T extends GUIBrokenLineGraphView.BaseData> e
             mBackgroundPaint.getTextBounds(text, 0, text.length(), mTextBound);
             canvas.drawText(text, startX - mTextBound.width() - 12, startY + mTextBound.height() / 2, mBackgroundPaint);
         }
+
     }
 
     /**
@@ -178,72 +185,155 @@ public class GUIBrokenLineGraphView<T extends GUIBrokenLineGraphView.BaseData> e
      * @param canvas
      */
     private void drawBrokenLine(Canvas canvas) {
-        int pointSize = mPoints.size();
-        for (int i = 0; i < pointSize - 1; i++) {
-            Point point = mPoints.get(i);
-            Point nextPoint = mPoints.get(i + 1);
-            canvas.drawLine(point.x, point.y, nextPoint.x, nextPoint.y, mContentPaint);
-            canvas.drawCircle(point.x, point.y, mPointRadius, mContentPaint);
-            if (i == pointSize - 2) {
-                canvas.drawCircle(nextPoint.x, nextPoint.y, mPointRadius, mContentPaint);
+        mDrawIndiactorRectF.set(mOriginalIndiactorRectF.left,
+            mOriginalIndiactorRectF.top,
+            mOriginalIndiactorRectF.right,
+            mOriginalIndiactorRectF.bottom);
+
+        float leftOffset = 0;
+        for (int i = 0; i < mLinePoints.size(); i++) {
+            List<Point> points = mLinePoints.get(i);
+            int pointsSize = points.size();
+
+            LineDescription lineDescription = mLineDescriptions.get(i);
+            mContentPaint.setColor(lineDescription.getColor());
+            String description = lineDescription.getDescription();
+
+            // 折线图描述
+            if (!TextUtils.isEmpty(description)) {
+                int rectAndTextGap = 10;
+                float l = mDrawIndiactorRectF.left + leftOffset;
+                float t = mDrawIndiactorRectF.top;
+                float r = l + mDrawIndiactorRectF.width();
+                float b = mDrawIndiactorRectF.bottom;
+                mDrawIndiactorRectF.set(l, t, r, b);
+                canvas.drawRect(mDrawIndiactorRectF, mContentPaint);
+                mContentPaint.getTextBounds(description, 0, description.length(), mTextBound);
+
+                // 计算文字剧中
+                float textOffset = (mDrawIndiactorRectF.height() - mTextBound.height()) / 2;
+                canvas.drawText(description, mDrawIndiactorRectF.right + rectAndTextGap, mDrawIndiactorRectF.bottom - textOffset, mContentPaint);
+                leftOffset = mDrawIndiactorRectF.width() + rectAndTextGap * 2 + mTextBound.width();
+            }
+
+            for (int j = 0; j < pointsSize - 1; j++) {
+                Point point = points.get(j);
+                Point nextPoint = points.get(j + 1);
+                canvas.drawLine(point.x, point.y, nextPoint.x, nextPoint.y, mContentPaint);
+                canvas.drawCircle(point.x, point.y, LINE_WIDTH_PX * 2, mContentPaint);
+                if (j == pointsSize - 2) {
+                    canvas.drawCircle(nextPoint.x, nextPoint.y, LINE_WIDTH_PX * 3, mContentPaint);
+                }
             }
         }
+
     }
 
     private void init(Context context, AttributeSet attrs) {
         //
         mContentPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mContentPaint.setColor(Color.RED);
+        mContentPaint.setTextSize(22);
+        mContentPaint.setStrokeWidth(LINE_WIDTH_PX);
 
         // 坐标刻度
         mBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mBackgroundPaint.setColor(Color.BLACK);
         mBackgroundPaint.setTextSize(28);
+        mBackgroundPaint.setStrokeWidth(LINE_WIDTH_PX);
         mTextBound = new Rect();
+        mOriginalIndiactorRectF = new RectF();
+        mDrawIndiactorRectF = new RectF();
 
         // 保留三位小数
         mDecimalFormat = new DecimalFormat("#.000");
+
+        mLineDatas = new ArrayList<>();
+        mLinePoints = new ArrayList<>();
+        mLineDescriptions = new ArrayList<>();
     }
 
-    public void setData(List<T> data) {
-        handleData(data, true);
+    public void setLineDatas(List<List<T>> datas, List<LineDescription> lineColors) {
+        mLineDatas.clear();
+        mLineDescriptions.clear();
+        if (null != datas) {
+            mLineDatas = datas;
+        }
+        if (null != mLineDescriptions) {
+            mLineDescriptions = lineColors;
+        }
+        if (mLineDatas.size() != mLineDescriptions.size()) {
+            throw new IllegalArgumentException("line size is " + mLineDatas.size() + ", line color size is " + mLineDescriptions.size());
+        }
+        handleData(true);
     }
 
-    private void handleData(List<T> data, boolean needInvalidate) {
-        if (data == null || data.isEmpty()) {
+    public void addData(List<T> data, LineDescription lineDescription) {
+        if (null == data
+            || data.isEmpty()) {
             return;
         }
-        this.mData = data;
-        mMax = mData.get(0).getSize();
-        for (int i = 1; i < mData.size(); i++) {
-            double temp = mData.get(i).getSize();
-            if (mMax < temp) {
-                mMax = temp;
-            }
-        }
-        mBackgroundWidth = mRealWidth - BACKGROUND_MARGIN * 2 - BACKGROUND_PADDING - BACKGROUND_ARROW_LEN;
-        mSclaeIntervalX = mBackgroundWidth / data.size();
+        mLineDatas.add(data);
+        mLineDescriptions.add(lineDescription);
+        handleData(true);
+    }
 
-        mBackgroundHeight = mRealHeight - BACKGROUND_MARGIN * 2 - BACKGROUND_PADDING - BACKGROUND_ARROW_LEN * 10;
-        mSclaeIntervalY = mBackgroundHeight / SCALE_MARK_COUNT;
+    public void reset() {
+        mLineDatas.clear();
+        mLineDescriptions.clear();
+        handleData(true);
+    }
 
-        double yScale = mBackgroundHeight / mMax;
-        mPoints.clear();
-        if (null != mData) {
-            for (int i = 0; i < mData.size(); i++) {
-                mPoints.add(new Point((int) (BACKGROUND_MARGIN + BACKGROUND_PADDING + mSclaeIntervalX * i),
-                    (int) (mRealHeight - yScale * mData.get(i).getSize() - BACKGROUND_MARGIN - BACKGROUND_PADDING)));
+    /**
+     * 根据数据计算相关坐标
+     * @param needInvalidate
+     */
+    private void handleData(boolean needInvalidate) {
+        mLinePoints.clear();
+        if (mLineDatas != null && mLineDatas.size() > 0) {
+            // 计算最大值
+            int maxSpanCount = 0;
+            for (List<T> ts : mLineDatas) {
+                for (T t : ts) {
+                    mMax = Math.max(mMax, t.getSize());
+                }
+                maxSpanCount = Math.max(maxSpanCount, ts.size());
             }
+
+            // 计算实际绘图区大小
+            mBackgroundWidth = mRealWidth - BACKGROUND_MARGIN * 2 - BACKGROUND_PADDING - BACKGROUND_ARROW_LEN;
+            mSclaeIntervalX = mBackgroundWidth / maxSpanCount;
+
+            mBackgroundHeight = mRealHeight - BACKGROUND_MARGIN * 2 - BACKGROUND_PADDING - BACKGROUND_ARROW_LEN * 10;
+            mSclaeIntervalY = mBackgroundHeight / SCALE_MARK_COUNT;
+
+            // 计算数据在坐标轴中对应坐标位置
+            double yScale = mBackgroundHeight / mMax;
+            for (List<T> ts : mLineDatas) {
+                List<Point> tempPoints = new ArrayList<>();
+                for (int i = 0; i < ts.size(); i++) {
+                    tempPoints.add(new Point((int) (BACKGROUND_MARGIN + BACKGROUND_PADDING + mSclaeIntervalX * i),
+                        (int) (mRealHeight - yScale * ts.get(i).getSize() - BACKGROUND_MARGIN - BACKGROUND_PADDING)));
+                }
+                mLinePoints.add(tempPoints);
+            }
+
+            float l = BACKGROUND_MARGIN + BACKGROUND_PADDING + 10;
+            float t = mRealHeight - BACKGROUND_MARGIN - 40;
+            float r = l + 40;
+            float b = t + 40;
+            mOriginalIndiactorRectF.set(l, t, r, b);
+
         }
         if (needInvalidate) {
             invalidate();
         }
     }
 
-    public static class BaseData {
+    public static class LineData {
         private double size;
 
-        public BaseData(double size) {
+        public LineData(double size) {
             this.size = size;
         }
 
@@ -253,6 +343,35 @@ public class GUIBrokenLineGraphView<T extends GUIBrokenLineGraphView.BaseData> e
 
         public void setSize(double size) {
             this.size = size;
+        }
+    }
+
+    public static class LineDescription {
+        private int color;
+        private String description = "";
+
+        public LineDescription() {
+        }
+
+        public LineDescription(int color, String description) {
+            this.color = color;
+            this.description = description;
+        }
+
+        public int getColor() {
+            return color;
+        }
+
+        public void setColor(int color) {
+            this.color = color;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
         }
     }
 }

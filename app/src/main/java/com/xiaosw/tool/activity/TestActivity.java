@@ -1,5 +1,6 @@
 package com.xiaosw.tool.activity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -57,7 +58,7 @@ public class TestActivity extends BaseAppCompatActivity implements GUIHorizontal
             }
         });
 
-        broken_line_graph.setData(mPointDatas);
+        broken_line_graph.setLineDatas(mPointDatas, mLineDescriptions);
     }
 
     @Override
@@ -76,7 +77,8 @@ public class TestActivity extends BaseAppCompatActivity implements GUIHorizontal
     private List<String> mGroupData;
     private Map<Integer, List<String>> mChildData;
 
-    private List<GUIBrokenLineGraphView.BaseData> mPointDatas;
+    private List<List<GUIBrokenLineGraphView.LineData>> mPointDatas;
+    private List<GUIBrokenLineGraphView.LineDescription> mLineDescriptions;
     private void generateData() {
         mGroupData = new ArrayList<String>();
         for (int i = 0; i < GUIHorizontalLetterView.LETTERS.length; i++) {
@@ -98,20 +100,59 @@ public class TestActivity extends BaseAppCompatActivity implements GUIHorizontal
         LogUtil.e(TAG, "Appaple = " + HanziToPinyin.getPinyin("Appaple", HanziToPinyin.PinyinType.FIRST_HANZI_FIRST_LETTER));
         LogUtil.e(TAG, "B啊 = " + HanziToPinyin.getPinyin("啊B"));
 
-        mPointDatas = new ArrayList<>();
-        mPointDatas.add(new GUIBrokenLineGraphView.BaseData(10));
-        mPointDatas.add(new GUIBrokenLineGraphView.BaseData(30));
-        mPointDatas.add(new GUIBrokenLineGraphView.BaseData(40));
-        mPointDatas.add(new GUIBrokenLineGraphView.BaseData(60));
-        mPointDatas.add(new GUIBrokenLineGraphView.BaseData(20));
-        mPointDatas.add(new GUIBrokenLineGraphView.BaseData(80));
-        mPointDatas.add(new GUIBrokenLineGraphView.BaseData(90));
-        mPointDatas.add(new GUIBrokenLineGraphView.BaseData(100));
-        mPointDatas.add(new GUIBrokenLineGraphView.BaseData(88));
-        mPointDatas.add(new GUIBrokenLineGraphView.BaseData(112));
-        mPointDatas.add(new GUIBrokenLineGraphView.BaseData(100));
-        mPointDatas.add(new GUIBrokenLineGraphView.BaseData(99));
-        mPointDatas.add(new GUIBrokenLineGraphView.BaseData(130));
+        mPointDatas = new ArrayList<List<GUIBrokenLineGraphView.LineData>>();
+        mLineDescriptions = new ArrayList<GUIBrokenLineGraphView.LineDescription>();
+        List<GUIBrokenLineGraphView.LineData> ponits1 = new ArrayList<>();
+        ponits1.add(new GUIBrokenLineGraphView.LineData(10));
+        ponits1.add(new GUIBrokenLineGraphView.LineData(30));
+        ponits1.add(new GUIBrokenLineGraphView.LineData(40));
+        ponits1.add(new GUIBrokenLineGraphView.LineData(60));
+        ponits1.add(new GUIBrokenLineGraphView.LineData(20));
+        ponits1.add(new GUIBrokenLineGraphView.LineData(80));
+        ponits1.add(new GUIBrokenLineGraphView.LineData(90));
+        ponits1.add(new GUIBrokenLineGraphView.LineData(100));
+        ponits1.add(new GUIBrokenLineGraphView.LineData(88));
+        ponits1.add(new GUIBrokenLineGraphView.LineData(112));
+        ponits1.add(new GUIBrokenLineGraphView.LineData(100));
+        ponits1.add(new GUIBrokenLineGraphView.LineData(99));
+        ponits1.add(new GUIBrokenLineGraphView.LineData(130));
+        mPointDatas.add(ponits1);
+        mLineDescriptions.add(new GUIBrokenLineGraphView.LineDescription(Color.RED, "一季度"));
+
+
+        List<GUIBrokenLineGraphView.LineData> ponits2 = new ArrayList<>();
+        ponits2.add(new GUIBrokenLineGraphView.LineData(90));
+        ponits2.add(new GUIBrokenLineGraphView.LineData(100));
+        ponits2.add(new GUIBrokenLineGraphView.LineData(80));
+        ponits2.add(new GUIBrokenLineGraphView.LineData(60));
+        ponits2.add(new GUIBrokenLineGraphView.LineData(50));
+        ponits2.add(new GUIBrokenLineGraphView.LineData(90));
+        ponits2.add(new GUIBrokenLineGraphView.LineData(20));
+        ponits2.add(new GUIBrokenLineGraphView.LineData(120));
+        ponits2.add(new GUIBrokenLineGraphView.LineData(99));
+        ponits2.add(new GUIBrokenLineGraphView.LineData(103));
+        ponits2.add(new GUIBrokenLineGraphView.LineData(150));
+        ponits2.add(new GUIBrokenLineGraphView.LineData(80));
+        ponits2.add(new GUIBrokenLineGraphView.LineData(100));
+        mPointDatas.add(ponits2);
+        mLineDescriptions.add(new GUIBrokenLineGraphView.LineDescription(Color.BLACK, "二季度收益"));
+
+        List<GUIBrokenLineGraphView.LineData> ponits3 = new ArrayList<>();
+        ponits3.add(new GUIBrokenLineGraphView.LineData(100));
+        ponits3.add(new GUIBrokenLineGraphView.LineData(80));
+        ponits3.add(new GUIBrokenLineGraphView.LineData(120));
+        ponits3.add(new GUIBrokenLineGraphView.LineData(90));
+        ponits3.add(new GUIBrokenLineGraphView.LineData(60));
+        ponits3.add(new GUIBrokenLineGraphView.LineData(40));
+        ponits3.add(new GUIBrokenLineGraphView.LineData(35));
+        ponits3.add(new GUIBrokenLineGraphView.LineData(70));
+        ponits3.add(new GUIBrokenLineGraphView.LineData(100));
+        ponits3.add(new GUIBrokenLineGraphView.LineData(140));
+        ponits3.add(new GUIBrokenLineGraphView.LineData(132));
+        ponits3.add(new GUIBrokenLineGraphView.LineData(150));
+        ponits3.add(new GUIBrokenLineGraphView.LineData(152));
+        mPointDatas.add(ponits3);
+        mLineDescriptions.add(new GUIBrokenLineGraphView.LineDescription(Color.BLUE, "三季度"));
     }
 
 }
