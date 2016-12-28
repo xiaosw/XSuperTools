@@ -4,10 +4,13 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.Shader;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -88,6 +91,9 @@ public class GUIBrokenLineGraphView extends View {
     /** 绘制这线示意图 */
     private RectF mOriginalIndicatorRectF;
     private RectF mDrawIndicatorRectF;
+
+    private Path mPath;
+    private LinearGradient mLinearGradient;
 
     public GUIBrokenLineGraphView(Context context) {
         super(context);
@@ -180,7 +186,7 @@ public class GUIBrokenLineGraphView extends View {
         startY = (mRealHeight - BACKGROUND_MARGIN - BACKGROUND_PADDING);
         startX = BACKGROUND_MARGIN + BACKGROUND_PADDING;
         stopX = mRealWidth - BACKGROUND_MARGIN - BACKGROUND_ARROW_LEN;
-        canvas.drawCircle(startX, startY, LINE_WIDTH_PX * 4, mBackgroundPaint);
+//        canvas.drawCircle(startX, startY, LINE_WIDTH_PX * 4, mBackgroundPaint);
         for (int i = 0; i < SCALE_MARK_COUNT; i++) {
             startY -= mSclaeIntervalY;
             stopY = startY;
@@ -209,6 +215,14 @@ public class GUIBrokenLineGraphView extends View {
             List<Point> points = mLinePoints.get(i);
             int pointsSize = points.size();
             BrokenLineGraph brokenLineGraph = mLineDatas.get(i);
+            if (i == 0 && mLineDatas.size() == 1) {
+                mContentPaint.setColor(Color.parseColor("#E0000000"));
+//                LinearGradient linearGradient = new LinearGradient(mRealWidth / 2, 0,
+//                    mRealWidth / 2, mRealHeight, Color.RED, Color.GREEN, Shader.TileMode.CLAMP);
+                mContentPaint.setShader(mLinearGradient);
+                canvas.drawPath(mPath, mContentPaint);
+            }
+            mContentPaint.setShader(null);
             mContentPaint.setColor(brokenLineGraph.getColor());
             // 折线图描述
             drawLineDescription(canvas, brokenLineGraph);
@@ -222,9 +236,9 @@ public class GUIBrokenLineGraphView extends View {
                 if (j == pointsSize - 2) {
                     canvas.drawCircle(nextPoint.x, nextPoint.y, LINE_WIDTH_PX * 3, mContentPaint);
                 }
+
             }
         }
-
     }
 
     /**
@@ -281,6 +295,8 @@ public class GUIBrokenLineGraphView extends View {
 
         mLineDatas = new ArrayList<>();
         mLinePoints = new ArrayList<>();
+
+        mPath = new Path();
     }
 
     /**
@@ -330,6 +346,7 @@ public class GUIBrokenLineGraphView extends View {
      */
     private void handleData(boolean needInvalidate) {
         mLinePoints.clear();
+        mPath.reset();
         if (mLineDatas != null && mLineDatas.size() > 0) {
             // 计算最大值
             int maxSpanCount = 0;
@@ -369,7 +386,28 @@ public class GUIBrokenLineGraphView extends View {
             float b = t + 40;
             mOriginalIndicatorRectF.set(l, t, r, b);
 
+            // 单个图标时，绘制渐变色
+            if (mLinePoints.size() == 1) {
+                List<Point> points = mLinePoints.get(0);
+                Point firstPoint = points.get(0);
+                mPath.moveTo(firstPoint.x, firstPoint.y);
+                for (int i = 1; i < points.size(); i++) {
+                    Point point = points.get(i);
+                    mPath.lineTo(point.x, point.y);
+                }
+                Point lastPoint = points.get(points.size() - 1);
+                mPath.lineTo(lastPoint.x, mRealHeight - BACKGROUND_MARGIN - BACKGROUND_PADDING);
+                mPath.lineTo(BACKGROUND_MARGIN + BACKGROUND_PADDING, mRealHeight - BACKGROUND_MARGIN - BACKGROUND_PADDING);
+                mPath.lineTo(firstPoint.x, firstPoint.y);
+            }
         }
+
+        mLinearGradient = new LinearGradient(mRealWidth / 2, 0,
+            mRealWidth / 2, mRealHeight,
+            new int[] {Color.parseColor("#CC6600"), Color.parseColor("#CCCC00")},
+            new float[] {0.2f, 1},
+            Shader.TileMode.CLAMP);
+
         if (needInvalidate) {
             invalidate();
         }

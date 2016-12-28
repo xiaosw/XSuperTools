@@ -136,7 +136,7 @@ public class TestActivity extends BaseAppCompatActivity implements GUIHorizontal
         graphData2.add(new GraphData(80));
         graphData2.add(new GraphData(100));
         brokenLineGraph2.setGraphDatas(graphData2);
-        mBrokenLineGropDatas.add(brokenLineGraph2);
+//        mBrokenLineGropDatas.add(brokenLineGraph2);
 
         BrokenLineGraph brokenLineGraph3 = new BrokenLineGraph(Color.BLUE, "三季度");
         List<GraphData> graphData3 = new ArrayList<>();
@@ -154,7 +154,7 @@ public class TestActivity extends BaseAppCompatActivity implements GUIHorizontal
         graphData3.add(new GraphData(150));
         graphData3.add(new GraphData(152));
         brokenLineGraph3.setGraphDatas(graphData3);
-        mBrokenLineGropDatas.add(brokenLineGraph3);
+//        mBrokenLineGropDatas.add(brokenLineGraph3);
     }
 
 }
