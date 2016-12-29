@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Global Attrs -->
+    <attr name="minWidht" format="dimension|reference" />
+    <attr name="minHeight" format="dimension|reference" />
+    <attr name="strokeWidth" format="dimension|reference" />
+    <attr name="circle_color" format="color|reference" />
+    <attr name="textSize" format="dimension|reference" />
+    <attr name="text_color_def" format="color|reference" />
+    <attr name="text_color_press" format="color|reference" />
+
+    <declare-styleable name="GUIBaseView">
+        <attr name="minWidht"/>
+        <attr name="minHeight"/>
+    </declare-styleable>
+
+    <declare-styleable name="GUIProgress">
+        <attr name="max" format="integer|reference"/>
+        <attr name="progress" format="integer|reference"/>
+        <attr name="line_color" format="color|reference"/>
+        <attr name="line_width" format="float|reference"/>
+        <attr name="circle_color_out" format="color|reference"/>
+        <attr name="circle_color_center" format="color|reference"/>
+        <attr name="circle_color_in" format="color|reference"/>
+        <attr name="circle_radius" format="float|reference"/>
+
+        <attr name="line_segment">
+            <flag name="left" value="1"/>
+            <flag name="top" value="100"/>
+            <flag name="right" value="1000"/>
+            <flag name="bottom" value="10000"/>
+        </attr>
+
+        <attr name="orientation">
+            <enum name="horizontal" value="0"/>
+            <enum name="vertical" value="1"/>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="GUIProgressBar">
+        <attr name="textSize" />
+        <attr name="indeterminateDuration" format="integer|reference" />
+        <attr name="strokeWidth" />
+        <attr name="defaultColor" format="color|reference" />
+        <attr name="angleOffset" format="integer|reference" />
+        <attr name="circle_mode">
+            <enum name="pie_chat" value="0" />
+            <enum name="ring" value="2" />
+        </attr>
+    </declare-styleable>
+
+    <!-- 普通对话框 -->
+    <declare-styleable name="GUIColorTrackRadioButton">
+        <attr name="text_origin_color" format="color|reference" />
+        <attr name="text_change_color" format="color|reference" />
+    </declare-styleable>
+
+    <!-- 圆形ProgressBar -->
+    <declare-styleable name="GUIDotProgressBar">
+        <attr name="point_radius" format="dimension|reference" />
+        <attr name="stroke_width" format="dimension|reference" />
+        <attr name="progress_color" format="color|reference" />
+        <attr name="default_color" format="color|reference" />
+        <attr name="start_angle" format="integer|reference" />
+    </declare-styleable>
+
+    <!-- 字母指示器 -->
+    <declare-styleable name="GUILetterIndexView" >
+        <attr name="circle_color" />
+        <attr name="textSize" />
+        <attr name="text_color_def" />
+        <attr name="text_color_press" />
+    </declare-styleable>
+</resources>

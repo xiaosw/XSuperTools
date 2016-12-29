@@ -117,7 +117,7 @@ public class GUILetterIndexView extends View {
             mDefaultTextColor = ta.getColor(R.styleable.GUILetterIndexView_text_color_def, LETTER_COLOR_DEFAULT);
             mPressTextColor = ta.getColor(R.styleable.GUILetterIndexView_text_color_press, LETTER_COLOR_PRESS);
             mCircleColor = ta.getColor(R.styleable.GUILetterIndexView_circle_color, LETTER_COLOR_PRESS_BACKGROUD);
-            mTextSize = ta.getDimension(R.styleable.GUILetterIndexView_text_size, LETTER_SIZE_DEFAULT);
+            mTextSize = ta.getDimension(R.styleable.GUILetterIndexView_textSize, LETTER_SIZE_DEFAULT);
             ta.recycle();
         } else {
             mDefaultTextColor = LETTER_COLOR_DEFAULT;
