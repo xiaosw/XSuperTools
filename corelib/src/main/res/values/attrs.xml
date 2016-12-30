@@ -60,6 +60,9 @@
         <attr name="borderWidth" format="dimension"/>
     </declare-styleable>
 
+    <declare-styleable name="GUIWin10Loading" >
+        <attr name="dotColor" format="color" />
+    </declare-styleable>
 
     <!-- 普通对话框 -->
     <declare-styleable name="GUIColorTrackRadioButton">
