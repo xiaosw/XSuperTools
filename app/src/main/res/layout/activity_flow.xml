@@ -16,10 +16,23 @@
 
     </ScrollView>
 
-    <Button
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="add"
-        android:text="Add"/>
+        android:layout_marginBottom="12dp">
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:onClick="addRadioButton"
+            android:text="Add RadioButton"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:onClick="addCheckbox"
+            android:text="Add Checkbox"/>
+    </LinearLayout>
 
 </LinearLayout>
