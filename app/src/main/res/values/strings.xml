@@ -10,5 +10,6 @@
     <string name="activity_letter_index">LetterIndexActivity</string>
     <string name="activity_banner">BannerActivity</string>
     <string name="activity_test">TestActivity</string>
+    <string name="activity_flow">FlowActivity</string>
     <string name="setting">Setting</string>
 </resources>
