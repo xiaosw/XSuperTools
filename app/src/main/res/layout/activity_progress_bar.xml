@@ -90,29 +90,48 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/row_1"
-        android:layout_marginTop="12dp">
+        android:layout_marginTop="12dp"
+        android:gravity="center_vertical">
 
         <com.xiaosw.library.widget.GUIProgressBar
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:minHeight="200dp"
-            android:minWidth="200dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:max="10000"
             android:progress="6000"
-            xiaosw:circle_mode="pie_chat"
-            xiaosw:textSize="20dp"/>
+            xiaosw:circleMode="pie_chat"
+            android:textSize="20dp"/>
 
         <com.xiaosw.library.widget.GUIProgressBar
-            android:layout_width="400dp"
-            android:layout_height="400dp"
-            android:minHeight="200dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:max="10000"
             android:progress="6000"
-            android:minWidth="200dp"
-            xiaosw:strokeWidth="10dp"
+            xiaosw:strokeWidth="8dp"
             xiaosw:angleOffset="-90"
-            xiaosw:textSize="400dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:textSize="400dp"
             xiaosw:indeterminateDuration="5000"/>
+
+        <com.xiaosw.library.widget.GUIProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="120dp"
+            android:minHeight="120dp"
+            android:max="10000"
+            android:progress="6000"
+            android:textSize="400dp"
+            xiaosw:circleMode="water_rising"/>
+
+        <com.xiaosw.library.widget.GUIProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:max="10000"
+            android:progress="3000"
+            xiaosw:angleOffset="90"
+            android:textSize="20dp"
+            android:layout_marginLeft="12dp"
+            xiaosw:circleMode="water_rising"/>
     </LinearLayout>
 
 </RelativeLayout>

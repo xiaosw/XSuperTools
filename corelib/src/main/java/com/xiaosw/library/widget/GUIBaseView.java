@@ -78,8 +78,8 @@ public abstract class GUIBaseView extends View {
             TypedArray typedArray = null;
             try {
                 typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.GUIBaseView);
-                mMinWidth = typedArray.getDimensionPixelSize(R.styleable.GUIBaseView_minHeight, mMinWidth);
-                mMinHeight = typedArray.getDimensionPixelSize(R.styleable.GUIBaseView_minHeight, mMinHeight);
+//                mMinWidth = typedArray.getDimensionPixelSize(R.styleable.GUIBaseView_minWidth, mMinWidth);
+//                mMinHeight = typedArray.getDimensionPixelSize(R.styleable.GUIBaseView_minHeight, mMinHeight);
             } catch (Exception e) {
                 LogUtil.e(TAG, e);
             } finally {

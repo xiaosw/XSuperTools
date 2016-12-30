@@ -34,7 +34,7 @@ public class GUILetterIndexView extends View {
     private String TEXT_String = "#ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // index letter
 
     /** 默认文字大小 */
-    public static final float LETTER_SIZE_DEFAULT = 30.0f;
+    public static final int LETTER_SIZE_DEFAULT = 30;
     /** 默认文字颜色 */
     public static final int LETTER_COLOR_DEFAULT = Color.BLACK;
     /** 默认挤压文字颜色 */
@@ -117,7 +117,7 @@ public class GUILetterIndexView extends View {
             mDefaultTextColor = ta.getColor(R.styleable.GUILetterIndexView_text_color_def, LETTER_COLOR_DEFAULT);
             mPressTextColor = ta.getColor(R.styleable.GUILetterIndexView_text_color_press, LETTER_COLOR_PRESS);
             mCircleColor = ta.getColor(R.styleable.GUILetterIndexView_circle_color, LETTER_COLOR_PRESS_BACKGROUD);
-            mTextSize = ta.getDimension(R.styleable.GUILetterIndexView_textSize, LETTER_SIZE_DEFAULT);
+            mTextSize = ta.getDimensionPixelSize(R.styleable.GUILetterIndexView_android_textSize, LETTER_SIZE_DEFAULT);
             ta.recycle();
         } else {
             mDefaultTextColor = LETTER_COLOR_DEFAULT;

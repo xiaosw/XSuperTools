@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Global Attrs -->
-    <attr name="minWidht" format="dimension|reference" />
-    <attr name="minHeight" format="dimension|reference" />
     <attr name="strokeWidth" format="dimension|reference" />
     <attr name="circle_color" format="color|reference" />
-    <attr name="textSize" format="dimension|reference" />
     <attr name="text_color_def" format="color|reference" />
     <attr name="text_color_press" format="color|reference" />
 
     <declare-styleable name="GUIBaseView">
-        <attr name="minWidht"/>
-        <attr name="minHeight"/>
+        <!--<attr name="minWidth"/>-->
+        <!--<attr name="minHeight"/>-->
     </declare-styleable>
 
     <declare-styleable name="GUIProgress">
@@ -38,14 +35,17 @@
     </declare-styleable>
 
     <declare-styleable name="GUIProgressBar">
-        <attr name="textSize" />
+        <attr name="android:textSize" />
         <attr name="indeterminateDuration" format="integer|reference" />
         <attr name="strokeWidth" />
+        <attr name="android:minWidth" />
+        <attr name="android:minHeight" />
         <attr name="defaultColor" format="color|reference" />
         <attr name="angleOffset" format="integer|reference" />
-        <attr name="circle_mode">
+        <attr name="circleMode">
             <enum name="pie_chat" value="0" />
             <enum name="ring" value="2" />
+            <enum name="water_rising" value="4" />
         </attr>
     </declare-styleable>
 
@@ -67,7 +67,7 @@
     <!-- 字母指示器 -->
     <declare-styleable name="GUILetterIndexView" >
         <attr name="circle_color" />
-        <attr name="textSize" />
+        <attr name="android:textSize" />
         <attr name="text_color_def" />
         <attr name="text_color_press" />
     </declare-styleable>
