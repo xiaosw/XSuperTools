@@ -14,6 +14,7 @@ import android.util.AttributeSet;
 import android.widget.ProgressBar;
 
 import com.xiaosw.library.R;
+import com.xiaosw.library.utils.LogUtil;
 
 import java.text.DecimalFormat;
 
@@ -22,8 +23,20 @@ import static com.xiaosw.library.widget.GUIProgressBar.GUIProgressBarMode.MODE_W
 
 /**
  * <p><br/>ClassName : {@link GUIProgressBar}
- * <br/>Description :
+ * <br/>Description : 自定义圆形进度条
  * <br/>
+ * * <p><strong>XML attributes</b></strong>
+ * <p>
+ * See {@link com.xiaosw.library.R.styleable#GUIProgressBar GUIProgressBar Attributes},
+ * {@link android.R.styleable#View View Attributes}
+ * </p>
+ *
+ * @attr ref com.xiaosw.library.R.styleable#GUIProgressBar_strokeWidth
+ * @attr ref com.xiaosw.library.R.styleable#GUIProgressBar_defaultColor
+ * @attr ref com.xiaosw.library.R.styleable#GUIProgressBar_progressColor
+ * @attr ref com.xiaosw.library.R.styleable#GUIProgressBar_startAngle
+ * @attr ref com.xiaosw.library.R.styleable#GUIProgressBar_circleMode
+ *
  * <br/>Author : xiaosw<xiaoshiwang@putao.com>
  * <br/>Create date : 2016-12-29 15:15:34</p>
  */
@@ -32,9 +45,10 @@ public class GUIProgressBar extends ProgressBar {
     /**
      * @see GUIProgressBar#getClass().getSimpleName()
      */
-    private static final String TAG = "xiaosw-GUIRoundProgress";
+    private static final String TAG = "xiaosw-GUIProgressBar";
 
     private final int DEFAULT_TEXT_SIZE_PX = 32;
+    private final float DEFAULT_POINT_RADIUS_SCALE = 0.3f;
     private final int DEFAULT_MIN_WIDTH_PX = 120;
     private final int DEFAULT_MIN_HEIGTH_PX = 120;
     private final DecimalFormat mDecimalFormat = new DecimalFormat("0.00");
@@ -114,25 +128,48 @@ public class GUIProgressBar extends ProgressBar {
     // attrs
     ///////////////////////////////////////////////////////////////////////////
     private int mDuration;
+    /**
+     * 圆环模式
+     * {@link GUIProgressBarMode#MODE_PIE_CHART}
+     * {@link GUIProgressBarMode#MODE_RING}
+     * {@link GUIProgressBarMode#MODE_WATER_RISING}
+     */
     private int mCircleMode;
-    private int mCircleColor;
-    private int mDefaultColor;
+    /** 当前进度颜色 */
+    private int mColorProgress;
+    /** 默认颜色 */
+    private int mColorDefault;
+    /** 圆环宽度 */
     private float mStrokeWidth;
-    int mMinWidth;
-    int mMinHeight;
-    int mTextSize;
-    private int mAngleOffset;
+    /** 使用动点 圆环时生效 */
+    private boolean mUseMovingPoinit;
+    /** 最新宽度 */
+    private int mMinWidth;
+    /** 最新高度 */
+    private int mMinHeight;
+    /** 文字大小 */
+    private int mTextSize;
+    /** 其实角度 */
+    private int mStartAngle;
 
     ///////////////////////////////////////////////////////////////////////////
     // draw
     ///////////////////////////////////////////////////////////////////////////
+    /** 绘制文字 */
     private Paint mTextPaint;
-    private Paint mCirclePaint;
+    /** 测量文字尺寸信息 */
     private Rect mTextBound;
+    /** 绘制进度相关 */
+    private Paint mCirclePaint;
+    /** 绘制水平面上升进度使用 */
     private Path mPath;
 
-    int mRecordProgress;
-    long mDelayMillis;
+    /** 记录当前进度，自动播放进度时生效 */
+    private int mRecordProgress;
+    /** 更新时间 */
+    private long mDelayMillis;
+
+    private boolean isAttachedToWindow;
 
     public GUIProgressBar(Context context) {
         this(context, null);
@@ -159,13 +196,15 @@ public class GUIProgressBar extends ProgressBar {
             final TypedArray a = context.obtainStyledAttributes(
                 attrs, R.styleable.GUIProgressBar, defStyleAttr, defStyleRes);
             mCircleMode = a.getInt(R.styleable.GUIProgressBar_circleMode, MODE_RING.value());
-            mDuration = a.getInt(R.styleable.GUIProgressBar_indeterminateDuration, mDuration);
+            mDuration = a.getInt(R.styleable.GUIProgressBar_android_indeterminateDuration, mDuration);
             mStrokeWidth = a.getDimension(R.styleable.GUIProgressBar_strokeWidth, 1.0f);
-            mAngleOffset = a.getInt(R.styleable.GUIProgressBar_angleOffset, mAngleOffset);
-            mDefaultColor = a.getColor(R.styleable.GUIProgressBar_defaultColor, Color.GRAY);
+            mStartAngle = a.getInt(R.styleable.GUIProgressBar_startAngle, mStartAngle);
+            mColorProgress = a.getColor(R.styleable.GUIProgressBar_progressColor, mColorProgress);
+            mColorDefault = a.getColor(R.styleable.GUIProgressBar_defaultColor, mColorDefault);
             mTextSize = a.getDimensionPixelSize(R.styleable.GUIProgressBar_android_textSize, mTextSize);
             mMinWidth = a.getDimensionPixelSize(R.styleable.GUIProgressBar_android_minWidth, mMinWidth);
             mMinHeight = a.getDimensionPixelSize(R.styleable.GUIProgressBar_android_minHeight, mMinHeight);
+            mUseMovingPoinit = a.getBoolean(R.styleable.GUIProgressBar_useMovingPoint, mUseMovingPoinit);
             a.recycle();
         }
 
@@ -186,12 +225,14 @@ public class GUIProgressBar extends ProgressBar {
     private void initProgressBar() {
         mDuration = 4000;
         mCircleMode = MODE_RING.value();
-        mCircleColor = Color.parseColor("#61269E");
-        mAngleOffset = 0;
+        mColorProgress = Color.parseColor("#61269E");
+        mColorDefault = Color.GRAY;
+        mStartAngle = 0;
         mDelayMillis = 10;
         mMinWidth = 0;
         mMinHeight = 0;
         mTextSize = DEFAULT_TEXT_SIZE_PX;
+        mUseMovingPoinit = false;
 
         mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mCirclePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -236,8 +277,12 @@ public class GUIProgressBar extends ProgressBar {
         }
         mWidth = getMeasuredWidth();
         mHeight = getMeasuredHeight();
-        mRealWidth = mHeight - getPaddingTop() - getPaddingBottom();
+        mRealWidth = mWidth - getPaddingTop() - getPaddingBottom();
         mRealHeight = mHeight - getPaddingLeft() - getPaddingRight();
+        if (mUseMovingPoinit) {
+            mRealWidth -= mCirclePaint.getStrokeWidth() * DEFAULT_POINT_RADIUS_SCALE * 2;
+            mRealHeight -= mCirclePaint.getStrokeWidth() * DEFAULT_POINT_RADIUS_SCALE * 2;
+        }
         mCenterX = (float) mWidth / 2;
         mCenterY = (float) getHeight() / 2;
         mCircleRadius = Math.min(mRealWidth / 2, mRealHeight / 2) - mStrokeWidth / 2;
@@ -247,21 +292,38 @@ public class GUIProgressBar extends ProgressBar {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-//        startAnim();
+        isAttachedToWindow = true;
+        startAnim();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        isAttachedToWindow = false;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
 //        super.onDraw(canvas);
         // defualt backgound
-        mCirclePaint.setColor(mDefaultColor);
+        mCirclePaint.setColor(mColorDefault);
         canvas.drawCircle(mCenterX, mCenterY, mCircleRadius, mCirclePaint);
 
-        mCirclePaint.setColor(mCircleColor);
+        mCirclePaint.setColor(mColorProgress);
         if (GUIProgressBarMode.MODE_PIE_CHART.value() == mCircleMode) { // 扇形
-            canvas.drawArc(mMaxRectF, mAngleOffset, calulateSweepAngle(), true, mCirclePaint);
+            canvas.drawArc(mMaxRectF, mStartAngle, calulateSweepAngle(), true, mCirclePaint);
         } else if (GUIProgressBarMode.MODE_RING.value() == mCircleMode) { // 圆环
-            canvas.drawArc(mMaxRectF, mAngleOffset, calulateSweepAngle(), false, mCirclePaint);
+            float sweepAngle = calulateSweepAngle();
+            // 圆环
+            canvas.drawArc(mMaxRectF, mStartAngle, sweepAngle, false, mCirclePaint);
+            // 圆点
+            if (mUseMovingPoinit) {
+                float radian = angle2Radian(mStartAngle + sweepAngle);
+                canvas.drawCircle(mCenterX + mCircleRadius * (float) Math.cos(radian),
+                    mCenterY + mCircleRadius *  (float) Math.sin(radian),
+                    mCirclePaint.getStrokeWidth() * DEFAULT_POINT_RADIUS_SCALE ,
+                    mCirclePaint);
+            }
         } else if (GUIProgressBarMode.MODE_WATER_RISING.value() == mCircleMode) { // 水位上升
             drawRisingWiterProgress(canvas);
         }
@@ -302,8 +364,8 @@ public class GUIProgressBar extends ProgressBar {
      * @param canvas
      */
     private void drawRisingWiterProgress(Canvas canvas) {
-        canvas.rotate(mAngleOffset, mCenterX, mCenterY);
-        mCirclePaint.setColor(mCircleColor);
+        canvas.rotate(mStartAngle, mCenterX, mCenterY);
+        mCirclePaint.setColor(mColorProgress);
         int percent = (getProgress() * 100 / getMax());
         float startAngle;
         float rSin = (float) (mCircleRadius * Math.sin(PERCENT_TO_ARC[percent]));
@@ -313,7 +375,7 @@ public class GUIProgressBar extends ProgressBar {
         if (percent < 50) {
             startAngle = (float) (90 - PERCENT_TO_ANGLE[percent]);
             canvas.drawArc(mMaxRectF, startAngle, (float) (PERCENT_TO_ANGLE[percent] * 2), true, mCirclePaint);
-            mCirclePaint.setColor(mDefaultColor);
+            mCirclePaint.setColor(mColorDefault);
             offsetY = mCirclePaint.getStrokeWidth();
         } else {
             startAngle = (float) (450 - PERCENT_TO_ANGLE[percent]);
@@ -329,8 +391,35 @@ public class GUIProgressBar extends ProgressBar {
         mPath.lineTo(mCenterX, mCenterY - offsetY);
         mPath.close(); // siege of triangle
         canvas.drawPath(mPath, mCirclePaint);
-        canvas.rotate(-mAngleOffset, mCenterX, mCenterY);
+        canvas.rotate(-mStartAngle, mCenterX, mCenterY);
         canvas.restore();
+    }
+
+    /**
+     * 角度转弧度
+     * @param angle
+     * @return
+     */
+    private float angle2Radian(double angle) {
+        return (float) (Math.PI / 180 * angle);
+    }
+
+    /**
+     * 弧度转角度
+     * @param radian
+     * @return
+     */
+    private float raidan2Angle(double radian) {
+        return (float) (180 / Math.PI * radian);
+    }
+
+    /**
+     * dp 2 px
+     * @param dp dpi
+     * @return px
+     */
+    private float dp2px(float dp) {
+        return getResources().getDisplayMetrics().density * dp;
     }
 
     public long getDelayMillis() {
@@ -357,18 +446,33 @@ public class GUIProgressBar extends ProgressBar {
     private Runnable mAnimTask = new Runnable() {
         @Override
         public void run() {
-            getHandler().removeCallbacks(mAnimTask);
-            int increment = Math.max((int) (getMax() * mDelayMillis / mDuration), 1);
-            if (getProgress() + increment <= mRecordProgress) {
-                setProgress(getProgress() + increment);
-                invalidate();
-                executeAnim();
-            } else {
-                setProgress(mRecordProgress);
-                invalidate();
+            if (isAttachedToWindow()) {
+                getHandler().removeCallbacks(mAnimTask);
+                int progress = (int) (getProgress() + Math.max((double) mRecordProgress * mDelayMillis / mDuration, 1));
+                if (progress <= mRecordProgress) {
+                    setProgress(progress);
+                    invalidate();
+                    executeAnim();
+                } else {
+                    setProgress(mRecordProgress);
+                    invalidate();
+                }
+            } else if (null != getHandler()) {
+                getHandler().removeCallbacks(mAnimTask);
             }
         }
     };
+
+    /**
+     * 是否绑定到window，兼容低版本
+     * @return
+     */
+    public boolean isAttachedToWindow() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            return super.isAttachedToWindow();
+        }
+        return isAttachedToWindow;
+    }
 
     /**
      * 进度条形状

@@ -99,19 +99,32 @@
             android:max="10000"
             android:progress="6000"
             xiaosw:circleMode="pie_chat"
+            xiaosw:progressColor="#f00"
             android:textSize="20dp"/>
 
         <com.xiaosw.library.widget.GUIProgressBar
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:max="10000"
-            android:progress="6000"
-            xiaosw:strokeWidth="8dp"
-            xiaosw:angleOffset="-90"
+            android:max="600"
+            android:progress="600"
+            xiaosw:strokeWidth="4dp"
+            xiaosw:startAngle="-90"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
             android:textSize="400dp"
-            xiaosw:indeterminateDuration="5000"/>
+            android:indeterminateDuration="5000" />
+
+        <com.xiaosw.library.widget.GUIProgressBar
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:max="600"
+            android:progress="600"
+            xiaosw:strokeWidth="4dp"
+            xiaosw:startAngle="-90"
+            android:layout_marginRight="12dp"
+            android:textSize="400dp"
+            xiaosw:useMovingPoint="true"
+            android:indeterminateDuration="5000" />
 
         <com.xiaosw.library.widget.GUIProgressBar
             android:layout_width="wrap_content"
@@ -128,10 +141,11 @@
             android:layout_height="wrap_content"
             android:max="10000"
             android:progress="3000"
-            xiaosw:angleOffset="90"
+            xiaosw:startAngle="90"
             android:textSize="20dp"
             android:layout_marginLeft="12dp"
             xiaosw:circleMode="water_rising"/>
+
     </LinearLayout>
 
 </RelativeLayout>
