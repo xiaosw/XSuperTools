@@ -6,26 +6,28 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.xiaosw.library.utils.LogUtil;
+import com.xiaosw.library.R;
 
 /**
  * <p><br/>ClassName : {@link GUIHorizontalLetterView}
  * <br/>Description :
  * <br/>
  * <br/>Author : xiaosw<xiaoshiwang@putao.com>
- * <br/>Create date : 2016-12-23 15:15:48</p>
+ * <br/>Create date : 2016-12-23 15:15:13</p>
  */
 public class GUIHorizontalLetterView extends View {
 
     /**
      * @see GUIHorizontalLetterView#getClass().getSimpleName()
      */
-    private static final String TAG = "xiaosw-GUIHorizontalLetterView";
+    private static final String TAG = "xiaosw-LetterView";
 
     public static final String[] LETTERS = new String[] {"A", "B", "C", "D", "E", "F", "G",
         "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
@@ -34,11 +36,12 @@ public class GUIHorizontalLetterView extends View {
     /** 最新高度 */
     private final int MIN_HEIGTH_PX = 100;
     /** 默认颜色 */
-    private final int COLOR_UNCHECKED = Color.parseColor("#0176FF");
+    private final int COLOR_UNCHECKED = Color.GRAY;
     /** 挤压/选中的文字颜色 */
-    private final int COLOR_CHECKED = Color.BLACK;
+    private final int COLOR_CHECKED = Color.WHITE;
     /** 文字大小 */
-    private final int TEXT_SIZE = 32;
+    private final int TEXT_SIZE = 42;
+    private Drawable mSelectedDrawable;
 
 
     ///////////////////////////////////////////////////////////////////////////
@@ -55,7 +58,7 @@ public class GUIHorizontalLetterView extends View {
     private int mRealHeight;
     private float mItemWidth;
 
-    private OnLatterIndexChangeListener mOnLatterIndexChangeListener;
+    private OnLetterIndexChangeListener mOnLetterIndexChangeListener;
 
     public GUIHorizontalLetterView(Context context) {
         super(context);
@@ -83,9 +86,12 @@ public class GUIHorizontalLetterView extends View {
         mTextSize = TEXT_SIZE;
         mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mTextPaint.setTextSize(mTextSize);
+        mTextPaint.setStrokeWidth(4);
 
         mTextBounds = new Rect();
         mTextPaint.getTextBounds("M", 0, 1, mTextBounds);
+
+        mSelectedDrawable = getContext().getResources().getDrawable(R.mipmap.ic_letter_selected);
     }
 
     @Override
@@ -99,7 +105,6 @@ public class GUIHorizontalLetterView extends View {
         switch (widthMode) {
             case MeasureSpec.AT_MOST:
             case MeasureSpec.UNSPECIFIED:
-                LogUtil.e(TAG, "" + (MeasureSpec.AT_MOST == widthMode) + ", " + (MeasureSpec.UNSPECIFIED == widthMode));
                 width = MIN_WIDTH_PX;
                 break;
 
@@ -124,19 +129,20 @@ public class GUIHorizontalLetterView extends View {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-        if (null != mOnLatterIndexChangeListener) {
-            mOnLatterIndexChangeListener.onTouch(event);
+        if (null != mOnLetterIndexChangeListener) {
+            mOnLetterIndexChangeListener.onTouch(event);
         }
         float x = event.getX();
         for (int i = 0; i < LETTERS.length; i++) {
             if (x > mItemWidth * i
                 && x < mItemWidth * (i + 1)
                 && mLastSelectedIndex != i) {
+                if (null != mOnLetterIndexChangeListener
+                    && !mOnLetterIndexChangeListener.onLetterChanged(LETTERS[i], i)) {
+                    return true; // 没有该letter对应下标
+                }
                 mLastSelectedIndex = i;
                 invalidate();
-                if (null != mOnLatterIndexChangeListener) {
-                    mOnLatterIndexChangeListener.onLetterChanged(LETTERS[mLastSelectedIndex], mLastSelectedIndex);
-                }
             }
         }
         return true;
@@ -156,25 +162,71 @@ public class GUIHorizontalLetterView extends View {
         int size = LETTERS.length;
         for (int i = 0; i < size; i++) {
             if (i == mLastSelectedIndex) {
+                mTextPaint.setTextSize(TEXT_SIZE + 12);
                 mTextPaint.setColor(mCheckedColor);
             } else {
+                mTextPaint.setTextSize(TEXT_SIZE);
                 mTextPaint.setColor(mUnCheckedColor);
             }
             String letter = LETTERS[i];
-            float x = mItemWidth * i + (mItemWidth - mTextBounds.width()) / 2;
-            float y = (mRealHeight + mTextBounds.height()) / 2;
-            canvas.drawText(letter, x, y, mTextPaint);
+            mTextPaint.getTextBounds(letter, 0, 1, mTextBounds);
+            float x = mItemWidth * i + mItemWidth / 2;
+            float y = getMeasuredHeight()  / 2;
+
+            if (i == mLastSelectedIndex) {
+                int l = (int) x - 30;
+                int t = (int) y - 36;
+                int r = (int) x + 30;
+                int b = (int) y + 44;
+                mSelectedDrawable.setBounds(l, t, r, b);
+                mSelectedDrawable.draw(canvas);
+            }
+            canvas.drawText(letter, x - (mTextBounds.left + mTextBounds.right) / 2, y - (mTextBounds.top + mTextBounds.bottom) / 2, mTextPaint);
+//            canvas.drawLine(mItemWidth * i + mItemWidth / 2, 0, mItemWidth * i  + mItemWidth / 2, getMeasuredHeight(), mTextPaint);
+//            canvas.drawLine(mItemWidth * i, getMeasuredHeight() / 2, mItemWidth * i + mItemWidth, getMeasuredHeight() / 2, mTextPaint);
         }
     }
 
-    public void setOnLatterIndexChangeListener(OnLatterIndexChangeListener listener) {
-        mOnLatterIndexChangeListener = listener;
+    public void setOnLetterIndexChangeListener(OnLetterIndexChangeListener listener) {
+        mOnLetterIndexChangeListener = listener;
+    }
+
+    /**
+     * 设定当前选中字母
+     * @param selectedIndex
+     */
+    public void setSelectedIndex(int selectedIndex) {
+        if (selectedIndex >= 0 &&
+            selectedIndex < LETTERS.length) {
+            mLastSelectedIndex = selectedIndex;
+            invalidate();
+        } else {
+            Log.w(TAG, "selectedIndex = " + selectedIndex + ", maxLen = " + LETTERS.length + ", IndexOutOfBoundsException!!!");
+        }
+
+    }
+
+    /**
+     * 设定当前选中字母
+     * @see GUIHorizontalLetterView#LETTERS
+     * @param letter
+     */
+    public void setSelectedIndexByLetter(String letter) {
+        int len = LETTERS.length;
+        for (int i = 0; i < len; i++) {
+            String str = LETTERS[i];
+            if (str.equalsIgnoreCase(letter)) {
+                mLastSelectedIndex = i;
+                invalidate();
+                break;
+            }
+        }
     }
 
     /**
      * 字母切换监听
      */
-    public interface OnLatterIndexChangeListener {
+    public interface OnLetterIndexChangeListener {
 
         /**
          * @see GUIHorizontalLetterView#dispatchTouchEvent(MotionEvent)
@@ -187,7 +239,8 @@ public class GUIHorizontalLetterView extends View {
          * @param letter 当前字母
          * @param position 当前下标
          */
-        void onLetterChanged(String letter, int position);
+        boolean onLetterChanged(String letter, int position);
 
     }
+
 }

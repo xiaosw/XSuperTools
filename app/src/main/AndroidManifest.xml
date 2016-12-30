@@ -94,7 +94,8 @@
                 <category android:name="android.intent.category.SAMPLE_CODE"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.BannerActivity"
+        <activity
+            android:name=".activity.BannerActivity"
             android:label="@string/activity_banner">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -102,8 +103,8 @@
                 <category android:name="android.intent.category.SAMPLE_CODE"/>
             </intent-filter>
         </activity>
-
-        <activity android:name=".activity.TestActivity"
+        <activity
+            android:name=".activity.SimpleExpandableListViewActivity"
             android:label="@string/activity_test">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -111,9 +112,17 @@
                 <category android:name="android.intent.category.SAMPLE_CODE"/>
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activity.FlowActivity"
+            android:label="@string/activity_flow">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
-        <activity android:name=".activity.FlowActivity"
-                  android:label="@string/activity_flow">
+                <category android:name="android.intent.category.SAMPLE_CODE"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.BrokenLineGraphActivity"
+            android:label="@string/activity_broken_line_graph">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

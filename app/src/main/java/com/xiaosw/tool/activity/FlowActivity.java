@@ -53,7 +53,7 @@ public class FlowActivity extends BaseAppCompatActivity {
 
     private RadioButton generateRadioButton() {
         RadioButton radioButton = (RadioButton) LayoutInflater.from(this).inflate(R.layout.view_radio_button_flow, null);
-        radioButton.setText(new Random().nextLong() + "");
+        radioButton.setText(new Random().nextInt() + "");
         return radioButton;
     }
 }

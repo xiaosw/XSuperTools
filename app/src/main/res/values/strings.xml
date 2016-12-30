@@ -9,7 +9,8 @@
     <string name="activity_search">SearchActivity</string>
     <string name="activity_letter_index">LetterIndexActivity</string>
     <string name="activity_banner">BannerActivity</string>
-    <string name="activity_test">TestActivity</string>
+    <string name="activity_test">SimpleExpandableListViewActivity</string>
     <string name="activity_flow">FlowActivity</string>
+    <string name="activity_broken_line_graph">BrokenLineGraphActivity</string>
     <string name="setting">Setting</string>
 </resources>

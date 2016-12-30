@@ -10,4 +10,4 @@
     android:paddingRight="12dp"
     android:paddingTop="6dp"
     android:paddingBottom="6dp"
-    android:background="@drawable/selector_drawable_button_white"/>
+    android:background="@drawable/selector_drawable_radio_button_white"/>
