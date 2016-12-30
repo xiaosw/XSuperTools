@@ -9,4 +9,7 @@
 
     <string name="str_ok">Ok</string>
     <string name="str_cancel">Cancel</string>
+    <string name="str_downloading">Download:%1$s</string>
+    <string name="str_download_pause">Continue</string>
+    <string name="str_download_success">Download Success</string>
 </resources>

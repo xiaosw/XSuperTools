@@ -52,6 +52,15 @@
         </attr>
     </declare-styleable>
 
+    <declare-styleable name="GUIFlikerProgressBar">
+        <attr name="android:textSize" />
+        <attr name="loadingColor" format="color"/>
+        <attr name="stopColor" format="color"/>
+        <attr name="android:radius" />
+        <attr name="borderWidth" format="dimension"/>
+    </declare-styleable>
+
+
     <!-- 普通对话框 -->
     <declare-styleable name="GUIColorTrackRadioButton">
         <attr name="text_origin_color" format="color|reference" />
