@@ -46,26 +46,26 @@ def getNDKBuildCmd() {
     }
 }
 
-subprojects {
-
-    task printProjectName << {
-        println prjectName =  rootProject.name
-    }
-
-    task NDKBuildDebug(type: Exec) {
-        commandLine getNDKBuildCmd(), 'V=0', '-j10', 'NDK_DEBUG=1'
-    }
-
-    task NDKBuildRelease(type: Exec) {
-        commandLine getNDKBuildCmd(), 'V=0', '-j10', 'NDK_DEBUG=0'
-    }
-
-    task NDKBuildClean(type: Exec) {
-        println("ndk commond = " + getNDKBuildCmd())
-        commandLine getNDKBuildCmd(), 'clean'
-    }
-
-}
+//subprojects {
+//
+//    task printProjectName << {
+//        println prjectName =  rootProject.name
+//    }
+//
+//    task NDKBuildDebug(type: Exec) {
+//        commandLine getNDKBuildCmd(), 'V=0', '-j10', 'NDK_DEBUG=1'
+//    }
+//
+//    task NDKBuildRelease(type: Exec) {
+//        commandLine getNDKBuildCmd(), 'V=0', '-j10', 'NDK_DEBUG=0'
+//    }
+//
+//    task NDKBuildClean(type: Exec) {
+//        println("ndk commond = " + getNDKBuildCmd())
+//        commandLine getNDKBuildCmd(), 'clean'
+//    }
+//
+//}
 
 task clean(type: Delete) {
     delete rootProject.buildDir

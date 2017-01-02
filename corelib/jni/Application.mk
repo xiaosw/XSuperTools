@@ -7,7 +7,7 @@ APP_PLATFORM := android-23
 # This needs to be defined to avoid compile errors like:
 # Error: selected processor does not support ARM mode `ldrex r0,[r3]'
 # APP_ABI := armeabi, armeabi-v7a, mips, x86
-APP_ABI := armeabi
+APP_ABI := armeabi, x86
 
 # Statically link the GNU STL. This may not be safe for multi-so libraries but
 # we don't know of any problems yet.

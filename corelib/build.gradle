@@ -39,10 +39,11 @@ greendao {
 
 project.afterEvaluate {
     printf("===============start ndk build======================\n")
-    compileDebugNdk.dependsOn 'NDKBuildDebug'
-    compileReleaseNdk.dependsOn 'NDKBuildRelease'
-    clean.dependsOn 'NDKBuildClean'
-
+//    compileDebugNdk.dependsOn 'NDKBuildDebug'
+//    compileReleaseNdk.dependsOn 'NDKBuildRelease'
+//    clean.dependsOn 'NDKBuildClean'
+    compileDebugNdk.dependsOn "buildJniByDebugTask"
+    compileReleaseNdk.dependsOn "buildJniByReleaseTask"
 }
 
 dependencies {
@@ -81,6 +82,29 @@ task javadoc(type: Javadoc) {
 task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier = 'javadoc'
     from javadoc.destinationDir
+}
+
+// build jni
+// debug
+task buildJniByDebugTask(type:Exec) {
+    def buildCmd = getNDKBuildCmd()
+    commandLine buildCmd,
+            'V=0',
+            '-j10',
+            'NDK_DEBUG=1',
+            "NDK_OUT=$buildDir/ndk/",
+            "NDK_APP_DST_DIR=$projectDir/src/main/libs/\$(TARGET_ARCH_ABI)"
+}
+
+// release
+task buildJniByReleaseTask(type:Exec) {
+    def buildCmd = getNDKBuildCmd()
+    commandLine buildCmd,
+            'V=0',
+            '-j10',
+            'NDK_DEBUG=0',
+            "NDK_OUT=$buildDir/ndk/",
+            "NDK_APP_DST_DIR=$projectDir/src/main/libs/\$(TARGET_ARCH_ABI)"
 }
 
 artifacts {
