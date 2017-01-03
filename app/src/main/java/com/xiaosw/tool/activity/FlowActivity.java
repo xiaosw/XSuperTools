@@ -10,6 +10,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.xiaosw.library.activity.BaseAppCompatActivity;
+import com.xiaosw.library.utils.CompatToast;
 import com.xiaosw.library.widget.GUIFlowRadioGroup;
 import com.xiaosw.tool.R;
 
@@ -76,6 +77,12 @@ public class FlowActivity extends BaseAppCompatActivity {
         RadioButton radioButton = (RadioButton) LayoutInflater.from(this).inflate(R.layout.view_radio_button_flow, null);
         radioButton.setText(new Random().nextInt() + "");
         radioButton.setChecked(true);
+        radioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CompatToast.makeText(FlowActivity.this, ((RadioButton) v).getText(), CompatToast.LENGTH_SHORT).show();
+            }
+        });
         id++;
         return radioButton;
     }
