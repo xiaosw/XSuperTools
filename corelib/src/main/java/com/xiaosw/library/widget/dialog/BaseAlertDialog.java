@@ -8,13 +8,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.Gravity;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.xiaosw.library.R;
 import com.xiaosw.library.controll.AlertControll;
 import com.xiaosw.library.controll.AlertWindowControll;
-import com.xiaosw.library.utils.LogUtil;
 import com.xiaosw.library.utils.ScreenUtil;
 
 /**
@@ -36,23 +36,22 @@ public class BaseAlertDialog extends AlertDialog {
 
     protected BaseAlertDialog(Context context, int themeResId) {
         super(context, themeResId);
-        initialize();
+        initialize(context);
     }
 
     protected BaseAlertDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
-        initialize();
+        initialize(context);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAlertControll.installContent();
-        LogUtil.e(TAG, TAG + " onCreate()");
     }
 
-    void initialize() {
-        mAlertControll = new AlertControll(getContext(), this, getWindow());
+    private void initialize(Context context) {
+        mAlertControll = new AlertControll(context, this, getWindow());
     }
 
     WindowManager.LayoutParams initWindowParams() {
@@ -74,12 +73,6 @@ public class BaseAlertDialog extends AlertDialog {
     }
 
     @Override
-    public void create() {
-        super.create();
-        LogUtil.e(TAG, TAG + " create()");
-    }
-
-    @Override
     public void show() {
         super.show();
         AlertWindowControll.INSTANCE.show(this);
@@ -89,6 +82,16 @@ public class BaseAlertDialog extends AlertDialog {
     public void dismiss() {
         super.dismiss();
         AlertWindowControll.INSTANCE.dissmiss(this);
+    }
+
+    @Override
+    public void setView(View view) {
+        mAlertControll.setView(view);
+    }
+
+    @Override
+    public void setView(View view, int viewSpacingLeft, int viewSpacingTop, int viewSpacingRight, int viewSpacingBottom) {
+        mAlertControll.setView(view, viewSpacingLeft, viewSpacingTop, viewSpacingRight, viewSpacingBottom);
     }
 
     @Override
@@ -173,20 +176,26 @@ public class BaseAlertDialog extends AlertDialog {
         mAlertControll.setPositiveButtonBackgroudDrawable(drawableId);
     }
 
-    public static class Builder extends AlertDialog.Builder {
+    public static class Builder<T extends BaseAlertDialog> extends AlertDialog.Builder {
 
         private final AlertControll.AlertParams P;
-        private BaseAlertDialog mBaseAlertDialog;
+        private T mBaseAlertDialog;
 
         public Builder(Context context) {
             super(context);
             P = new AlertControll.AlertParams(context);
+            mBaseAlertDialog = generateDialog(context);
         }
 
         @TargetApi(Build.VERSION_CODES.HONEYCOMB)
         public Builder(Context context, int themeResId) {
             super(context, themeResId);
             P = new AlertControll.AlertParams(context);
+            mBaseAlertDialog = generateDialog(context);
+        }
+
+        T generateDialog(Context context) {
+            return null;
         }
 
         @Override
@@ -254,6 +263,17 @@ public class BaseAlertDialog extends AlertDialog {
         }
 
         @Override
+        public Builder setView(int layoutResId) {
+            return setView(P.mInflater.inflate(layoutResId, null));
+        }
+
+        @Override
+        public Builder setView(View view) {
+            P.mView = view;
+            return this;
+        }
+
+        @Override
         public Builder setOnDismissListener(OnDismissListener onDismissListener) {
             P.mOnDismissListener = onDismissListener;
             return this;
@@ -315,9 +335,11 @@ public class BaseAlertDialog extends AlertDialog {
         }
 
         @Override
-        public BaseAlertDialog create() {
-            mBaseAlertDialog = new BaseAlertDialog(P.mContext);
-            P.apply(mBaseAlertDialog.mAlertControll);
+        public T create() {
+            if (null == mBaseAlertDialog) {
+                mBaseAlertDialog = (T) new BaseAlertDialog(P.mContext);
+            }
+            P.apply(((BaseAlertDialog) mBaseAlertDialog).mAlertControll);
             mBaseAlertDialog.setCancelable(P.mCancelable);
             mBaseAlertDialog.setOnCancelListener(P.mOnCancelListener);
             mBaseAlertDialog.setOnDismissListener(P.mOnDismissListener);
@@ -328,7 +350,7 @@ public class BaseAlertDialog extends AlertDialog {
         }
 
         @Override
-        public BaseAlertDialog show() {
+        public T show() {
             create();
             mBaseAlertDialog.show();
             return mBaseAlertDialog;

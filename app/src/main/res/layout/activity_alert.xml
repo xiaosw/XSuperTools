@@ -49,4 +49,11 @@
         android:text="两个按钮"
         android:onClick="showDialog"/>
 
+    <Button
+        android:id="@+id/bt_loading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Loading"
+        android:onClick="showDialog"/>
+
 </LinearLayout>

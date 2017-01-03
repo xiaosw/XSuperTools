@@ -11,9 +11,11 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -30,6 +32,9 @@ import java.lang.ref.WeakReference;
  * @Date 2016-10-18 16:16:14
  */
 public class AlertControll {
+
+    /** @see AlertControll#getClass().getSimpleName() */
+    private static final String TAG = "xiaosw-AlertControll";
 
     /** 圆角大小 */
     private static final int DEFAULT_RADIUS_SIZE_DP = 8;
@@ -49,6 +54,14 @@ public class AlertControll {
     private CharSequence mMessage;
     private TextView mMessageView;
     private ScrollView mScrollView;
+
+    /** 自定义view */
+    private View mView;
+    private int mViewSpacingLeft;
+    private int mViewSpacingTop;
+    private int mViewSpacingRight;
+    private int mViewSpacingBottom;
+    private boolean mViewSpacingSpecified = false;
 
     /** 控制按钮 */
     private CharSequence mPositiveButtonText;
@@ -142,7 +155,24 @@ public class AlertControll {
 
         setupContent();
 
+        setupCustomView();
+
         mWindow.findViewById(R.id.line_between_content_and_button).setVisibility(setupButtons() ? View.VISIBLE : View.GONE);
+    }
+
+    private void setupCustomView() {
+        FrameLayout customPanel = (FrameLayout) mWindow.findViewById(R.id.view_dialog_custom_panel);
+        if (mView != null) {
+            FrameLayout custom = (FrameLayout) mWindow.findViewById(R.id.view_dialog_custom);
+            custom.addView(mView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
+            if (mViewSpacingSpecified) {
+                custom.setPadding(mViewSpacingLeft, mViewSpacingTop,
+                    mViewSpacingRight, mViewSpacingBottom);
+            }
+        } else {
+            customPanel.setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -303,6 +333,28 @@ public class AlertControll {
         }
     }
 
+    /**
+     * Set the view to display in the dialog.
+     */
+    public void setView(View view) {
+        mView = view;
+        mViewSpacingSpecified = false;
+    }
+
+    /**
+     * Set the view to display in the dialog along with the spacing around that
+     * view
+     */
+    public void setView(View view, int viewSpacingLeft, int viewSpacingTop,
+                        int viewSpacingRight, int viewSpacingBottom) {
+        mView = view;
+        mViewSpacingSpecified = true;
+        mViewSpacingLeft = viewSpacingLeft;
+        mViewSpacingTop = viewSpacingTop;
+        mViewSpacingRight = viewSpacingRight;
+        mViewSpacingBottom = viewSpacingBottom;
+    }
+
     public void setTitle(CharSequence title) {
         mTitle = title;
         if (mTitltView != null) {
@@ -391,6 +443,9 @@ public class AlertControll {
         public CharSequence mMessage;
         public TextView mMessageView;
 
+        public View mView;
+        public boolean mViewSpacingSpecified = false;
+
         /** 控制按钮 */
         public CharSequence mPositiveButtonText;
         public Drawable mPositiveButtonBackgrounDrawable;
@@ -441,6 +496,10 @@ public class AlertControll {
 
             if (!TextUtils.isEmpty(mNeutralButtonText)) {
                 alertControll.setButton(DialogInterface.BUTTON_NEUTRAL, mNeutralButtonText, mNeutralButtonListener, null);
+            }
+
+            if (null != mView) {
+                alertControll.setView(mView);
             }
             alertControll.setPositiveButtonBackgroudDrawable(mPositiveButtonBackgrounDrawable);
             alertControll.setNegativeButtonBackgroudDrawable(mNegativeButtonBackgrounDrawable);

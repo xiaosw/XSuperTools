@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CoreLib</string>
+
+    <string name="str_ok">确定</string>
+    <string name="str_cancel">取消</string>
+    <string name="str_downloading">下载中: %1$s</string>
+    <string name="str_download_pause">继续</string>
+    <string name="str_download_success">下载成功!</string>
+
+
+    <string name="str_loading">请稍侯</string>
+</resources>

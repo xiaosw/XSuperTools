@@ -2,6 +2,7 @@ package com.xiaosw.library.utils;
 
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 
 import com.xiaosw.library.BaseApplication;
 
@@ -71,6 +72,9 @@ public class AppContextUtil {
     public static Drawable getDrawable(int resId) {
         if (null == sApp) {
             return null;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return sApp.getBaseContext().getDrawable(resId);
         }
         return sApp.getResources().getDrawable(resId);
     }

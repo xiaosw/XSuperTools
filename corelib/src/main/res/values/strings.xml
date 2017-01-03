@@ -12,4 +12,7 @@
     <string name="str_downloading">Download:%1$s</string>
     <string name="str_download_pause">Continue</string>
     <string name="str_download_success">Download Success</string>
+
+
+    <string name="str_loading">Loading</string>
 </resources>

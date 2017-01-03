@@ -7,8 +7,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.xiaosw.library.activity.BaseAppCompatActivity;
+import com.xiaosw.library.utils.AppContextUtil;
 import com.xiaosw.library.utils.LogUtil;
 import com.xiaosw.library.widget.dialog.BaseAlertDialog;
+import com.xiaosw.library.widget.dialog.LoadingDialog;
 import com.xiaosw.tool.R;
 
 public class AlertActivity extends BaseAppCompatActivity {
@@ -60,7 +62,7 @@ public class AlertActivity extends BaseAppCompatActivity {
             case R.id.bt_custom_all:
                 BaseAlertDialog.Builder build = new BaseAlertDialog.Builder(this)
                     .setRadius(20)
-                    .setPositiveButtonBackgroudDrawable(getDrawable(R.drawable.selector_drawable_button_green))
+                    .setPositiveButtonBackgroudDrawable(AppContextUtil.getDrawable(R.drawable.selector_drawable_button_green))
                     .setTitle("TITLE")
                     .setMessage("MESSAGE")
                     .setCancelable(false);
@@ -171,6 +173,18 @@ public class AlertActivity extends BaseAppCompatActivity {
                     }
                 });
                 baseAlertDialog.show();
+                break;
+
+            case R.id.bt_loading:
+                LoadingDialog.Builder builder2 = new LoadingDialog.Builder(this);
+//                builder2.setLoadingIcon(null);
+//                builder2.setLoadingMsg(null);
+                builder2.show();
+//                LoadingDialog builder2 = new LoadingDialog.Builder(this).create();
+//                builder2.setLoadingMsg(null);
+//                builder2.show();
+//                new LoadingDialog.Builder(this).create().show();
+                break;
 
             default:
                 // TODO: 2016/10/18

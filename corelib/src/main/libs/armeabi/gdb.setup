@@ -1,0 +1,2 @@
+set solib-search-path E:\AndroidStudioWorkspace\XSuperTools\corelib\build/ndk//local/armeabi
+directory D:/DevTool/SDK/ndk-bundle/build//../platforms/android-23/arch-arm/usr/include D:/DevTool/SDK/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++ D:/DevTool/SDK/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include D:/DevTool/SDK/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/libs/armeabi/include D:/DevTool/SDK/ndk-bundle/build//../sources/cxx-stl/gnu-libstdc++/4.9/include/backward jni
