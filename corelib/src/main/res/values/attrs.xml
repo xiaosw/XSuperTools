@@ -77,4 +77,14 @@
         <attr name="text_color_def" />
         <attr name="text_color_press" />
     </declare-styleable>
+
+    <!-- 单词绘制view -->
+    <declare-styleable name="GUIWordTextView">
+        <attr name="android:dashWidth" />
+        <attr name="android:dashGap" />
+        <attr name="android:strokeWidth" />
+        <attr name="dashOffset" format="dimension" />
+        <attr name="dashColor" format="color" />
+        <attr name="dashCount" format="integer" />
+    </declare-styleable>
 </resources>
