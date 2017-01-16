@@ -49,16 +49,34 @@ public class LogUtil {
     }
 
     private static String getTag() {
-        StackTraceElement mStackTraceElement = Thread.currentThread().getStackTrace()[4];
+//        StackTraceElement mStackTraceElement = currentThread().getStackTrace()[4];
+        StackTraceElement stackTraceElement = getTargetStackTraceElement();
         // 全类名
-        String className = mStackTraceElement.getClassName();
+        String className = stackTraceElement.getClassName();
         className = className.substring(className.lastIndexOf(".") + 1);
         // 方法名
-        String methodName = mStackTraceElement.getMethodName();
+        String methodName = stackTraceElement.getMethodName();
         // 调用处所在行
-        int lineNumber = mStackTraceElement.getLineNumber();
+        int lineNumber = stackTraceElement.getLineNumber();
         tag = String.format(tag, className, methodName, lineNumber);
         return null == customTagPrefix ? tag : customTagPrefix + "--->" + tag;
+    }
+
+    private static StackTraceElement getTargetStackTraceElement() {
+        // find the target invoked method
+        StackTraceElement targetStackTrace = null;
+        boolean shouldTrace = false;
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        for (StackTraceElement stackTraceElement : stackTrace) {
+            boolean isLogMethod = stackTraceElement.getClassName().equals(LogUtil.class.getName());
+            if (shouldTrace && !isLogMethod) {
+                targetStackTrace = stackTraceElement;
+                break;
+            }
+            shouldTrace = isLogMethod;
+        }
+        return targetStackTrace;
+
     }
 
     public static void printMsg(String msg) {
