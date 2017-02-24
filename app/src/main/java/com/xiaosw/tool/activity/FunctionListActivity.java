@@ -18,7 +18,7 @@ import com.xiaosw.library.widget.dialog.SuperToast;
 import com.xiaosw.library.widget.divider.DividerItemDecoration;
 import com.xiaosw.tool.R;
 import com.xiaosw.tool.bean.FunctionInfo;
-import com.xiaosw.tool.widget.adapter.FunctionListAdapter;
+import com.xiaosw.tool.adapter.FunctionListAdapter;
 
 import java.text.Collator;
 import java.util.ArrayList;

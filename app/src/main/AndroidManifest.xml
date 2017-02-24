@@ -121,8 +121,17 @@
                 <category android:name="android.intent.category.SAMPLE_CODE"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.BrokenLineGraphActivity"
+        <activity
+            android:name=".activity.BrokenLineGraphActivity"
             android:label="@string/activity_broken_line_graph">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.SAMPLE_CODE"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.DateSelectorActivity"
+            android:label="@string/activity_date_selector">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

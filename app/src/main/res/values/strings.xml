@@ -12,5 +12,6 @@
     <string name="activity_test">SimpleExpandableListViewActivity</string>
     <string name="activity_flow">FlowActivity</string>
     <string name="activity_broken_line_graph">BrokenLineGraphActivity</string>
+    <string name="activity_date_selector">DateSelectorActivity</string>
     <string name="setting">Setting</string>
 </resources>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">CoreLib</string>
+    <string name="app_name">XSuperTools</string>
 
     <!-- font -->
     <string name="font_family_black">sans-serif-black</string>

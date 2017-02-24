@@ -1,4 +1,4 @@
-package com.xiaosw.tool.widget.adapter;
+package com.xiaosw.tool.adapter;
 
 import android.content.Context;
 import android.view.View;
