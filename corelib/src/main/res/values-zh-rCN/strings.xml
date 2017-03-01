@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">CoreLib</string>
+    <string name="app_name">XSuperTools</string>
 
     <string name="str_ok">确定</string>
     <string name="str_cancel">取消</string>

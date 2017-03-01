@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_test_tinker"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.xiaosw.tool.activity.TestTinkerActivity"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/bt_crash"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="doOnClick"
+        android:text="Crash"/>
+
+    <Button
+        android:id="@+id/bt_hot_fix"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="doOnClick"
+        android:text="HotFix"/>
+
+    <Button
+        android:id="@+id/bt_clear_patch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="doOnClick"
+        android:text="ClearPatch"/>
+
+    <Button
+        android:id="@+id/bt_kill_self"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="doOnClick"
+        android:text="KillSelf"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/win10"/>
+
+</LinearLayout>

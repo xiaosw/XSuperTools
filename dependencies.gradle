@@ -1,0 +1,6 @@
+ext {
+//    tinker = [
+//            "com.tencent.tinker:tinker-android-anno:${TINKER_ANDROID_ANNO_VERSION}" { changing = true },
+//            "com.tencent.tinker:tinker-android-lib:${TINKER_ANDROID_LIB_VERSION} { changing = true }"
+//    ]
+}
