@@ -114,7 +114,7 @@ public class GUIFlikerProgressBar extends AbsProgressBar implements Runnable {
             mLoadingColor = a.getColor(R.styleable.GUIFlikerProgressBar_loadingColor, Color.parseColor("#33ccff"));
             mStopColor = a.getColor(R.styleable.GUIFlikerProgressBar_stopColor, Color.parseColor("#ff9900"));
             mRadius = (int) a.getDimension(R.styleable.GUIFlikerProgressBar_android_radius, 0);
-            mBorderWidth = (int) a.getDimension(R.styleable.GUIFlikerProgressBar_borderWidth, 1);
+            mBorderWidth = (int) a.getDimension(R.styleable.GUIFlikerProgressBar_border_width, 1);
         } catch (Exception e) {
             LogUtil.e(TAG, "onParseAttrs", e);
         } finally {

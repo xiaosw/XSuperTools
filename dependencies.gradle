@@ -3,4 +3,41 @@ ext {
 //            "com.tencent.tinker:tinker-android-anno:${TINKER_ANDROID_ANNO_VERSION}" { changing = true },
 //            "com.tencent.tinker:tinker-android-lib:${TINKER_ANDROID_LIB_VERSION} { changing = true }"
 //    ]
+
+    // support
+    support_v4 = "com.android.support:support-v4:${SUPPORT_VERSION}"
+    appcompat_v7 = "com.android.support:appcompat-v7:${SUPPORT_VERSION}"
+    support_design = "com.android.support:design:${SUPPORT_VERSION}"
+    support_percent = "com.android.support:percent:${SUPPORT_VERSION}"
+    support_palette = "com.android.support:palette-v7:${SUPPORT_VERSION}"
+    recyclerview = "com.android.support:recyclerview-v7:${SUPPORT_VERSION}"
+    cardview = "com.android.support:cardview-v7:${SUPPORT_VERSION}"
+
+    support = [
+            support_v4,
+            appcompat_v7,
+            support_design,
+            support_percent,
+            recyclerview,
+            cardview,
+    ]
+
+    // retorfit
+    retrofit = [
+            "com.squareup.retrofit2:retrofit:${RETROFIT_VERSION}",
+            "com.squareup.retrofit2:converter-gson:${RETROFIT_VERSION}",
+            "com.squareup.retrofit2:adapter-rxjava:${RETROFIT_VERSION}"
+    ]
+
+    // rxbinding
+    rxbinding = "com.jakewharton.rxbinding:rxbinding:${RXBINDING_VERSION}"
+
+    // rxandroid
+    rxandroid = "io.reactivex:rxandroid:${RXANDROID_VERSION}"
+
+    // green dao
+    greendao = "org.greenrobot:greendao:${GREENDAO_VERSION}"
+
+    // multidex
+    multidex = "com.android.support:multidex:${MULTIDEX_VERSION}"
 }

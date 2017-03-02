@@ -53,13 +53,10 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile "com.android.support:support-v4:${SUPPORT_V4_VERSION}"
-    compile "com.android.support:appcompat-v7:${SUPPORT_V7_VERSION}"
     testCompile "junit:junit:${JUNIT_VERSION}"
-    compile "com.android.support:cardview-v7:${CARDVIEW_V7_VERSION}"
-    compile "com.android.support:multidex:${MULTIDEX_VERSION}"
-    compile "com.android.support:recyclerview-v7:${RECYCLERVIEW_V7_VERSION}"
-    compile "org.greenrobot:greendao:${GREENDAO_VERSION}"
+    compile rootProject.ext.support
+    compile rootProject.ext.multidex
+    compile rootProject.ext.greendao
     // This is only needed if you want to use encrypted databases
     compile "net.zetetic:android-database-sqlcipher:${ANDROID_DATABASE_SQLCIPHER_VERSION}"
     compile "com.github.bumptech.glide:glide:${GLIDE_VERSION}"
