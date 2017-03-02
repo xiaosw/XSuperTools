@@ -57,6 +57,8 @@ dependencies {
     compile rootProject.ext.support
     compile rootProject.ext.multidex
     compile rootProject.ext.greendao
+    compile rootProject.ext.retrofit
+    compile rootProject.ext.rxbinding
     // This is only needed if you want to use encrypted databases
     compile "net.zetetic:android-database-sqlcipher:${ANDROID_DATABASE_SQLCIPHER_VERSION}"
     compile "com.github.bumptech.glide:glide:${GLIDE_VERSION}"

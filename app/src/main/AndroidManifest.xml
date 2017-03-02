@@ -140,7 +140,6 @@
                 <category android:name="android.intent.category.SAMPLE_CODE"/>
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activity.TestTinkerActivity"
             android:label="@string/activity_test_tinker">
@@ -151,10 +150,21 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".services.SampleResultService"
-                 android:exported="false">
+        <activity
+            android:name=".activity.TestRxJavaActivity"
+            android:label="@string/activity_test_rxjava">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
+                <category android:name="android.intent.category.SAMPLE_CODE"/>
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name=".services.SampleResultService"
+            android:exported="false">
         </service>
+        TestRxJavaActivity
     </application>
 
 </manifest>

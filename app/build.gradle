@@ -63,14 +63,17 @@ android {
     productFlavors {
         dev {
             versionName defaultConfig.versionName + '-dev'
+            buildConfigField "String", "BUGLY_APP_ID",  "\"\""
         }
 
         innerTest {
             versionName = defaultConfig.versionName + '-test'
+            buildConfigField "String", "BUGLY_APP_ID",  "\"test_id\""
         }
 
         online {
-            versionName = defaultConfig.versionName + '-online'
+            buildConfigField "String", "BUGLY_APP_ID",  "\"online_id\""
+            versionName = defaultConfig.versionName
         }
     }
 
@@ -90,6 +93,19 @@ android {
                         }
                     }
             }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
     }
 
 }
