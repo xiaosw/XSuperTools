@@ -2,6 +2,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'org.greenrobot.greendao'
 apply plugin: 'com.jakewharton.butterknife'
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 group="com.github.xiaosw"
 
 android {
@@ -68,6 +70,8 @@ dependencies {
     compile("com.tencent.tinker:tinker-android-anno:${TINKER_ANDROID_ANNO_VERSION}") { changing = true }
     //tinker的核心库
     compile("com.tencent.tinker:tinker-android-lib:${TINKER_ANDROID_LIB_VERSION}") { changing = true }
+
+    compile "org.jetbrains.kotlin:kotlin-stdlib:${KOTLIN_VERSION}"
 }
 
 // build a jar with source files
