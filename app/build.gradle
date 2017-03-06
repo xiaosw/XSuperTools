@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
+//apply plugin: 'com.neenbedankt.android-apt'
 
 def gitSha() {
     try {
@@ -14,16 +14,12 @@ def gitSha() {
     }
 }
 
-def javaVersion = JavaVersion.VERSION_1_7
+def javaVersion = JavaVersion.VERSION_1_8
 
 android {
     compileSdkVersion COMPILE_SDK_VERSION as int
     buildToolsVersion BUILD_TOOLS_VERSION as String
 
-    compileOptions {
-        sourceCompatibility javaVersion
-        targetCompatibility javaVersion
-    }
     //recommend
     dexOptions {
         jumboMode = true
@@ -32,10 +28,19 @@ android {
     defaultConfig {
         applicationId "com.xiaosw.tool"
         minSdkVersion MIN_SDK_VERSION as int
-        targetSdkVersion 22
+        targetSdkVersion TARGET_SDK_VERSION as int
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        jackOptions {
+            enabled true
+        }
+
+        compileOptions {
+            sourceCompatibility javaVersion
+            targetCompatibility javaVersion
+        }
 
         /**
          * you can use multiDex and install it in your ApplicationLifeCycle implement
@@ -51,7 +56,7 @@ android {
          * so we can get the newly git version easily!
          */
         buildConfigField "String", "TINKER_ID", "\"${getTinkerIdValue()}\""
-        buildConfigField "String", "PLATFORM",  "\"all\""
+        buildConfigField "String", "PLATFORM", "\"all\""
     }
     buildTypes {
         release {
@@ -63,16 +68,16 @@ android {
     productFlavors {
         dev {
             versionName defaultConfig.versionName + '-dev'
-            buildConfigField "String", "BUGLY_APP_ID",  "\"\""
+            buildConfigField "String", "BUGLY_APP_ID", "\"\""
         }
 
         innerTest {
             versionName = defaultConfig.versionName + '-test'
-            buildConfigField "String", "BUGLY_APP_ID",  "\"test_id\""
+            buildConfigField "String", "BUGLY_APP_ID", "\"test_id\""
         }
 
         online {
-            buildConfigField "String", "BUGLY_APP_ID",  "\"online_id\""
+            buildConfigField "String", "BUGLY_APP_ID", "\"online_id\""
             versionName = defaultConfig.versionName
         }
     }
@@ -345,7 +350,7 @@ if (buildWithTinker()) {
     }
 
     List<String> flavors = new ArrayList<>();
-    project.android.productFlavors.each {flavor ->
+    project.android.productFlavors.each { flavor ->
         flavors.add(flavor.name)
     }
     boolean hasFlavors = flavors.size() > 0
@@ -440,5 +445,8 @@ dependencies {
     //    testCompile 'junit:junit:4.12'
     compile project(':corelib')
     compile project(':datepicker')
-    apt "com.jakewharton:butterknife-compiler:${BUTTERKNIFE_COMPILER_VERSION}"
+//    apt "com.jakewharton:butterknife-compiler:${BUTTERKNIFE_COMPILER_VERSION}"
+    annotationProcessor "com.jakewharton:butterknife-compiler:${BUTTERKNIFE_COMPILER_VERSION}"
+    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.1'
 }

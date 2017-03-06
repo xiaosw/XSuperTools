@@ -9,7 +9,7 @@ buildscript {
         classpath "org.greenrobot:greendao-gradle-plugin:${GREENDAO_GRADLE_PLUGIN_VERSION}"
         //这里配置 plugin与apt 供butterknife使用
         classpath "com.jakewharton:butterknife-gradle-plugin:${BUTTERKNIFE_GRADLE_PLUGIN_VERSION}"
-        classpath "com.neenbedankt.gradle.plugins:android-apt:${ANDROID_APT_VERSION}"
+//        classpath "com.neenbedankt.gradle.plugins:android-apt:${ANDROID_APT_VERSION}"
         classpath "com.github.dcendents:android-maven-gradle-plugin:${ANDROID_MAVEN_GRADLE_PLUGIN_VERSION}"
 
         classpath ("com.tencent.tinker:tinker-patch-gradle-plugin:${TINKER_PATCH_GRADLE_PLUGIN_VERSION}")

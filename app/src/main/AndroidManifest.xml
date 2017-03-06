@@ -149,7 +149,6 @@
                 <category android:name="android.intent.category.SAMPLE_CODE"/>
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activity.TestRxJavaActivity"
             android:label="@string/activity_test_rxjava">
@@ -164,7 +163,7 @@
             android:name=".services.SampleResultService"
             android:exported="false">
         </service>
-        TestRxJavaActivity
+
     </application>
 
 </manifest>
