@@ -40,4 +40,11 @@ ext {
 
     // multidex
     multidex = "com.android.support:multidex:${MULTIDEX_VERSION}"
+
+    // kotlin
+    kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jre7:${KOTLIN_VERSION}"
+
+    // constraint-layout
+    constraint_layout = "com.android.support.constraint:constraint-layout:${CONSTRAINT_LAYOUT_VERSION}"
+
 }

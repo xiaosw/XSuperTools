@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'kotlin-android'
 
 def gitSha() {
     try {
@@ -29,8 +29,8 @@ android {
         applicationId "com.xiaosw.tool"
         minSdkVersion MIN_SDK_VERSION as int
         targetSdkVersion TARGET_SDK_VERSION as int
-        versionCode 1
-        versionName "1.0"
+        versionCode APP_VERSION_CODE as int
+        versionName APP_VERSION_NAME as String
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         jackOptions {
@@ -445,8 +445,5 @@ dependencies {
     //    testCompile 'junit:junit:4.12'
     compile project(':corelib')
     compile project(':datepicker')
-//    apt "com.jakewharton:butterknife-compiler:${BUTTERKNIFE_COMPILER_VERSION}"
     annotationProcessor "com.jakewharton:butterknife-compiler:${BUTTERKNIFE_COMPILER_VERSION}"
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support.constraint:constraint-layout:1.0.1'
 }

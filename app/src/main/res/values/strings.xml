@@ -15,5 +15,6 @@
     <string name="activity_date_selector">DateSelectorActivity</string>
     <string name="activity_test_tinker">TestTinkerActivity</string>
     <string name="activity_test_rxjava">TestRxJavaActivity</string>
+    <string name="activity_test_kotlin">KotlinActivity</string>
     <string name="setting">Setting</string>
 </resources>
