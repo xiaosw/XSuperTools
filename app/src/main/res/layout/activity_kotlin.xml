@@ -7,4 +7,10 @@
     android:layout_height="match_parent"
     tools:context="com.xiaosw.tool.activity.KotlinActivity">
 
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/acbt_kotlin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="KotlinClick"/>
+
 </android.support.constraint.ConstraintLayout>
