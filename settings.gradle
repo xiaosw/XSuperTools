@@ -1,1 +1,1 @@
-include ':app', ':corelib', ':recyclerview', ':datepicker'
+include ':app', ':corelib', ':recyclerview', ':datepicker', ':aspectj'

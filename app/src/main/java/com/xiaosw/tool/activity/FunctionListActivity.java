@@ -6,12 +6,14 @@ import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
+import com.xiaosw.aspectj.annotation.UserBehaviour;
 import com.xiaosw.library.activity.BaseAppCompatActivity;
 import com.xiaosw.library.widget.GUIBaseRecyclerView;
 import com.xiaosw.library.widget.dialog.SuperToast;
@@ -57,6 +59,18 @@ public class FunctionListActivity extends BaseAppCompatActivity implements Adapt
         mRecyclerView.setOnItemLongClickListener(this);
         mFunctionListAdapter = new FunctionListAdapter(this, getData());
         mRecyclerView.setAdapter(mFunctionListAdapter);
+        synMethod();
+        testAop();
+    }
+
+    @UserBehaviour("call synMethod()")
+    public synchronized void synMethod() {
+        Log.e(TAG, "call -----------------> synMethod()");
+    }
+
+    @UserBehaviour("call testAop()")
+    private void testAop() {
+        Log.e(TAG, "call -----------------> testAop()");
     }
 
     /**
