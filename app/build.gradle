@@ -453,6 +453,7 @@ dependencies {
     compile project(':aspectj')
     compile project(':datepicker')
     annotationProcessor "com.jakewharton:butterknife-compiler:${BUTTERKNIFE_COMPILER_VERSION}"
+    compile 'com.android.support.constraint:constraint-layout:1.0.1'
 }
 android.applicationVariants.all { variant ->
     if (!variant.buildType.isDebuggable()) {
