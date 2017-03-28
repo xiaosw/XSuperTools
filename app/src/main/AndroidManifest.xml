@@ -5,6 +5,9 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.FLASHLIGHT"/>
 
     <application
         android:name=".ToolApplication"
@@ -167,10 +170,18 @@
                 <category android:name="android.intent.category.SAMPLE_CODE"/>
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activity.WeatherActivity"
             android:label="@string/activity_test_weather_view">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.SAMPLE_CODE"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.ZxingActivity"
+            android:label="@string/activity_zxing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -183,6 +194,10 @@
             android:exported="false">
         </service>
 
+        <activity android:name=".activity.TestZxingScanActivity">
+        </activity>
+        <activity android:name=".activity.TestZxingDecodeActivity">
+        </activity>
     </application>
 
 </manifest>

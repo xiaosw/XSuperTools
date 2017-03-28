@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/MatchMatch"
+    tools:context="com.xiaosw.tool.activity.TestZxingScanActivity">
+
+    <!--app:qrcv_customGridScanLineDrawable="@drawable/qrcode_default_grid_scan_line"-->
+    <com.xiaosw.zxing.zxing.ZXingView
+        android:id="@+id/scal_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:qrcv_qrCodeTipText="@string/scan_tips"
+        app:qrcv_maskColor="#33FFFFFF"
+        app:qrcv_borderColor="@android:color/white"
+        app:qrcv_borderSize="1.5dp"
+        app:qrcv_cornerColor="@color/colorPrimaryDark"
+        app:qrcv_cornerLength="20dp"
+        app:qrcv_cornerSize="3dp"
+        app:qrcv_scanLineColor="@color/colorPrimaryDark"
+        app:qrcv_scanLineMargin="0dp"
+        app:qrcv_scanLineSize="0.5dp"
+        app:qrcv_isShowDefaultGridScanLineDrawable="false"
+        app:qrcv_isShowDefaultScanLineDrawable="true"
+        app:qrcv_isScanLineReverse="true"
+        app:qrcv_isOnlyDecodeScanBoxArea="false"
+        app:qrcv_rectWidth="220dp"/>
+
+</RelativeLayout>
