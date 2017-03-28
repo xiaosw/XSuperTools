@@ -1,6 +1,8 @@
 package com.xiaosw.tool.activity;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
@@ -15,6 +17,9 @@ import com.xiaosw.tool.R;
 import com.xiaosw.zxing.qrcode.BGAQRCodeUtil;
 import com.xiaosw.zxing.zxing.QRCodeDecoder;
 import com.xiaosw.zxing.zxing.QRCodeEncoder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -32,6 +37,10 @@ public class TestZxingDecodeActivity extends BaseAppCompatActivity {
 
     @BindView(R.id.iv_code)
     ImageView iv_code;
+    @BindView(R.id.iv_code_add_color)
+    ImageView iv_code_add_color;
+    @BindView(R.id.iv_code_add_color_and_logo)
+    ImageView iv_code_add_color_and_logo;
     @BindView(R.id.iv_code_result)
     ImageView iv_code_result;
     @BindView(R.id.tiet_code_content)
@@ -60,16 +69,23 @@ public class TestZxingDecodeActivity extends BaseAppCompatActivity {
         这里为了偷懒，就没有处理匿名 AsyncTask 内部类导致 Activity 泄漏的问题
         请开发在使用时自行处理匿名内部类导致Activity内存泄漏的问题，处理方式可参考 https://github.com/GeniusVJR/LearningNotes/blob/master/Part1/Android/Android%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%80%BB%E7%BB%93.md
          */
-        new AsyncTask<Void, Void, Bitmap>() {
+        new AsyncTask<Void, Void, List<Bitmap>>() {
             @Override
-            protected Bitmap doInBackground(Void... params) {
-                return QRCodeEncoder.syncEncodeQRCode(text, BGAQRCodeUtil.dp2px(TestZxingDecodeActivity.this, 150));
+            protected List<Bitmap> doInBackground(Void... params) {
+                List<Bitmap> bitmaps = new ArrayList<Bitmap>();
+                bitmaps.add(QRCodeEncoder.syncEncodeQRCode(text, BGAQRCodeUtil.dp2px(TestZxingDecodeActivity.this, 150)));
+                bitmaps.add(QRCodeEncoder.syncEncodeQRCode(text, BGAQRCodeUtil.dp2px(TestZxingDecodeActivity.this, 150), Color.RED));
+                bitmaps.add(QRCodeEncoder.syncEncodeQRCode(text, BGAQRCodeUtil.dp2px(TestZxingDecodeActivity.this, 150),
+                    Color.RED, BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher)));
+                return bitmaps;
             }
 
             @Override
-            protected void onPostExecute(Bitmap bitmap) {
-                if (bitmap != null) {
-                    iv_code.setImageBitmap(bitmap);
+            protected void onPostExecute(List<Bitmap> bitmaps) {
+                if (bitmaps != null) {
+                    iv_code.setImageBitmap(bitmaps.get(0));
+                    iv_code_add_color.setImageBitmap(bitmaps.get(1));
+                    iv_code_add_color_and_logo.setImageBitmap(bitmaps.get(2));
                 } else {
                     Toast.makeText(TestZxingDecodeActivity.this, "生成中文二维码失败", Toast.LENGTH_SHORT).show();
                 }
