@@ -18,5 +18,6 @@
     <string name="activity_test_kotlin">KotlinActivity</string>
     <string name="activity_test_weather_view">WeatherActivity</string>
     <string name="activity_zxing">ZxingActivity</string>
+    <string name="activity_swipe_card">SwipeCardActivity</string>
     <string name="setting">Setting</string>
 </resources>

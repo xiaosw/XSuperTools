@@ -189,6 +189,16 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".activity.SwipeCardActivity"
+            android:label="@string/activity_swipe_card">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.SAMPLE_CODE"/>
+            </intent-filter>
+        </activity>
+
         <service
             android:name=".services.SampleResultService"
             android:exported="false">
