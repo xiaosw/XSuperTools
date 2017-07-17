@@ -19,5 +19,6 @@
     <string name="activity_test_weather_view">WeatherActivity</string>
     <string name="activity_zxing">ZxingActivity</string>
     <string name="activity_swipe_card">SwipeCardActivity</string>
+    <string name="activity_cover_flow">CoverFlowActivity</string>
     <string name="setting">Setting</string>
 </resources>

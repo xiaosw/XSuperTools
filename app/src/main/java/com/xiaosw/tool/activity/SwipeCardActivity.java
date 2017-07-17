@@ -10,9 +10,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.xiaosw.library.activity.BaseAppCompatActivity;
+import com.xiaosw.library.manager.SwipeCardLayoutManager;
 import com.xiaosw.library.utils.CompatToast;
-import com.xiaosw.library.utils.SwipeCardCallback;
-import com.xiaosw.library.utils.SwipeCardLayoutManager;
 import com.xiaosw.library.widget.adapter.UniversalRecyclerAdaper;
 import com.xiaosw.tool.R;
 import com.xiaosw.tool.bean.SwipeCardBean;
@@ -68,7 +67,7 @@ public class SwipeCardActivity extends BaseAppCompatActivity {
                 CompatToast.makeText(SwipeCardActivity.this, mUniversalRecyclerAdapter.getData(position).getDescription(), Toast.LENGTH_SHORT).show();
             }
         });
-        new ItemTouchHelper(new SwipeCardCallback(mUniversalRecyclerAdapter)).attachToRecyclerView(mRecyclerView);
+        new ItemTouchHelper(new SwipeCardLayoutManager.SwipeCardCallback(mUniversalRecyclerAdapter)).attachToRecyclerView(mRecyclerView);
 
     }
 

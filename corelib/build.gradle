@@ -2,6 +2,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'org.greenrobot.greendao'
 apply plugin: 'com.jakewharton.butterknife'
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 group="com.github.xiaosw"
 
 android {
@@ -60,6 +62,7 @@ dependencies {
     // constraint-layout
     compile rootProject.ext.constraint_layout
     compile rootProject.ext.kotlin
+    compile rootProject.ext.anko
     // This is only needed if you want to use encrypted databases
     compile "net.zetetic:android-database-sqlcipher:${ANDROID_DATABASE_SQLCIPHER_VERSION}"
     compile "com.github.bumptech.glide:glide:${GLIDE_VERSION}"

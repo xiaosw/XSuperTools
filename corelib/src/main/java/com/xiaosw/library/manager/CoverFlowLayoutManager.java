@@ -1,4 +1,4 @@
-package com.xiaosw.library.utils;
+package com.xiaosw.library.manager;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -6,16 +6,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * <p><br/>ClassName : {@link SwipeCardLayoutManager}
- * <br/>Description : 仿探探滑动卡片效果
+ * <p><br/>ClassName : {@link CoverFlowLayoutManager}
+ * <br/>Description : 仿iOS CoverFlow效果
  * <br/>
  * <br/>Author : xiaosw<xiaosw0802@163.com>
- * <br/>Create date : 2017-03-30 17:17:49</p>
+ * <br/>Create date : 2017-07-17 14:14:07</p>
  */
 
-public class SwipeCardLayoutManager extends RecyclerView.LayoutManager {
+public class CoverFlowLayoutManager extends RecyclerView.LayoutManager {
 
-    /** @see SwipeCardLayoutManager#getClass().getSimpleName() */
+    /** @see CoverFlowLayoutManager#getClass().getSimpleName() */
     private static final String TAG = "SwipeCardLayoutManager";
 
     /** 最大显示数量 */
@@ -62,10 +62,10 @@ public class SwipeCardLayoutManager extends RecyclerView.LayoutManager {
                 child.setScaleX(1 - level * SCALE_GAP);
                 if (level < MAX_VISIBLE_COUNT - 1) {
                     child.setScaleY(1 - level * SCALE_GAP);
-                    child.setTranslationY(level * TRANS_Y_GAP);
+                    child.setTranslationX(level * TRANS_Y_GAP);
                 } else {
                     child.setScaleY(1 - (level - 1) * SCALE_GAP);
-                    child.setTranslationY((level - 1) * TRANS_Y_GAP);
+                    child.setTranslationX((level - 1) * TRANS_Y_GAP);
                 }
             }
         }

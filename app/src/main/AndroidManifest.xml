@@ -188,7 +188,6 @@
                 <category android:name="android.intent.category.SAMPLE_CODE"/>
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activity.SwipeCardActivity"
             android:label="@string/activity_swipe_card">
@@ -207,6 +206,15 @@
         <activity android:name=".activity.TestZxingScanActivity">
         </activity>
         <activity android:name=".activity.TestZxingDecodeActivity">
+        </activity>
+
+        <activity android:name=".activity.CoverFlowActivity"
+            android:label="@string/activity_cover_flow">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.SAMPLE_CODE"/>
+            </intent-filter>
         </activity>
     </application>
 

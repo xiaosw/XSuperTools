@@ -94,7 +94,7 @@ public abstract class UniversalRecyclerAdaper<T> extends RecyclerView.Adapter<Un
         mOnItemLongClickListener = onItemLongClickListener;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public ViewHolder(View itemView) {
             super(itemView);
